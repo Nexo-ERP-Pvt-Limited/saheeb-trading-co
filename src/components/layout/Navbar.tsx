@@ -106,19 +106,19 @@ export function Navbar() {
               About us
             </Link>
             <Link
-              href='#'
+              href='/services'
               className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
             >
-              Service
+              OEM Services
             </Link>
             <Link
-              href='#'
+              href='/blog'
               className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
             >
-              Guide
+              Blog & News
             </Link>
             <Link
-              href='#'
+              href='/contact'
               className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
             >
               Contact
