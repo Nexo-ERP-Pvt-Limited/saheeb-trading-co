@@ -26,33 +26,14 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { Separator } from '@/components/ui/separator'
+import Image from 'next/image'
 
 export function Navbar() {
   return (
     <header className='sticky top-0 z-50 w-full bg-white shadow-sm font-sans'>
       {/* Top Bar */}
       <div className='bg-gray-100 py-1 text-xs text-gray-600 hidden md:block border-b border-gray-200'>
-        <div className='container mx-auto px-4 flex justify-between items-center h-8'>
-          <div className='flex items-center space-x-4'>
-            <Link href='#' className='hover:text-kerbl-green transition-colors'>
-              Home
-            </Link>
-            <Link href='#' className='hover:text-kerbl-green transition-colors'>
-              Products
-            </Link>
-            <Link href='#' className='hover:text-kerbl-green transition-colors'>
-              About us
-            </Link>
-            <Link href='#' className='hover:text-kerbl-green transition-colors'>
-              Service
-            </Link>
-            <Link href='#' className='hover:text-kerbl-green transition-colors'>
-              Guide
-            </Link>
-            <Link href='#' className='hover:text-kerbl-green transition-colors'>
-              Contact
-            </Link>
-          </div>
+        <div className='container mx-auto px-4 flex justify-end items-center h-8'>
           <div className='flex items-center space-x-6'>
             <div className='flex items-center space-x-1 hover:text-kerbl-green cursor-pointer'>
               <Globe className='h-3 w-3' />
@@ -74,12 +55,13 @@ export function Navbar() {
       <div className='container mx-auto px-4 py-4 md:py-6'>
         <div className='flex items-center justify-between gap-4'>
           {/* Logo */}
-          <Link href='/' className='flex-shrink-0 flex items-center gap-2'>
-            {/* Placeholder for Kerbl Logo */}
-            <div className='text-3xl font-black tracking-tighter text-kerbl-green uppercase flex items-center'>
-              <span className='text-kerbl-yellow mr-1'>Easy</span>
-              Trading
-            </div>
+          <Link href='/' className='shrink-0 flex items-center '>
+            <Image
+              src='/saheebTradingCo.png'
+              alt='Saheeb Trading Co Logo'
+              width={140}
+              height={60}
+            />
           </Link>
 
           {/* Search Bar - Desktop */}
@@ -98,6 +80,46 @@ export function Navbar() {
                 <span className='sr-only'>Search</span>
               </Button>
             </div>
+          </div>
+
+          {/* Navigation - Desktop */}
+          <div className='hidden md:flex items-center space-x-6'>
+            <Link
+              href='#'
+              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
+            >
+              Home
+            </Link>
+            <Link
+              href='#'
+              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
+            >
+              Products
+            </Link>
+            <Link
+              href='/about'
+              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
+            >
+              About us
+            </Link>
+            <Link
+              href='#'
+              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
+            >
+              Service
+            </Link>
+            <Link
+              href='#'
+              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
+            >
+              Guide
+            </Link>
+            <Link
+              href='#'
+              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
+            >
+              Contact
+            </Link>
           </div>
 
           {/* Actions - Desktop */}
@@ -162,7 +184,7 @@ export function Navbar() {
                     Pet
                   </Link>
                   <Separator />
-                  <Link href='#' className='text-sm'>
+                  <Link href='/about' className='text-sm'>
                     About us
                   </Link>
                   <Link href='#' className='text-sm'>

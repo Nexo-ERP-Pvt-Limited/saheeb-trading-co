@@ -6,50 +6,50 @@ import { FadeIn } from '@/components/ui/motion-wrapper'
 const features = [
   {
     title:
-      'Frost-proof water bowls for healthy animals &ndash; ideal solutions for your stable and your water supply.',
+      'Generations of Trust & Craftsmanship: Founded in 1976, delivering excellence in surgical and veterinary instruments.',
     image:
-      'https://images.unsplash.com/photo-1545620857-7975d9c22119?q=80&w=2070&auto=format&fit=crop',
-    linkText: 'Discover anti-freeze solutions now!',
+      'https://images.unsplash.com/photo-1581093458846-eeb5e8fe33b7?q=80&w=2070&auto=format&fit=crop',
+    linkText: 'Learn about our heritage',
     href: '#',
   },
   {
     title:
-      'Systematic pest control: effective ways to protect your barn and animals from rats and mice.',
+      'Global Reach: Exporting premium quality instruments to professionals across continents.',
     image:
-      'https://images.unsplash.com/photo-1425082661705-1834bfd905bf?q=80&w=2076&auto=format&fit=crop',
-    linkText: 'Find out now and ensure hygiene!',
+      'https://images.unsplash.com/photo-1526304640152-d4619684e484?q=80&w=2070&auto=format&fit=crop',
+    linkText: 'View our global network',
     href: '#',
   },
   {
     title:
-      'With HAPPYCOW cattle brushes from Kerbl: Healthy, happy animals for better performance.',
+      'Precision Dental Instruments: High-grade steel tools for advanced dental procedures.',
     image:
-      'https://images.unsplash.com/photo-1516467508483-a7212febe31a?q=80&w=2073&auto=format&fit=crop',
-    linkText: 'For healthy and happy animals',
+      'https://images.unsplash.com/photo-1606811971618-4486d14f3f72?q=80&w=1974&auto=format&fit=crop',
+    linkText: 'Explore Dental Catalog',
     href: '#',
   },
   {
     title:
-      'Optimum lighting conditions &ndash; for productive agriculture, species-appropriate husbandry and safe work processes.',
+      'Veterinary Excellence: Specialized tools designed for the health and well-being of all animals.',
     image:
-      'https://images.unsplash.com/photo-1498144846853-6075170f7062?q=80&w=2070&auto=format&fit=crop',
-    linkText: 'Learn more and secure your benefits!',
+      'https://images.unsplash.com/photo-1628009368231-760335272a28?q=80&w=2070&auto=format&fit=crop',
+    linkText: 'See Veterinary Solutions',
     href: '#',
   },
   {
     title:
-      'Experience the perfect balance of function, comfort and style &ndash; with the Cavalliero autumn/winter collection.',
+      'Equestrian Mastery: Ergonomic and durable instruments for horse care and grooming.',
     image:
-      'https://images.unsplash.com/photo-1551884831-bbf3ddd77535?q=80&w=2080&auto=format&fit=crop',
-    linkText: 'View highlights now!',
+      'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop',
+    linkText: 'View Equestrian range',
     href: '#',
   },
   {
     title:
-      'Protect your land reliably from beaver damage &ndash; with AKO electric fences for effective prevention.',
+      'Quality Assurance: ISO certified manufacturing ensuring the highest standards of safety and precision.',
     image:
-      'https://images.unsplash.com/photo-1502519144378-7d84812328bb?q=80&w=1974&auto=format&fit=crop',
-    linkText: 'Discover the right beaver deterrent systems now!',
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop',
+    linkText: 'Our Quality Standards',
     href: '#',
   },
 ]
