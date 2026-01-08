@@ -8,15 +8,24 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Product } from './types'
 
+import { useQuoteStore } from '@/store/quote-store'
+
 interface ProductCardProps {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1)
+  const addItem = useQuoteStore((state) => state.addItem)
 
   const decreaseQuantity = () => setQuantity((prev) => Math.max(1, prev - 1))
   const increaseQuantity = () => setQuantity((prev) => prev + 1)
+
+  const handleAddToQuote = () => {
+    addItem(product, quantity)
+    // Optional: Show feedback
+    // alert('Added to quote!')
+  }
 
   return (
     <Card className='overflow-hidden border-border/40 hover:border-primary/20 transition-all hover:shadow-lg group bg-card'>
@@ -109,6 +118,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <Button
             className='flex-1 gap-2 bg-kerbl-green hover:bg-kerbl-green-dark text-white border-none'
             variant='default'
+            onClick={handleAddToQuote}
           >
             <ShoppingCart className='h-4 w-4' />
             Add to Quote

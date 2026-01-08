@@ -28,7 +28,12 @@ import {
 import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 
+import { useQuoteStore } from '@/store/quote-store'
+
 export function Navbar() {
+  const quoteItems = useQuoteStore((state) => state.items)
+  const itemCount = quoteItems.reduce((acc, item) => acc + item.quantity, 0)
+
   return (
     <header className='sticky top-0 z-50 w-full bg-white shadow-sm font-sans'>
       {/* Top Bar */}
@@ -43,10 +48,13 @@ export function Navbar() {
               <FileText className='h-3 w-3' />
               <span>Planning tools</span>
             </div>
-            <div className='flex items-center space-x-1 hover:text-kerbl-green font-bold cursor-pointer text-kerbl-green'>
+            <Link
+              href='/quote'
+              className='flex items-center space-x-1 hover:text-kerbl-green font-bold cursor-pointer text-kerbl-green'
+            >
               <ShoppingCart className='h-3 w-3' />
               <span>Retailer Shop</span>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -84,12 +92,7 @@ export function Navbar() {
 
           {/* Navigation - Desktop */}
           <div className='hidden md:flex items-center space-x-6'>
-            <Link
-              href='#'
-              className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
-            >
-              Home
-            </Link>
+            {/* Removed Home Link */}
             <Link
               href='/products'
               className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
@@ -124,25 +127,22 @@ export function Navbar() {
 
           {/* Actions - Desktop */}
           <div className='hidden md:flex items-center space-x-4'>
-            <Button
-              variant='ghost'
-              size='sm'
-              className='flex flex-col h-auto py-1 items-center gap-1 hover:text-kerbl-green hover:bg-transparent'
-            >
-              <User className='h-6 w-6' />
-              <span className='text-[10px] font-medium'>Account</span>
-            </Button>
-            <Button
-              variant='ghost'
-              size='sm'
-              className='flex flex-col h-auto py-1 items-center gap-1 hover:text-kerbl-green hover:bg-transparent relative'
-            >
-              <ShoppingCart className='h-6 w-6' />
-              <span className='absolute top-0 right-1 bg-kerbl-yellow text-black text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold'>
-                0
-              </span>
-              <span className='text-[10px] font-medium'>Cart</span>
-            </Button>
+            {/* Removed Account Link */}
+            <Link href='/quote'>
+              <Button
+                variant='ghost'
+                size='sm'
+                className='flex flex-col h-auto py-1 items-center gap-1 hover:text-kerbl-green hover:bg-transparent relative'
+              >
+                <ShoppingCart className='h-6 w-6' />
+                {itemCount > 0 && (
+                  <span className='absolute top-0 right-1 bg-kerbl-yellow text-black text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold'>
+                    {itemCount}
+                  </span>
+                )}
+                <span className='text-[10px] font-medium'>Cart</span>
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Trigger */}
