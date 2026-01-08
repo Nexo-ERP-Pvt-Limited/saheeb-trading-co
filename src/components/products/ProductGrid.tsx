@@ -16,6 +16,21 @@ interface ProductGridProps {
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
+  if (products.length === 0) {
+    return (
+      <div className='flex flex-col items-center justify-center py-24 text-center'>
+        <div className='bg-muted rounded-full p-6 mb-4'>
+          <span className='text-4xl'>🔍</span>
+        </div>
+        <h3 className='text-xl font-semibold mb-2'>No products found</h3>
+        <p className='text-muted-foreground max-w-sm mx-auto'>
+          We couldn't find any products in this category. Please try checking
+          another category.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className='space-y-12'>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>

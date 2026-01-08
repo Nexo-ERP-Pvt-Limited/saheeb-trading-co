@@ -5,20 +5,15 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Category } from './types'
 import { useState } from 'react'
+import { useProductStore } from '@/store/product-store'
 
 interface ProductSidebarProps {
   categories: Category[]
-  activeCategory?: string
-  onCategorySelect?: (categoryId: string) => void
   className?: string
 }
 
-export function ProductSidebar({
-  categories,
-  activeCategory,
-  onCategorySelect,
-  className,
-}: ProductSidebarProps) {
+export function ProductSidebar({ categories, className }: ProductSidebarProps) {
+  const { selectedCategoryId, setSelectedCategoryId } = useProductStore()
   const [openCategories, setOpenCategories] = useState<string[]>(
     categories.map((c) => c.id)
   )
@@ -42,6 +37,7 @@ export function ProductSidebar({
       <Button
         className='w-full justify-between bg-kerbl-green text-white hover:bg-kerbl-green-dark mb-6'
         size='lg'
+        onClick={() => setSelectedCategoryId(undefined)}
       >
         View All Products
       </Button>
@@ -66,11 +62,11 @@ export function ProductSidebar({
                     key={sub.id}
                     className={cn(
                       'flex items-center justify-between w-full py-2 text-base text-left hover:text-kerbl-green transition-colors border-b border-transparent hover:border-kerbl-green/20',
-                      activeCategory === sub.id
+                      selectedCategoryId === sub.id
                         ? 'text-kerbl-green font-medium'
                         : 'text-muted-foreground'
                     )}
-                    onClick={() => onCategorySelect?.(sub.id)}
+                    onClick={() => setSelectedCategoryId(sub.id)}
                   >
                     <span>{sub.name}</span>
                     <ChevronRight className='h-4 w-4 opacity-50' />
