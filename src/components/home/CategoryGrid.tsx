@@ -7,43 +7,37 @@ import { StaggerContainer, SlideInLeft } from '@/components/ui/motion-wrapper'
 const categories = [
   {
     title: 'Veterinary Instruments',
-    image:
-      'https://images.unsplash.com/photo-1628009368331-48cf02477a2e?q=80&w=2070&auto=format&fit=crop',
+    image: '/images/surgical-instruments.png',
     color: 'bg-kerbl-green',
     href: '#',
   },
   {
     title: 'Surgical Instruments',
-    image:
-      'https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2047&auto=format&fit=crop',
+    image: '/images/surgical-instruments.png',
     color: 'bg-kerbl-green',
     href: '#',
   },
   {
     title: 'Dental Instruments',
-    image:
-      'https://images.unsplash.com/photo-1606811971618-4486d14f3f72?q=80&w=1974&auto=format&fit=crop',
+    image: '/images/surgical-instruments.png',
     color: 'bg-kerbl-green',
     href: '#',
   },
   {
     title: 'Equestrian',
-    image:
-      'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?q=80&w=2071&auto=format&fit=crop',
+    image: '/images/about-legacy.png',
     color: 'bg-kerbl-green',
     href: '#',
   },
   {
     title: 'Grooming & Care',
-    image:
-      'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=1974&auto=format&fit=crop', // Updated to pet grooming
+    image: '/images/about-legacy.png', // Updated to pet grooming
     color: 'bg-kerbl-green',
     href: '#',
   },
   {
     title: 'Beauty Instruments',
-    image:
-      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2070&auto=format&fit=crop', // Updated to clearer beauty/spa
+    image: '/images/surgical-instruments.png', // Updated to clearer beauty/spa
     color: 'bg-kerbl-green',
     href: '#',
   },
@@ -73,9 +67,10 @@ export function CategoryGrid() {
               <div className='aspect-[4/3] w-full relative overflow-hidden'>
                 <div className='absolute inset-0 bg-gray-200'>
                   {/* Use next/image for production, plain img for prototype speed/compatibility if domain not config */}
-                  <img
+                  <Image
                     src={category.image}
                     alt={category.title}
+                    fill
                     className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
                   />
                 </div>
