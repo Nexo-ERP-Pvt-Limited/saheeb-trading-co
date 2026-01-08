@@ -91,7 +91,7 @@ export function Navbar() {
               Home
             </Link>
             <Link
-              href='#'
+              href='/products'
               className='text-sm font-medium hover:text-kerbl-green transition-colors uppercase'
             >
               Products

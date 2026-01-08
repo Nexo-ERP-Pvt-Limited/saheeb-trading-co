@@ -30,7 +30,7 @@ export function CapabilitiesSection() {
                   key={index}
                   className='flex items-center gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors'
                 >
-                  <Hammer className='w-4 h-4 text-primary shrink-0' />
+                  <Hammer className='w-4 h-4 text-kerbl-green shrink-0' />
                   <span className='text-sm font-medium'>{item}</span>
                 </div>
               ))}
@@ -39,7 +39,7 @@ export function CapabilitiesSection() {
 
           <div className='space-y-12'>
             <div>
-              <h3 className='text-xl font-semibold mb-6 text-primary'>
+              <h3 className='text-xl font-semibold mb-6 text-kerbl-green'>
                 Our Team
               </h3>
               <div className='grid grid-cols-2 gap-4'>
@@ -63,7 +63,7 @@ export function CapabilitiesSection() {
             </div>
 
             <div>
-              <h3 className='text-xl font-semibold mb-6 text-primary'>
+              <h3 className='text-xl font-semibold mb-6 text-kerbl-green'>
                 Our Facilities
               </h3>
               <div className='space-y-4'>
@@ -75,7 +75,7 @@ export function CapabilitiesSection() {
                   <FadeIn key={index} delay={0.2 + index * 0.1}>
                     <div className='flex justify-between items-center py-3 border-b border-white/10 last:border-0 hover:pl-2 transition-all cursor-default'>
                       <span className='font-medium'>{facility.name}</span>
-                      <span className='text-primary font-mono text-sm'>
+                      <span className='text-kerbl-green font-mono text-sm'>
                         {facility.size}
                       </span>
                     </div>

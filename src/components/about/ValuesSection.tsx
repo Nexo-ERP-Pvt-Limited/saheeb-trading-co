@@ -49,7 +49,7 @@ export function ValuesSection() {
           <FadeIn key={index} delay={index * 0.1}>
             <Card className='h-full border-none shadow-sm hover:shadow-md transition-shadow bg-muted/20'>
               <CardHeader className='pb-2'>
-                <div className='mb-4 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary'>
+                <div className='mb-4 w-10 h-10 rounded-full bg-kerbl-green/10 flex items-center justify-center text-kerbl-green'>
                   <value.icon size={20} />
                 </div>
                 <CardTitle className='text-lg'>{value.title}</CardTitle>
