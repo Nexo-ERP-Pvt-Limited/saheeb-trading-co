@@ -28,27 +28,15 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Card className='overflow-hidden border-border/40 hover:border-primary/20 transition-all hover:shadow-lg group bg-card'>
-      <div className='relative p-6 bg-secondary/20 aspect-square flex items-center justify-center'>
-        {/* Badges */}
-        <Badge
-          variant='secondary'
-          className='absolute top-3 left-3 bg-secondary-foreground text-secondary font-mono text-xs'
-        >
-          {product.id}
-        </Badge>
-        {product.subCategory && (
-          <Badge
-            variant='outline'
-            className='absolute top-3 right-3 bg-background/80 backdrop-blur-sm text-[10px] uppercase tracking-wider'
-          >
-            {product.subCategory}
-          </Badge>
-        )}
+    <Card className='overflow-hidden border-gray-200 hover:border-primary transition-all rounded-none bg-white flex flex-col h-full group'>
+      <div className='relative p-4 bg-white aspect-square flex items-center justify-center border-b border-gray-50'>
+        {/* Product ID - Clean Style */}
+        <div className='absolute top-3 left-3 bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider'>
+          Art. {product.id}
+        </div>
 
-        {/* Image Placeholder if no real image */}
-        <div className='relative w-full h-full p-4 transition-transform duration-300 group-hover:scale-105'>
-          {/* Using a placeholder if image fails to load or path is dummy */}
+        {/* Image */}
+        <div className='relative w-full h-full p-2 transition-transform duration-500 group-hover:scale-105'>
           {product.image ? (
             <div className='w-full h-full relative'>
               <Image
@@ -56,16 +44,15 @@ export function ProductCard({ product }: ProductCardProps) {
                 alt={product.name}
                 fill
                 className='object-contain'
-                // Fallback to text if image is missing in dev
                 onError={(e) => {
                   e.currentTarget.style.display = 'none'
                   e.currentTarget.parentElement!.classList.add(
                     'flex',
                     'items-center',
                     'justify-center',
-                    'bg-muted'
+                    'bg-gray-50'
                   )
-                  e.currentTarget.parentElement!.innerHTML = `<span class="text-4xl font-bold text-muted-foreground/20">${product.name.slice(
+                  e.currentTarget.parentElement!.innerHTML = `<span class="text-3xl font-bold text-gray-200">${product.name.slice(
                     0,
                     1
                   )}</span>`
@@ -73,8 +60,8 @@ export function ProductCard({ product }: ProductCardProps) {
               />
             </div>
           ) : (
-            <div className='w-full h-full flex items-center justify-center bg-muted rounded-md'>
-              <span className='text-4xl font-bold text-muted-foreground/20'>
+            <div className='w-full h-full flex items-center justify-center bg-gray-50'>
+              <span className='text-3xl font-bold text-gray-200'>
                 {product.name.slice(0, 1)}
               </span>
             </div>
@@ -82,33 +69,33 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
-      <CardContent className='p-5'>
-        <h3 className='text-2xl font-bold text-foreground mb-2 group-hover:text-kerbl-green transition-colors line-clamp-1'>
+      <CardContent className='p-4 flex-grow border-b border-gray-50'>
+        <h3 className='text-lg font-bold text-gray-900 mb-2 transition-colors line-clamp-2 leading-snug'>
           {product.name}
         </h3>
-        <p className='text-sm text-muted-foreground mb-4 line-clamp-2 md:h-10'>
+        <p className='text-xs text-gray-500 line-clamp-2 min-h-[32px]'>
           {product.description}
         </p>
       </CardContent>
 
-      <CardFooter className='p-5 pt-0 flex flex-col gap-3'>
+      <CardFooter className='p-4 pt-4 flex flex-col gap-3 mt-auto'>
         <div className='flex w-full items-center gap-2'>
-          <div className='flex px-1 items-center border rounded-md'>
+          <div className='flex items-center border border-gray-200'>
             <Button
               variant='ghost'
               size='icon'
-              className='h-8 w-8 rounded-none hover:text-kerbl-green'
+              className='h-9 w-9 rounded-none hover:bg-gray-50'
               onClick={decreaseQuantity}
             >
               <Minus className='h-3 w-3' />
             </Button>
-            <span className='w-8 text-center text-sm font-medium'>
+            <span className='w-8 text-center text-sm font-bold'>
               {quantity}
             </span>
             <Button
               variant='ghost'
               size='icon'
-              className='h-8 w-8 rounded-none hover:text-kerbl-green'
+              className='h-9 w-9 rounded-none hover:bg-gray-50 border-l border-gray-200'
               onClick={increaseQuantity}
             >
               <Plus className='h-3 w-3' />
@@ -116,12 +103,12 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
 
           <Button
-            className='flex-1 gap-2 bg-kerbl-green hover:bg-kerbl-green-dark text-white border-none'
+            className='flex-1 gap-2 bg-primary hover:bg-primary/95 text-white border-none rounded-none h-9 font-bold'
             variant='default'
             onClick={handleAddToQuote}
           >
             <ShoppingCart className='h-4 w-4' />
-            Add to Quote
+            Add
           </Button>
         </div>
       </CardFooter>

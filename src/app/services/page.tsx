@@ -16,26 +16,26 @@ export default function OEMServicesPage() {
     {
       title: 'Custom Design',
       description:
-        'We can create entirely new molds based on your technical drawings or samples using our in-house die making capabilities.',
-      icon: <PenTool className='h-10 w-10 text-kerbl-green' />,
+        'We can create entirely new products based on your technical drawings or samples using our in-house die making capabilities.',
+      icon: <PenTool className='h-10 w-10 text-primary' />,
     },
     {
       title: 'Imprinting & Marking',
       description:
         'High-precision laser etching of your logo, brand name, and SKU numbers directly onto the steel.',
-      icon: <Printer className='h-10 w-10 text-kerbl-green' />,
+      icon: <Printer className='h-10 w-10 text-primary' />,
     },
     {
       title: 'Custom Packaging',
       description:
         'Blister packs, pouches, leather kits, or boxes designed with your branding and colors.',
-      icon: <Package className='h-10 w-10 text-kerbl-green' />,
+      icon: <Package className='h-10 w-10 text-primary' />,
     },
     {
       title: 'Global Logistics',
       description:
         'From palletized shipments to direct warehouse deliveries, we ensure smooth and reliable fulfillment worldwide.',
-      icon: <Truck className='h-10 w-10 text-kerbl-green' />,
+      icon: <Truck className='h-10 w-10 text-primary' />,
     },
   ]
 
@@ -67,92 +67,90 @@ export default function OEMServicesPage() {
   ]
 
   return (
-    <main className='min-h-screen font-sans'>
-      {/* Hero Section */}
-      <section className='bg-slate-900 text-white py-24 md:py-32'>
-        <div className='container mx-auto px-4 text-center max-w-4xl'>
-          <h1 className='text-4xl md:text-5xl font-bold mb-6'>
-            Customization for Brand Growth
+    <main className='min-h-screen font-sans bg-white'>
+      {/* Header Section */}
+      <div className='bg-gray-50 py-16 border-b border-gray-100'>
+        <div className='container mx-auto px-4'>
+          <h1 className='text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tight'>
+            Our <span className='text-primary'>Services</span> & Solutions
           </h1>
-          <p className='text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-10'>
+          <div className='w-20 h-1 bg-primary mt-4' />
+        </div>
+      </div>
+
+      <section className='py-20'>
+        <div className='container mx-auto px-4 max-w-5xl'>
+          <p className='text-xl text-gray-600 leading-relaxed mb-12 text-center'>
             We provide complete OEM/ODM support, offering imprinting and
             specialized branding solutions for customers seeking to enhance
             their market presence.
           </p>
-          <Button
-            size='lg'
-            className='bg-kerbl-green hover:bg-kerbl-green-dark text-white font-bold px-8 py-6 text-lg'
-          >
-            Start Your Project
-          </Button>
-        </div>
-      </section>
 
-      {/* Services Section */}
-      <section className='py-20 bg-gray-50'>
-        <div className='container mx-auto px-4'>
-          <div className='text-center mb-16'>
-            <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
-              Our Private Label Services
-            </h2>
-            <div className='h-1 w-20 bg-kerbl-green mx-auto rounded-full'></div>
-          </div>
-
-          <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-8'>
+          <div className='grid md:grid-cols-2 gap-12'>
             {services.map((service, index) => (
-              <Card
+              <div
                 key={index}
-                className='border-none shadow-sm hover:shadow-md transition-shadow duration-300'
+                className='flex gap-6 p-8 border border-gray-100 hover:border-primary/20 transition-all bg-white shadow-sm'
               >
-                <CardContent className='p-8 flex flex-col items-start h-full'>
-                  <div className='bg-kerbl-green/10 p-4 rounded-xl mb-6'>
-                    {service.icon}
-                  </div>
-                  <h3 className='text-xl font-bold text-gray-900 mb-3'>
+                <div className='bg-primary/5 p-4 rounded-none h-fit'>
+                  {service.icon}
+                </div>
+                <div>
+                  <h3 className='text-xl font-black text-gray-900 mb-3 uppercase tracking-tight'>
                     {service.title}
                   </h3>
-                  <p className='text-slate-600 leading-relaxed text-sm'>
+                  <p className='text-gray-500 leading-relaxed text-sm'>
                     {service.description}
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Process Section */}
-      <section className='py-20 bg-white'>
+      <section className='py-24 bg-gray-50 border-t border-b border-gray-100'>
         <div className='container mx-auto px-4'>
           <div className='text-center mb-16'>
-            <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
-              How It Works
+            <h2 className='text-3xl md:text-4xl font-black text-gray-900 mb-4 uppercase tracking-tight'>
+              Manufacturing <span className='text-primary'>Process</span>
             </h2>
-            <div className='h-1 w-20 bg-kerbl-green mx-auto rounded-full'></div>
+            <div className='h-1 w-20 bg-primary mx-auto'></div>
           </div>
 
-          <div className='flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto relative gap-8 md:gap-4'>
-            {/* Connecting Line (Desktop) */}
-            <div className='hidden md:block absolute top-[2.5rem] left-0 right-0 h-0.5 bg-gray-200 z-0 mx-10'></div>
-
+          <div className='flex flex-col md:flex-row justify-between items-start max-w-6xl mx-auto gap-12 md:gap-4'>
             {steps.map((step, index) => (
               <div
                 key={index}
-                className='relative z-10 flex flex-col items-center text-center group w-full md:w-auto'
+                className='flex flex-col items-center text-center group w-full md:w-1/4'
               >
-                <div className='w-20 h-20 rounded-full bg-slate-900 flex items-center justify-center text-white font-bold text-2xl mb-4 group-hover:bg-kerbl-green transition-colors duration-300 shadow-xl border-4 border-white'>
+                <div className='w-16 h-16 rounded-none bg-primary flex items-center justify-center text-white font-black text-2xl mb-6 shadow-sm'>
                   {step.number}
                 </div>
-                <h3 className='text-lg font-bold text-gray-900 mb-1'>
+                <h3 className='text-lg font-black text-gray-900 mb-2 uppercase tracking-tight'>
                   {step.title}
                 </h3>
-                <p className='text-sm text-gray-500 uppercase tracking-wide'>
+                <p className='text-xs text-gray-500 uppercase tracking-widest font-bold'>
                   {step.description}
                 </p>
               </div>
             ))}
           </div>
         </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className='py-20 text-center container mx-auto px-4'>
+        <h2 className='text-3xl font-black text-gray-900 mb-6 uppercase tracking-tight'>
+          Ready to start your project?
+        </h2>
+        <Button
+          size='lg'
+          className='bg-primary hover:bg-primary/95 text-white font-black px-12 py-8 text-lg rounded-none uppercase tracking-widest'
+        >
+          Contact Our Team
+        </Button>
       </section>
     </main>
   )

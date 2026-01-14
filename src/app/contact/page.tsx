@@ -20,7 +20,6 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500))
     setIsSubmitting(false)
     setSubmitted(true)
@@ -28,109 +27,164 @@ export default function ContactPage() {
   }
 
   return (
-    <main className='min-h-screen font-sans bg-gray-50/50'>
-      {/* Hero */}
-      <section className='bg-slate-900 text-white py-16 md:py-24'>
-        <div className='container mx-auto px-4 text-center'>
-          <h1 className='text-4xl md:text-5xl font-bold mb-6'>Contact Us</h1>
-          <p className='text-lg text-slate-300 max-w-xl mx-auto'>
-            Have questions about our products or services? We're here to help.
-            Reach out to us and we'll respond as soon as possible.
-          </p>
+    <main className='min-h-screen font-sans bg-white'>
+      {/* Header Section */}
+      <div className='bg-gray-50 py-16 border-b border-gray-100'>
+        <div className='container mx-auto px-4'>
+          <h1 className='text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tight'>
+            Contact <span className='text-primary'>Saheeb</span> Trading Co.
+          </h1>
+          <div className='w-20 h-1 bg-primary mt-4' />
         </div>
-      </section>
+      </div>
 
-      <section className='py-16 md:py-24 container mx-auto px-4'>
-        <div className='grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto'>
-          {/* Contact Information */}
-          <div className='space-y-8'>
-            <div>
-              <h2 className='text-2xl font-bold text-gray-900 mb-6'>
-                Get in Touch
-              </h2>
-              <p className='text-gray-600 mb-8 leading-relaxed'>
-                Whether you're looking for a quote, have a question about
-                detailed specifications, or want to discuss a custom OEM
-                project, our team is ready to assist you.
-              </p>
-            </div>
-
+      <section className='py-16 container mx-auto px-4'>
+        <div className='grid lg:grid-cols-3 gap-12'>
+          {/* Contact Information Blocks */}
+          <div className='lg:col-span-1 space-y-12'>
             <div className='space-y-6'>
-              {/* Address */}
-              <div className='flex items-start gap-4'>
-                <div className='bg-kerbl-green/10 p-3 rounded-lg shrink-0'>
-                  <MapPin className='h-6 w-6 text-kerbl-green' />
-                </div>
-                <div>
-                  <h3 className='font-bold text-gray-900 mb-1'>Our Location</h3>
-                  <address className='not-italic text-sm text-gray-600 leading-relaxed'>
-                    Chah Dhodia, Abbot Road,
-                    <br />
-                    GPO Box # 736,
-                    <br />
-                    Sialkot - Pakistan.
-                  </address>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className='flex items-start gap-4'>
-                <div className='bg-kerbl-green/10 p-3 rounded-lg shrink-0'>
-                  <Phone className='h-6 w-6 text-kerbl-green' />
-                </div>
-                <div>
-                  <h3 className='font-bold text-gray-900 mb-1'>Phone</h3>
-                  <div className='flex flex-col text-sm text-gray-600 gap-1'>
+              <h2 className='text-xs font-black uppercase tracking-[0.2em] text-gray-400'>
+                Headquarters Pakistan
+              </h2>
+              <address className='not-italic space-y-4 text-sm text-gray-800'>
+                <p className='font-bold text-lg'>Saheeb Trading Co.</p>
+                <p>
+                  Chah Dhodia, Abbot Road,
+                  <br />
+                  GPO Box # 736, SIALKOT - PAKISTAN.
+                </p>
+                <div className='space-y-1 pt-2'>
+                  <p>
+                    Tel:{' '}
                     <a
                       href='tel:+92524587036'
-                      className='hover:text-kerbl-green'
+                      className='text-primary font-bold hover:underline'
                     >
-                      Tel: +92-52-4587036
+                      +92-52-4587036
                     </a>
+                  </p>
+                  <p>
+                    Mail:{' '}
                     <a
-                      href='tel:+923333890000'
-                      className='hover:text-kerbl-green'
+                      href='mailto:info@saheebtrading.com'
+                      className='text-primary font-bold hover:underline'
                     >
-                      Cell: +92-3333890000
+                      info@saheebtrading.com
                     </a>
-                    <a
-                      href='tel:+923216123007'
-                      className='hover:text-kerbl-green'
-                    >
-                      Cell: +92-3216123007
-                    </a>
+                  </p>
+                </div>
+              </address>
+              <div className='flex gap-4 pt-2'>
+                <div className='bg-primary/5 p-3 shrink-0'>
+                  <Clock className='h-5 w-5 text-primary' />
+                </div>
+                <div className='text-xs text-gray-600'>
+                  <p className='font-bold uppercase tracking-wider mb-1'>
+                    Working Hours
+                  </p>
+                  <p>Mon - Sat: 9:00 AM - 6:00 PM</p>
+                  <p>Sunday: Closed</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Warehouse & Registrations */}
+            <div className='space-y-6 pt-12 border-t border-gray-100'>
+              <h2 className='text-xs font-black uppercase tracking-[0.2em] text-gray-400'>
+                Warehouse & Registrations
+              </h2>
+              <div className='text-sm text-gray-800 space-y-4'>
+                <div className='flex gap-4'>
+                  <div className='bg-primary/5 p-3 shrink-0'>
+                    <MapPin className='h-5 w-5 text-primary' />
+                  </div>
+                  <div>
+                    <p className='font-bold uppercase tracking-wider text-[10px] text-gray-500 mb-1'>
+                      Address Warehouse
+                    </p>
+                    <p className='font-medium'>
+                      9 km Cahbbil Pur Daska Road Sialkot-Pakistan
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Email */}
-              <div className='flex items-start gap-4'>
-                <div className='bg-kerbl-green/10 p-3 rounded-lg shrink-0'>
-                  <Mail className='h-6 w-6 text-kerbl-green' />
+                <div className='grid grid-cols-1 gap-2 pt-2 text-xs'>
+                  <p>
+                    <span className='font-bold uppercase text-gray-500 mr-2'>
+                      NTN No:
+                    </span>
+                    <span className='font-medium'>0680922-7 / </span>
+                    <a
+                      href='https://iris.fbr.gov.pk/#verifications'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-primary font-bold hover:underline inline-flex items-center gap-1'
+                    >
+                      Visit FBR
+                    </a>
+                  </p>
+                  <p>
+                    <span className='font-bold uppercase text-gray-500 mr-2'>
+                      EPB Export Reg No:
+                    </span>
+                    <span className='font-medium'>W - 019737</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Memberships */}
+            <div className='space-y-6 pt-12 border-t border-gray-100'>
+              <h2 className='text-xs font-black uppercase tracking-[0.2em] text-gray-400'>
+                Memberships
+              </h2>
+              <div className='space-y-5 text-sm text-gray-800'>
+                <div>
+                  <p className='font-black uppercase text-[10px] text-gray-500 mb-1 tracking-wider'>
+                    Member of Surgical Association
+                  </p>
+                  <p className='font-medium'>
+                    Member Id S023 /{' '}
+                    <a
+                      href='http://www.simap.org.pk/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-primary font-bold hover:underline inline-flex items-center gap-1'
+                    >
+                      Visit SIMAP
+                    </a>
+                  </p>
                 </div>
                 <div>
-                  <h3 className='font-bold text-gray-900 mb-1'>Email</h3>
-                  <a
-                    href='mailto:info@saheebtrading.com'
-                    className='text-sm text-gray-600 hover:text-kerbl-green'
-                  >
-                    info@saheebtrading.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Hours */}
-              <div className='flex items-start gap-4'>
-                <div className='bg-kerbl-green/10 p-3 rounded-lg shrink-0'>
-                  <Clock className='h-6 w-6 text-kerbl-green' />
+                  <p className='font-black uppercase text-[10px] text-gray-500 mb-1 tracking-wider'>
+                    Member of Sialkot Chamber of Commerce
+                  </p>
+                  <p className='font-medium'>
+                    Member ID :A-03066 /{' '}
+                    <a
+                      href='https://www.scci.com.pk'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-primary font-bold hover:underline'
+                    >
+                      Visit SCCI
+                    </a>
+                  </p>
                 </div>
                 <div>
-                  <h3 className='font-bold text-gray-900 mb-1'>
-                    Working Hours
-                  </h3>
-                  <p className='text-sm text-gray-600'>
-                    Mon - Sat: 9:00 AM - 6:00 PM <br />
-                    Sunday: Closed
+                  <p className='font-black uppercase text-[10px] text-gray-500 mb-1 tracking-wider'>
+                    Director for SIAL International
+                  </p>
+                  <p className='font-medium'>
+                    Member ID 339 /{' '}
+                    <a
+                      href='https://www.sial.com.pk'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-primary font-bold hover:underline'
+                    >
+                      Visit SIAL
+                    </a>
                   </p>
                 </div>
               </div>
@@ -138,76 +192,94 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Form */}
-          <div className='bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-border/50'>
-            <h2 className='text-2xl font-bold text-gray-900 mb-2'>
-              Send us a Message
+          <div className='lg:col-span-2 bg-gray-50 p-8 md:p-12'>
+            <h2 className='text-3xl font-black text-gray-900 mb-8 uppercase tracking-tight'>
+              Send us a <span className='text-primary'>Message</span>
             </h2>
-            <p className='text-gray-500 text-sm mb-6'>
-              Fill out the form below and we will get back to you shortly.
-            </p>
 
             {submitted ? (
-              <div className='bg-green-50 text-green-700 p-6 rounded-lg text-center'>
-                <h3 className='font-bold text-lg mb-2'>Message Sent!</h3>
-                <p>
-                  Thank you for contacting us. We will respond to your inquiry
-                  soon.
+              <div className='bg-white shadow-sm border border-primary/20 p-8 rounded-none text-center'>
+                <h3 className='font-black text-xl mb-4 text-primary uppercase'>
+                  Message Sent Successfully!
+                </h3>
+                <p className='text-gray-600 mb-6'>
+                  Thank you for your inquiry. Our team will get back to you
+                  shortly.
                 </p>
                 <Button
-                  className='mt-4 bg-kerbl-green text-white hover:bg-kerbl-green-dark'
+                  className='bg-primary text-white hover:bg-primary/90 font-bold px-8 py-6 rounded-none uppercase'
                   onClick={() => setSubmitted(false)}
                 >
                   Send Another Message
                 </Button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className='space-y-4'>
-                <div className='grid md:grid-cols-2 gap-4'>
-                  <div className='space-y-2'>
-                    <Label htmlFor='name'>Full Name *</Label>
-                    <Input
-                      id='name'
-                      placeholder='John Doe'
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className='space-y-2'>
-                    <Label htmlFor='email'>Email Address *</Label>
-                    <Input
-                      id='email'
-                      type='email'
-                      placeholder='john@example.com'
-                      required
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-
+              <form
+                onSubmit={handleSubmit}
+                className='grid grid-cols-1 md:grid-cols-2 gap-6'
+              >
                 <div className='space-y-2'>
-                  <Label htmlFor='subject'>Subject</Label>
+                  <Label
+                    htmlFor='name'
+                    className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
+                  >
+                    Full Name *
+                  </Label>
+                  <Input
+                    id='name'
+                    className='rounded-none border-gray-200 bg-white h-12 focus:border-primary focus:ring-0'
+                    required
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <Label
+                    htmlFor='email'
+                    className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
+                  >
+                    Email Address *
+                  </Label>
+                  <Input
+                    id='email'
+                    type='email'
+                    className='rounded-none border-gray-200 bg-white h-12 focus:border-primary focus:ring-0'
+                    required
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+                </div>
+                <div className='md:col-span-2 space-y-2'>
+                  <Label
+                    htmlFor='subject'
+                    className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
+                  >
+                    Subject
+                  </Label>
                   <Input
                     id='subject'
-                    placeholder='Inquiry about...'
+                    className='rounded-none border-gray-200 bg-white h-12 focus:border-primary focus:ring-0'
                     value={formData.subject}
                     onChange={(e) =>
                       setFormData({ ...formData, subject: e.target.value })
                     }
                   />
                 </div>
-
-                <div className='space-y-2'>
-                  <Label htmlFor='message'>Message *</Label>
+                <div className='md:col-span-2 space-y-2'>
+                  <Label
+                    htmlFor='message'
+                    className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
+                  >
+                    Message *
+                  </Label>
                   <Textarea
                     id='message'
-                    placeholder='How can we help you?'
-                    rows={5}
+                    className='rounded-none border-gray-200 bg-white focus:border-primary focus:ring-0 p-4'
+                    rows={6}
                     required
                     value={formData.message}
                     onChange={(e) =>
@@ -216,26 +288,18 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <Button
-                  type='submit'
-                  className='w-full bg-kerbl-green hover:bg-kerbl-green-dark text-white'
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </Button>
+                <div className='md:col-span-2 pt-4'>
+                  <Button
+                    type='submit'
+                    className='w-full md:w-auto bg-primary hover:bg-primary/95 text-white font-black px-12 py-7 rounded-none uppercase tracking-widest transition-all'
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message!'}
+                  </Button>
+                </div>
               </form>
             )}
           </div>
-        </div>
-      </section>
-
-      {/* Map Section (Placeholder) */}
-      <section className='bg-slate-100 h-96 w-full flex items-center justify-center text-slate-400'>
-        {/* You can embed a real Google Map here later */}
-        <div className='text-center'>
-          <MapPin className='h-10 w-10 mx-auto mb-2 opacity-50' />
-          <p>Map Integration Placeholder</p>
-          <p className='text-xs'>Chah Dhodia, Abbot Road, Sialkot</p>
         </div>
       </section>
     </main>

@@ -1,88 +1,100 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { FadeIn } from '@/components/ui/motion-wrapper'
 
-const features = [
+const featureCards = [
   {
-    title:
-      'Generations of Trust & Craftsmanship: Founded in 1976, delivering excellence in surgical and veterinary instruments.',
     image: '/images/about-legacy.png',
-    linkText: 'Learn about our heritage',
-    href: '#',
+    title:
+      'Frost-proof water bowls for healthy animals – ideal solutions for your stable and your water supply.',
+    linkText: 'Discover anti-freeze solutions now!',
+    href: '/products?category=water-bowls',
   },
   {
-    title:
-      'Global Reach: Exporting premium quality instruments to professionals across continents.',
     image: '/images/surgical-instruments.png',
-    linkText: 'View our global network',
-    href: '#',
-  },
-  {
     title:
-      'Precision Dental Instruments: High-grade steel tools for advanced dental procedures.',
-    image: '/images/surgical-instruments.png',
-    linkText: 'Explore Dental Catalog',
-    href: '#',
-  },
-  {
-    title:
-      'Veterinary Excellence: Specialized tools designed for the health and well-being of all animals.',
-    image: '/images/surgical-instruments.png',
-    linkText: 'See Veterinary Solutions',
-    href: '#',
-  },
-  {
-    title:
-      'Equestrian Mastery: Ergonomic and durable instruments for horse care and grooming.',
-    image: '/images/about-legacy.png',
-    linkText: 'View Equestrian range',
-    href: '#',
-  },
-  {
-    title:
-      'Quality Assurance: ISO certified manufacturing ensuring the highest standards of safety and precision.',
-    image: '/images/surgical-instruments.png',
-    linkText: 'Our Quality Standards',
-    href: '#',
+      'Professional veterinary instruments for precise diagnostics and treatment.',
+    linkText: 'Explore veterinary tools!',
+    href: '/products?category=veterinary',
   },
 ]
 
 export function FeatureSection() {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-      {features.map((feature, index) => (
-        <FadeIn
-          key={index}
-          className='flex flex-col space-y-4 group'
-          delay={index * 0.1}
-        >
-          <Link
-            href={feature.href}
-            className='overflow-hidden block relative aspect-video'
-          >
-            <div className='absolute inset-0 bg-gray-100'>
-              <Image
-                src={feature.image}
-                alt={feature.title}
-                fill
-                className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
-              />
+    <section className='container mx-auto px-4 py-12'>
+      <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
+        {/* Feature Cards - 2 columns on desktop */}
+        <div className='lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6'>
+          {featureCards.map((card, index) => (
+            <div key={index} className='flex flex-col'>
+              {/* Image */}
+              <Link
+                href={card.href}
+                className='relative h-64 md:h-72 overflow-hidden group'
+              >
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  className='object-cover group-hover:scale-105 transition-transform duration-500'
+                />
+              </Link>
+
+              {/* Text Content */}
+              <div className='py-4'>
+                <p className='text-gray-800 font-bold text-lg leading-snug mb-4'>
+                  {card.title}
+                </p>
+                <Button
+                  asChild
+                  className='bg-primary hover:bg-primary/90 text-white font-bold rounded-none px-6 py-5 text-sm w-full md:w-auto'
+                >
+                  <Link href={card.href}>{card.linkText}</Link>
+                </Button>
+              </div>
             </div>
-          </Link>
-          <div className='space-y-4'>
-            <h3 className='font-bold text-gray-900 leading-tight min-h-[48px]'>
-              {feature.title}
+          ))}
+        </div>
+
+        {/* Sidebar - Flip Catalogues */}
+        <div className='lg:col-span-4'>
+          <div className='bg-white'>
+            <h3 className='text-2xl font-bold text-gray-900 mb-4'>
+              Discover the latest flip catalogues
             </h3>
-            <Button
-              asChild
-              className='bg-kerbl-green hover:bg-kerbl-green-dark text-white font-bold rounded-sm h-auto py-2 px-4 whitespace-normal text-left sm:w-auto w-full justify-start'
-            >
-              <Link href={feature.href}>{feature.linkText}</Link>
-            </Button>
+
+            {/* Catalogue Preview Card */}
+            <Link href='/catalogues' className='block group'>
+              <div className='relative bg-primary p-4 rounded-sm overflow-hidden'>
+                <div className='text-white'>
+                  <p className='font-bold text-lg'>
+                    Agricultural Supplies 2026
+                  </p>
+                  <p className='text-sm text-white/80'>New products 01/2026</p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Additional catalogue links */}
+            <div className='mt-4 space-y-3'>
+              <Link
+                href='/catalogues/veterinary'
+                className='block p-3 border border-gray-200 hover:border-primary transition-colors'
+              >
+                <p className='font-bold text-gray-800'>Veterinary Catalogue</p>
+                <p className='text-sm text-gray-500'>2026 Edition</p>
+              </Link>
+              <Link
+                href='/catalogues/equestrian'
+                className='block p-3 border border-gray-200 hover:border-primary transition-colors'
+              >
+                <p className='font-bold text-gray-800'>Equestrian Care</p>
+                <p className='text-sm text-gray-500'>2026 Edition</p>
+              </Link>
+            </div>
           </div>
-        </FadeIn>
-      ))}
-    </div>
+        </div>
+      </div>
+    </section>
   )
 }

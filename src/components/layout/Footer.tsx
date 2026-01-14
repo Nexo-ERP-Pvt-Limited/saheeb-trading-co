@@ -14,188 +14,138 @@ import Image from 'next/image'
 
 export function Footer() {
   return (
-    <footer className='bg-gray-50 pt-16 pb-8 border-t border-gray-200 mt-auto font-sans'>
+    <footer className='bg-[#f8f9fa] pt-16 pb-12 border-t border-gray-200 mt-auto font-sans text-[#212529]'>
       <div className='container mx-auto px-4'>
         <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-12'>
-          {/* Logo & Intro */}
-          <div className='space-y-4'>
-            <Link href='/' className='shrink-0 flex items-center'>
+          {/* Logo & Quick Links */}
+          <div className='space-y-6'>
+            <Link href='/' className='shrink-0 flex items-center mb-6'>
               <Image
                 src='/saheebTradingCo.png'
                 alt='Saheeb Trading Co Logo'
-                width={140}
+                width={160}
                 height={60}
+                className='h-10 w-auto object-contain'
               />
             </Link>
-            <p className='text-sm text-gray-600 leading-relaxed'>
-              Your trusted partner for high-quality surgical, veterinary, and
-              dental instruments.
-            </p>
-            <div className='flex space-x-4 pt-2'>
-              <Link
-                href='https://www.facebook.com/asaheeb'
-                className='text-gray-400 hover:text-kerbl-green transition-colors'
-              >
+            <ul className='space-y-2 text-sm'>
+              <li>
+                <Link
+                  href='/#'
+                  className='hover:text-primary transition-colors'
+                >
+                  Flip-catalogue
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href='/#'
+                  className='hover:text-primary transition-colors'
+                >
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href='/#'
+                  className='hover:text-primary transition-colors'
+                >
+                  Newsletter
+                </Link>
+              </li>
+            </ul>
+            <div className='flex space-x-4 pt-4'>
+              <Link href='#' className='text-gray-400 hover:text-primary'>
+                <Youtube className='h-5 w-5' />
+              </Link>
+              <Link href='#' className='text-gray-400 hover:text-primary'>
                 <Facebook className='h-5 w-5' />
               </Link>
-              <Link
-                href='https://www.instagram.com/saheeb.co?igsh=dmtkamMxNXhleGZx&utm_source=qr'
-                className='text-gray-400 hover:text-kerbl-green transition-colors'
-              >
+              <Link href='#' className='text-gray-400 hover:text-primary'>
                 <Instagram className='h-5 w-5' />
               </Link>
-              <Link
-                href='https://pk.linkedin.com/in/saheeb-trading-co-7b0009a3'
-                className='text-gray-400 hover:text-kerbl-green transition-colors'
-              >
+              <Link href='#' className='text-gray-400 hover:text-primary'>
                 <Linkedin className='h-5 w-5' />
               </Link>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Legal Information */}
           <div>
-            <h3 className='font-bold text-gray-900 mb-4'>Quick Links</h3>
-            <ul className='space-y-2 text-sm text-gray-600'>
+            <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
+              Information
+            </h3>
+            <ul className='space-y-3 text-sm'>
               <li>
-                <Link
-                  href='/'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/products'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/about'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/services'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  OEM Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/blog'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  Blog & News
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/contact'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Legal & Info */}
-          <div>
-            <h3 className='font-bold text-gray-900 mb-4'>Information</h3>
-            <ul className='space-y-2 text-sm text-gray-600'>
-              <li>
-                <Link
-                  href='#'
-                  className='hover:text-kerbl-green transition-colors'
-                >
+                <Link href='#' className='hover:text-primary transition-colors'>
                   Terms
                 </Link>
               </li>
               <li>
-                <Link
-                  href='#'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  Guarantee
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='#'
-                  className='hover:text-kerbl-green transition-colors'
-                >
-                  Legal notice
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='#'
-                  className='hover:text-kerbl-green transition-colors'
-                >
+                <Link href='#' className='hover:text-primary transition-colors'>
                   Privacy policy
                 </Link>
               </li>
               <li>
-                <Link
-                  href='#'
-                  className='hover:text-kerbl-green transition-colors'
-                >
+                <Link href='#' className='hover:text-primary transition-colors'>
                   Cookie settings
+                </Link>
+              </li>
+              <li>
+                <Link href='#' className='hover:text-primary transition-colors'>
+                  Legal notice
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact 1 */}
           <div>
-            <h3 className='font-bold text-gray-900 mb-4'>Contact</h3>
-            <address className='not-italic text-sm text-gray-600 space-y-3'>
-              <div className='font-medium'>Saheeb Trading Co.</div>
-              <div>
-                Chah Dhodia, Abbot Road,
-                <br />
-                GPO Box # 736, SIALKOT - PAKISTAN.
-              </div>
-              <div className='flex items-start gap-2 mt-2'>
-                <Phone className='h-4 w-4 text-kerbl-green mt-1 shrink-0' />
-                <div className='flex flex-col'>
-                  <a href='tel:+92524587036' className='hover:text-kerbl-green'>
-                    Tel: +92-52-4587036
-                  </a>
-                  <a
-                    href='tel:+923333890000'
-                    className='hover:text-kerbl-green'
-                  >
-                    Phone: +92-3333890000
-                  </a>
-                  <a
-                    href='tel:+923216123007'
-                    className='hover:text-kerbl-green pl-11'
-                  >
-                    +92-3216123007
-                  </a>
-                </div>
-              </div>
-              <div className='flex items-center gap-2'>
-                <Mail className='h-4 w-4 text-kerbl-green' />
+            <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
+              Contact Pakistan
+            </h3>
+            <address className='not-italic text-sm space-y-2'>
+              <p className='font-bold'>Saheeb Trading Co.</p>
+              <p>Chah Dhodia, Abbot Road,</p>
+              <p>GPO Box # 736, SIALKOT - PAKISTAN.</p>
+              <p className='pt-2'>
+                Tel:{' '}
+                <a href='tel:+92524587036' className='hover:text-primary'>
+                  +92-52-4587036
+                </a>
+              </p>
+              <p>
+                Mail:{' '}
                 <a
                   href='mailto:info@saheebtrading.com'
-                  className='hover:text-kerbl-green'
+                  className='hover:text-primary text-primary'
                 >
                   info@saheebtrading.com
                 </a>
-              </div>
+              </p>
             </address>
           </div>
+
+          {/* Contact 2 */}
+          {/* <div>
+            <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
+              Sales Support
+            </h3>
+            <address className='not-italic text-sm space-y-2'>
+              <p>
+                Phone:{' '}
+                <a href='tel:+923333890000' className='hover:text-primary'>
+                  +92-3333890000
+                </a>
+              </p>
+              <p>
+                Mobile:{' '}
+                <a href='tel:+923216123007' className='hover:text-primary'>
+                  +92-3216123007
+                </a>
+              </p>
+            </address>
+          </div> */}
         </div>
 
         <Separator className='mb-8' />
