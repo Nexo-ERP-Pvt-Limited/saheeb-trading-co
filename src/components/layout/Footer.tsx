@@ -16,7 +16,7 @@ export function Footer() {
   return (
     <footer className='bg-[#f8f9fa] pt-16 pb-12 border-t border-gray-200 mt-auto font-sans text-[#212529]'>
       <div className='container mx-auto px-4'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-12'>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-8 mb-12'>
           {/* Logo & Quick Links */}
           <div className='space-y-6'>
             <Link href='/' className='shrink-0 flex items-center mb-6'>

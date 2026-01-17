@@ -63,7 +63,7 @@ export function Navbar() {
         {/* Row 1: Logo & Utilities */}
         <div className='flex justify-between items-center mb-2 md:mb-4 relative'>
           {/* Mobile Menu Trigger (Left) */}
-          <div className='md:hidden flex items-center pr-4'>
+          <div className='md:hidden flex items-center pr-4  '>
             <Button
               variant='ghost'
               size='icon'
@@ -93,7 +93,9 @@ export function Navbar() {
             {/* Language Selector */}
             <div className='bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-sm flex items-center gap-2 cursor-pointer transition-colors border border-gray-200'>
               <span className='text-sm text-gray-700 font-medium'>English</span>
-              <div className='h-3 w-3 text-gray-500'>▼</div>
+              <div className='h-3 w-3 flex items-center justify-center text-gray-500 text-[10px]'>
+                ▼
+              </div>
             </div>
 
             {/* OEM Services */}

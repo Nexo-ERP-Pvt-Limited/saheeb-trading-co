@@ -17,7 +17,7 @@ import {
 
 export function Hero() {
   const plugin = React.useRef(
-    Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true }),
   )
 
   return (
@@ -34,7 +34,7 @@ export function Hero() {
           <CarouselItem>
             <div className='relative w-full'>
               {/* Desktop Layout: Split Green/Image */}
-              <div className='hidden md:grid md:grid-cols-2 min-h-[450px]'>
+              <div className='hidden md:grid md:grid-cols-2 h-[400px] lg:h-[500px]'>
                 {/* Left: Green Overlay with Text */}
                 <div className='bg-primary flex items-center justify-center p-8 lg:p-12'>
                   <motion.div
@@ -112,7 +112,7 @@ export function Hero() {
           <CarouselItem>
             <div className='relative w-full'>
               {/* Desktop */}
-              <div className='hidden md:grid md:grid-cols-2 min-h-[450px]'>
+              <div className='hidden md:grid md:grid-cols-2 h-[500px] lg:h-[600px]'>
                 <div className='bg-primary flex items-center justify-center p-8 lg:p-12'>
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
