@@ -67,10 +67,10 @@ export function Navbar() {
             <Button
               variant='ghost'
               size='icon'
-              className='-ml-2 hover:bg-transparent'
+              className='-ml-2 hover:bg-transparent h-12 w-12'
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              <Menu className='h-10 w-10 text-gray-400' />
+              <Menu className='h-12 w-12 text-black' />
             </Button>
           </div>
 

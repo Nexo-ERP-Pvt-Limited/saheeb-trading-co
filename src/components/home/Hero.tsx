@@ -48,7 +48,7 @@ export function Hero() {
                       Quality, precision, and strength
                     </p>
                     {/* Main Heading */}
-                    <h1 className='text-4xl lg:text-5xl xl:text-6xl font-light text-gray-900 leading-tight mb-6'>
+                    <h1 className='text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-6'>
                       Premium
                       <br />
                       instruments
@@ -60,9 +60,11 @@ export function Hero() {
                       instruments.
                     </p>
                     {/* CTA Button */}
-                    <button className='bg-white text-gray-900 font-medium px-8 py-3 rounded-full shadow-sm hover:shadow-md transition-shadow'>
-                      Learn more
-                    </button>
+                    <Link href='/products'>
+                      <button className='bg-kerbl-yellow text-gray-900 font-medium px-8 py-3 rounded-full shadow-sm hover:shadow-md transition-shadow'>
+                        Learn more
+                      </button>
+                    </Link>
                   </motion.div>
                 </div>
 
@@ -70,42 +72,34 @@ export function Hero() {
                 <div className='relative'>
                   <Image
                     src='/images/hero-image.jpg'
-                    alt='Chicken coop winter solutions'
+                    alt='Premium instruments'
                     fill
                     className='object-cover'
                   />
-                  {/* CTA Button Overlay */}
-                  <div className='absolute bottom-8 right-8'>
-                    <Button
-                      asChild
-                      className='bg-primary/90 hover:bg-primary text-white font-bold text-lg px-8 py-6 rounded-none flex items-center gap-2'
-                    >
-                      <Link href='/products'>
-                        <ChevronRight className='h-5 w-5' />
-                        <ChevronRight className='h-5 w-5 -ml-4' />
-                        Find out more now
-                      </Link>
-                    </Button>
-                  </div>
                 </div>
               </div>
 
               {/* Mobile Layout: Compact Banner */}
               <div className='md:hidden relative h-[200px] w-full'>
                 <Image
-                  src='/images/about-legacy.png'
-                  alt='Winter gloves'
+                  src='/images/hero-image.jpg'
+                  alt='Premium instruments'
                   fill
                   className='object-cover'
                 />
                 <div className='absolute inset-0 bg-gradient-to-r from-black/60 to-transparent' />
                 <div className='absolute inset-0 flex items-center px-4'>
-                  <div className='max-w-[200px]'>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className='max-w-[200px]'
+                  >
                     <h2 className='text-2xl font-black italic text-kerbl-yellow uppercase leading-tight'>
-                      Winter gloves
+                      Premium instruments
                     </h2>
                     <p className='text-sm text-white mt-1'>
-                      Protection for cold days – Winter gloves for every task
+                      Lifetime warranty on all our premium instruments.
                     </p>
                     <Button
                       asChild
@@ -114,7 +108,7 @@ export function Hero() {
                     >
                       <Link href='/products'>Discover the full range now!</Link>
                     </Button>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -124,7 +118,7 @@ export function Hero() {
           <CarouselItem>
             <div className='relative w-full'>
               {/* Desktop */}
-              <div className='hidden md:grid md:grid-cols-2 h-[500px] lg:h-[600px]'>
+              <div className='hidden md:grid md:grid-cols-2 h-[400px] lg:h-[500px]'>
                 <div className='bg-primary flex items-center justify-center p-8 lg:p-12'>
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
@@ -132,47 +126,55 @@ export function Hero() {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className='max-w-md'
                   >
-                    <h1 className='text-3xl lg:text-4xl xl:text-5xl font-black text-white uppercase leading-tight mb-6'>
-                      Professional instruments for veterinary excellence.
-                    </h1>
-                    <div className='inline-block bg-kerbl-yellow text-primary font-bold px-4 py-2 rounded-full text-sm mb-6'>
+                    {/* Tagline */}
+                    <p className='text-sm lg:text-base font-bold text-gray-700 mb-4'>
                       Since 1976
-                    </div>
+                    </p>
+                    {/* Main Heading */}
+                    <h1 className='text-4xl lg:text-5xl xl:text-6xl font-bold text-black leading-tight mb-6'>
+                      Veterinary
+                      <br />
+                      excellence
+                    </h1>
+                    {/* Description */}
+                    <p className='text-base lg:text-lg text-black/80 mb-8 leading-relaxed'>
+                      Professional instruments crafted with precision for
+                      veterinary care and animal welfare.
+                    </p>
+                    {/* CTA Button */}
+                    <Link href='/products'>
+                      <button className='bg-kerbl-yellow text-gray-900 font-medium px-8 py-3 rounded-full shadow-sm hover:shadow-md transition-shadow'>
+                        Explore range
+                      </button>
+                    </Link>
                   </motion.div>
                 </div>
                 <div className='relative'>
                   <Image
-                    src='/images/surgical-instruments.png'
+                    src='/images/hero-image-1.jpg'
                     alt='Veterinary instruments'
                     fill
                     className='object-cover'
                   />
-                  <div className='absolute bottom-8 right-8'>
-                    <Button
-                      asChild
-                      className='bg-primary/90 hover:bg-primary text-white font-bold text-lg px-8 py-6 rounded-none flex items-center gap-2'
-                    >
-                      <Link href='/products'>
-                        <ChevronRight className='h-5 w-5' />
-                        <ChevronRight className='h-5 w-5 -ml-4' />
-                        Explore our range
-                      </Link>
-                    </Button>
-                  </div>
                 </div>
               </div>
 
               {/* Mobile */}
               <div className='md:hidden relative h-[200px] w-full'>
                 <Image
-                  src='/images/surgical-instruments.png'
+                  src='/images/hero-image-1.jpg'
                   alt='Professional instruments'
                   fill
                   className='object-cover'
                 />
                 <div className='absolute inset-0 bg-gradient-to-r from-black/60 to-transparent' />
                 <div className='absolute inset-0 flex items-center px-4'>
-                  <div className='max-w-[200px]'>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className='max-w-[200px]'
+                  >
                     <h2 className='text-2xl font-black italic text-kerbl-yellow uppercase leading-tight'>
                       Professional Tools
                     </h2>
@@ -186,7 +188,7 @@ export function Hero() {
                     >
                       <Link href='/products'>Explore now!</Link>
                     </Button>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
