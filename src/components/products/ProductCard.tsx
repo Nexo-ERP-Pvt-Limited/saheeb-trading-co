@@ -31,8 +31,8 @@ export function ProductCard({ product }: ProductCardProps) {
     <Card className='overflow-hidden border-gray-200 hover:border-primary transition-all rounded-none bg-white flex flex-col h-full group'>
       <div className='relative p-4 bg-white aspect-square flex items-center justify-center border-b border-gray-50'>
         {/* Product ID - Clean Style */}
-        <div className='absolute top-3 left-3 bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider'>
-          Art. {product.id}
+        <div className='absolute top-3 left-3 bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider z-10'>
+          SKU {product.sku}
         </div>
 
         {/* Image */}
@@ -40,9 +40,10 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.image ? (
             <div className='w-full h-full relative'>
               <Image
-                src={product.image}
+                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.image}`}
                 alt={product.name}
                 fill
+                unoptimized
                 className='object-contain'
                 onError={(e) => {
                   e.currentTarget.style.display = 'none'
@@ -50,11 +51,11 @@ export function ProductCard({ product }: ProductCardProps) {
                     'flex',
                     'items-center',
                     'justify-center',
-                    'bg-gray-50'
+                    'bg-gray-50',
                   )
                   e.currentTarget.parentElement!.innerHTML = `<span class="text-3xl font-bold text-gray-200">${product.name.slice(
                     0,
-                    1
+                    1,
                   )}</span>`
                 }}
               />

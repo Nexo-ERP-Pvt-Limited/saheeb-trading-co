@@ -16,17 +16,14 @@ export default function Home() {
             Keeping sections clean. If Sidebar is needed, we can re-add it below.
         */}
         {/*
-        <section className="container mx-auto px-4 mb-24">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                <div className="lg:col-span-8 xl:col-span-9">
-
-                </div>
-                <div className="lg:col-span-4 xl:col-span-3">
-                    <Sidebar />
-                </div>
+        <section className='container mx-auto px-4 mb-24'>
+          <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>
+            <div className='lg:col-span-8 xl:col-span-9'></div>
+            <div className='lg:col-span-4 xl:col-span-3'>
+              <Sidebar />
             </div>
-        </section>
-        */}
+          </div>
+        </section> */}
 
         <VideoSection />
       </main>

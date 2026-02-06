@@ -21,7 +21,7 @@ export function Hero() {
   )
 
   return (
-    <section className='relative w-full bg-white overflow-hidden'>
+    <section className='relative  w-full mb-0.5 bg-white overflow-hidden'>
       <Carousel
         plugins={[plugin.current]}
         className='w-full'
@@ -43,21 +43,33 @@ export function Hero() {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className='max-w-md'
                   >
-                    <h1 className='text-3xl lg:text-4xl xl:text-5xl font-black text-white uppercase leading-tight mb-6'>
-                      Get your chicken coop ready for winter: Solutions for
-                      healthy and happy chickens.
+                    {/* Tagline */}
+                    <p className='text-sm lg:text-base font-bold text-gray-700 mb-4'>
+                      Quality, precision, and strength
+                    </p>
+                    {/* Main Heading */}
+                    <h1 className='text-4xl lg:text-5xl xl:text-6xl font-light text-gray-900 leading-tight mb-6'>
+                      Premium
+                      <br />
+                      instruments
                     </h1>
-                    {/* Brand Badge */}
-                    <div className='inline-block bg-kerbl-yellow text-primary font-bold px-4 py-2 rounded-full text-sm mb-6'>
-                      Saheeb Trading Co.
-                    </div>
+                    {/* Description */}
+                    <p className='text-base lg:text-lg text-gray-600 mb-8 leading-relaxed'>
+                      Our premium-quality instruments are backed by a lifetime
+                      warranty, giving you peace of mind for the life of your
+                      instruments.
+                    </p>
+                    {/* CTA Button */}
+                    <button className='bg-white text-gray-900 font-medium px-8 py-3 rounded-full shadow-sm hover:shadow-md transition-shadow'>
+                      Learn more
+                    </button>
                   </motion.div>
                 </div>
 
                 {/* Right: Image */}
                 <div className='relative'>
                   <Image
-                    src='/images/about-legacy.png'
+                    src='/images/hero-image.jpg'
                     alt='Chicken coop winter solutions'
                     fill
                     className='object-cover'

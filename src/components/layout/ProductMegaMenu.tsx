@@ -16,8 +16,8 @@ export function ProductMegaMenu({
   visible,
   onClose,
 }: ProductMegaMenuProps) {
-  const [activeCategoryId, setActiveCategoryId] = useState<string>(
-    categories[0]?.id || ''
+  const [activeCategoryId, setActiveCategoryId] = useState<string | number>(
+    categories[0]?.id || '',
   )
 
   if (!visible) return null
@@ -40,7 +40,7 @@ export function ProductMegaMenu({
                     'w-full text-left px-6 py-3 text-sm font-bold transition-colors border-l-4',
                     activeCategoryId === category.id
                       ? 'bg-white text-primary border-primary'
-                      : 'text-gray-600 border-transparent hover:bg-gray-200 hover:text-gray-900'
+                      : 'text-gray-600 border-transparent hover:bg-gray-200 hover:text-gray-900',
                   )}
                   onMouseEnter={() => setActiveCategoryId(category.id)}
                 >

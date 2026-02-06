@@ -14,15 +14,15 @@ interface ProductSidebarProps {
 
 export function ProductSidebar({ categories, className }: ProductSidebarProps) {
   const { selectedCategoryId, setSelectedCategoryId } = useProductStore()
-  const [openCategories, setOpenCategories] = useState<string[]>(
-    categories.map((c) => c.id)
+  const [openCategories, setOpenCategories] = useState<number[]>(
+    categories.map((c) => c.id),
   )
 
-  const toggleCategory = (categoryId: string) => {
+  const toggleCategory = (categoryId: number) => {
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
-        : [...prev, categoryId]
+        : [...prev, categoryId],
     )
   }
 
@@ -64,7 +64,7 @@ export function ProductSidebar({ categories, className }: ProductSidebarProps) {
                       'flex items-center justify-between w-full py-2 text-base text-left hover:text-kerbl-green transition-colors border-b border-transparent hover:border-kerbl-green/20',
                       selectedCategoryId === sub.id
                         ? 'text-kerbl-green font-medium'
-                        : 'text-muted-foreground'
+                        : 'text-muted-foreground',
                     )}
                     onClick={() => setSelectedCategoryId(sub.id)}
                   >

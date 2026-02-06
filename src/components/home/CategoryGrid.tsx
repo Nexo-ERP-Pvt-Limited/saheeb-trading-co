@@ -26,7 +26,7 @@ const categories = [
 
 export function CategoryGrid() {
   return (
-    <section className='w-full'>
+    <section className='container mx-auto px-3 mb-20'>
       {/* Desktop: 4 columns, Mobile: 2 columns */}
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-1'>
         {categories.map((category, index) => (

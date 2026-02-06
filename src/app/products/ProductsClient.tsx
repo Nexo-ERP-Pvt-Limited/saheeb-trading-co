@@ -16,25 +16,17 @@ export function ProductsClient({ categories, products }: ProductsClientProps) {
   const getFilteredProducts = () => {
     if (!selectedCategoryId) return products
 
-    return products.filter((product) => {
-      // Find the category object for the selected ID (could be main or sub)
-
-      // 1. Check if selected ID is a main category
-      const mainCategory = categories.find((c) => c.id === selectedCategoryId)
-      if (mainCategory) {
-        return product.category === mainCategory.name
+    // Find the subcategory and filter products
+    for (const cat of categories) {
+      const sub = cat.subcategories?.find((s) => s.id === selectedCategoryId)
+      if (sub) {
+        return products.filter(
+          (product) => product.subCategorySlug === sub.slug,
+        )
       }
+    }
 
-      // 2. Check if selected ID is a subcategory
-      for (const cat of categories) {
-        const sub = cat.subcategories?.find((s) => s.id === selectedCategoryId)
-        if (sub) {
-          return product.subCategory === sub.name
-        }
-      }
-
-      return false
-    })
+    return products
   }
 
   const displayedProducts = getFilteredProducts()
