@@ -158,12 +158,12 @@ export function Navbar() {
             >
               Service
             </Link>
-            <Link
+            {/* <Link
               href='/guide'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
             >
               Guide
-            </Link>
+            </Link> */}
             <Link
               href='/contact'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'

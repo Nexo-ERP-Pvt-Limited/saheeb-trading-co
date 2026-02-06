@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 
 interface ProductStore {
-  selectedCategoryId: number | undefined
-  setSelectedCategoryId: (id: number | undefined) => void
+  selectedCategoryId: string | number | undefined
+  setSelectedCategoryId: (id: string | number | undefined) => void
 }
 
 export const useProductStore = create<ProductStore>((set) => ({

@@ -14,11 +14,11 @@ interface ProductSidebarProps {
 
 export function ProductSidebar({ categories, className }: ProductSidebarProps) {
   const { selectedCategoryId, setSelectedCategoryId } = useProductStore()
-  const [openCategories, setOpenCategories] = useState<number[]>(
+  const [openCategories, setOpenCategories] = useState<(string | number)[]>(
     categories.map((c) => c.id),
   )
 
-  const toggleCategory = (categoryId: number) => {
+  const toggleCategory = (categoryId: string | number) => {
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
