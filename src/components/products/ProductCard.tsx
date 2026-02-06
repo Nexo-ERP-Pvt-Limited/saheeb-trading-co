@@ -40,7 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.image ? (
             <div className='w-full h-full relative'>
               <Image
-                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.image}`}
+                src={product.image}
                 alt={product.name}
                 fill
                 unoptimized
