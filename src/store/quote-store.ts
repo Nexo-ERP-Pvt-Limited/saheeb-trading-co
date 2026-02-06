@@ -10,8 +10,8 @@ export interface QuoteItem {
 interface QuoteStore {
   items: QuoteItem[]
   addItem: (product: Product, quantity: number) => void
-  removeItem: (productId: number) => void
-  updateQuantity: (productId: number, quantity: number) => void
+  removeItem: (productId: string | number) => void
+  updateQuantity: (productId: string | number, quantity: number) => void
   clearQuote: () => void
 }
 
