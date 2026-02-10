@@ -3,11 +3,11 @@ import { Hammer, Users, Warehouse } from 'lucide-react'
 
 export function CapabilitiesSection() {
   return (
-    <section className='bg-slate-900 text-white py-24 px-4 md:px-8'>
+    <section className=' text-black py-10 px-4 md:px-8'>
       <div className='max-w-7xl mx-auto'>
         <FadeIn>
           <h2 className='text-3xl font-bold mb-6'>Manufacturing Capability</h2>
-          <p className='text-slate-300 max-w-3xl mb-12'>
+          <p className='text-black max-w-3xl mb-12'>
             Our facilities are equipped with advanced machinery and modern
             manufacturing systems, enabling precision, consistency, and scalable
             production.
@@ -59,28 +59,6 @@ export function CapabilitiesSection() {
                     </div>
                   </div>
                 </FadeIn>
-              </div>
-            </div>
-
-            <div>
-              <h3 className='text-xl font-semibold mb-6 text-kerbl-green'>
-                Our Facilities
-              </h3>
-              <div className='space-y-4'>
-                {[
-                  { name: 'Head Office', size: '~4,235 sq. yards' },
-                  { name: 'Manufacturing Unit', size: '~4,845 sq. yards' },
-                  { name: 'Warehouse', size: '~3,800 sq. yards' },
-                ].map((facility, index) => (
-                  <FadeIn key={index} delay={0.2 + index * 0.1}>
-                    <div className='flex justify-between items-center py-3 border-b border-white/10 last:border-0 hover:pl-2 transition-all cursor-default'>
-                      <span className='font-medium'>{facility.name}</span>
-                      <span className='text-kerbl-green font-mono text-sm'>
-                        {facility.size}
-                      </span>
-                    </div>
-                  </FadeIn>
-                ))}
               </div>
             </div>
           </div>

@@ -43,7 +43,7 @@ const values = [
 
 export function ValuesSection() {
   return (
-    <section className='py-20 px-4 md:px-8 max-w-7xl mx-auto'>
+    <section className='py-10 px-4 md:px-8 max-w-7xl mx-auto'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {values.map((value, index) => (
           <FadeIn key={index} delay={index * 0.1}>

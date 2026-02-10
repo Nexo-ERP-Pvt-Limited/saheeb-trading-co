@@ -108,44 +108,23 @@ export function Footer() {
               <p className='font-bold'>Saheeb Trading Co.</p>
               <p>Chah Dhodia, Abbot Road,</p>
               <p>GPO Box # 736, SIALKOT - PAKISTAN.</p>
-              <p className='pt-2'>
-                Tel:{' '}
+              <p className='pt-2 flex items-center flex-row space-x-2'>
+                <Phone className='h-5 w-5' />{' '}
                 <a href='tel:+92524587036' className='hover:text-primary'>
                   +92-52-4587036
                 </a>
               </p>
-              <p>
-                Mail:{' '}
+              <div className='flex items-center flex-row space-x-2'>
+                <Mail className='h-5 w-5' />
                 <a
-                  href='mailto:info@saheebtrading.com'
+                  href='mailto:Saheebco@gmail.com'
                   className='hover:text-primary text-primary'
                 >
-                  info@saheebtrading.com
+                  Saheebco@gmail.com
                 </a>
-              </p>
+              </div>
             </address>
           </div>
-
-          {/* Contact 2 */}
-          {/* <div>
-            <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
-              Sales Support
-            </h3>
-            <address className='not-italic text-sm space-y-2'>
-              <p>
-                Phone:{' '}
-                <a href='tel:+923333890000' className='hover:text-primary'>
-                  +92-3333890000
-                </a>
-              </p>
-              <p>
-                Mobile:{' '}
-                <a href='tel:+923216123007' className='hover:text-primary'>
-                  +92-3216123007
-                </a>
-              </p>
-            </address>
-          </div> */}
         </div>
 
         <Separator className='mb-8' />

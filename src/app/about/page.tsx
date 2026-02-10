@@ -53,7 +53,7 @@ export default function AboutPage() {
           </aside>
 
           {/* Main Content */}
-          <div className='flex-1 space-y-24'>
+          <div className='flex-1 space-y-20'>
             <section id='our-legacy'>
               <LegacySection />
             </section>

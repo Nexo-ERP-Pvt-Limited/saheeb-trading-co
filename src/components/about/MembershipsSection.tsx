@@ -2,7 +2,7 @@ import { FadeIn } from '@/components/ui/motion-wrapper'
 
 export function MembershipsSection() {
   return (
-    <section className='py-20 px-4 md:px-8 text-center max-w-4xl mx-auto'>
+    <section className='px-4 md:px-8 text-center max-w-4xl mx-auto'>
       <FadeIn>
         <h2 className='text-2xl font-bold mb-12'>Industry Memberships</h2>
         <div className='flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500'>

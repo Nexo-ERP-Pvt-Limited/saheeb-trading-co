@@ -17,7 +17,11 @@ import {
 
 export function Hero() {
   const plugin = React.useRef(
-    Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true }),
+    Autoplay({
+      delay: 4000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+    }),
   )
 
   return (

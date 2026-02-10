@@ -41,17 +41,29 @@ interface StrapiProductResponse {
 
 async function getProducts(): Promise<Product[]> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*`,
-      { cache: 'no-store' },
-    )
+    const allProducts: StrapiProductResponse[] = []
+    let page = 1
+    let pageCount = 1
 
-    if (!res.ok) return []
+    // Loop through all Strapi pages to fetch every product
+    while (page <= pageCount) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*&pagination[page]=${page}&pagination[pageSize]=25`,
+        { cache: 'no-store' },
+      )
 
-    const json = await res.json()
-    const strapiProducts: StrapiProductResponse[] = json.data || []
+      if (!res.ok) return []
 
-    return strapiProducts.map((p) => ({
+      const json = await res.json()
+      const products: StrapiProductResponse[] = json.data || []
+      allProducts.push(...products)
+
+      // Update pageCount from Strapi's pagination meta
+      pageCount = json.meta?.pagination?.pageCount || 1
+      page++
+    }
+
+    return allProducts.map((p) => ({
       id: p.id,
       name: p.name,
       slug: p.slug,

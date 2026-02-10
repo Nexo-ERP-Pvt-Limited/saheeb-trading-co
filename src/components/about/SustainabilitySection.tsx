@@ -42,7 +42,7 @@ const pillars = [
 
 export function SustainabilitySection() {
   return (
-    <section className='py-20 px-4 md:px-8 max-w-7xl mx-auto'>
+    <section className='py-10 px-4 md:px-8 max-w-7xl mx-auto'>
       <FadeIn>
         <div className='text-center mb-16'>
           <h2 className='text-3xl font-bold mb-4'>

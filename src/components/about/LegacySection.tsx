@@ -3,7 +3,7 @@ import { FadeIn, SlideInLeft } from '@/components/ui/motion-wrapper'
 
 export function LegacySection() {
   return (
-    <section className='py-20 px-4 md:px-8 max-w-7xl mx-auto'>
+    <section className='py-10 px-4 md:px-8 max-w-7xl mx-auto'>
       <div className='flex flex-col lg:flex-row items-center gap-12'>
         <div className='w-full lg:w-1/2'>
           <SlideInLeft>
@@ -40,7 +40,7 @@ export function LegacySection() {
           <FadeIn>
             <div className='relative rounded-2xl overflow-hidden shadow-xl aspect-video lg:aspect-square max-h-[500px]'>
               <Image
-                src='/images/surgical-instruments.png'
+                src='/images/saheebCo-factory.jpeg'
                 alt='High quality surgical instruments craftsmanship'
                 fill
                 className='object-cover'
