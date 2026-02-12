@@ -2,17 +2,29 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories`,
-      { cache: 'no-store' },
-    )
+    const allCategories: unknown[] = []
+    let page = 1
+    let pageCount = 1
 
-    if (!res.ok) {
-      throw new Error(`Strapi API error: ${res.status}`)
+    // Loop through all Strapi pages to fetch every category
+    while (page <= pageCount) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories&pagination[page]=${page}&pagination[pageSize]=25`,
+        { cache: 'no-store' },
+      )
+
+      if (!res.ok) {
+        throw new Error(`Strapi API error: ${res.status}`)
+      }
+
+      const json = await res.json()
+      allCategories.push(...(json.data || []))
+
+      pageCount = json.meta?.pagination?.pageCount || 1
+      page++
     }
 
-    const json = await res.json()
-    return NextResponse.json(json)
+    return NextResponse.json({ data: allCategories })
   } catch (error) {
     console.error('Error fetching categories:', error)
     return NextResponse.json(

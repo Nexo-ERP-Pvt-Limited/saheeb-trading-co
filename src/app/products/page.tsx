@@ -81,39 +81,39 @@ async function getProducts(): Promise<Product[]> {
 
 async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/sub-categories?populate=*`,
-      { cache: 'no-store' },
-    )
+    const allCategories: {
+      id: number
+      name: string
+      sub_categories?: { id: number; name: string; slug: string }[]
+    }[] = []
+    let page = 1
+    let pageCount = 1
 
-    if (!res.ok) return []
+    // Fetch categories directly with their sub-categories populated
+    while (page <= pageCount) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories&pagination[page]=${page}&pagination[pageSize]=25`,
+        { cache: 'no-store' },
+      )
 
-    const json = await res.json()
-    const subCategories: StrapiSubCategory[] = json.data || []
+      if (!res.ok) return []
 
-    // Group sub-categories by their parent category
-    const categoryMap = new Map<number, Category>()
+      const json = await res.json()
+      allCategories.push(...(json.data || []))
 
-    for (const sub of subCategories) {
-      if (!sub.category) continue
+      pageCount = json.meta?.pagination?.pageCount || 1
+      page++
+    }
 
-      const catId = sub.category.id
-      if (!categoryMap.has(catId)) {
-        categoryMap.set(catId, {
-          id: catId,
-          name: sub.category.name,
-          subcategories: [],
-        })
-      }
-
-      categoryMap.get(catId)!.subcategories.push({
+    return allCategories.map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      subcategories: (cat.sub_categories || []).map((sub) => ({
         id: sub.id,
         name: sub.name,
         slug: sub.slug,
-      })
-    }
-
-    return Array.from(categoryMap.values())
+      })),
+    }))
   } catch {
     return []
   }
