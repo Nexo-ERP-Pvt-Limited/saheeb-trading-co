@@ -5,6 +5,7 @@ import { SustainabilitySection } from '@/components/about/SustainabilitySection'
 import { CapabilitiesSection } from '@/components/about/CapabilitiesSection'
 import { MembershipsSection } from '@/components/about/MembershipsSection'
 import { GuidingPurposeSection } from '@/components/about/GuidingPurposeSection'
+import { FounderMessageSection } from '@/components/about/FounderMessageSection'
 
 export const metadata = {
   title: 'About Us | Saheeb Trading Co.',
@@ -31,6 +32,7 @@ export default function AboutPage() {
             <nav className='sticky top-24 space-y-1'>
               {[
                 'Our Legacy',
+                "Founder's Message",
                 'Vision & Mission',
                 'Core Values',
                 'Sustainability',
@@ -56,6 +58,9 @@ export default function AboutPage() {
           <div className='flex-1 space-y-20'>
             <section id='our-legacy'>
               <LegacySection />
+            </section>
+            <section id="founder's-message">
+              <FounderMessageSection />
             </section>
             <section id='vision-mission'>
               <VisionSection />
