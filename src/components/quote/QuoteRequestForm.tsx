@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -8,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { useQuoteStore } from '@/store/quote-store'
 
 export function QuoteRequestForm() {
+  const router = useRouter()
   const { items, clearQuote } = useQuoteStore()
   const [formData, setFormData] = useState({
     name: '',
@@ -18,32 +20,66 @@ export function QuoteRequestForm() {
     address: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Simulate email sending
-    console.log('Sending quote request...', { items, formData })
+    setIsLoading(true)
+    setError(null)
 
-    // Simulate delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const res = await fetch('/api/send-quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          products: items.map((item) => ({
+            name: item.product.name,
+            sku: item.product.sku || '',
+            quantity: item.quantity,
+          })),
+        }),
+      })
 
-    setSubmitted(true)
-    clearQuote()
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to send quote request')
+      }
+
+      setSubmitted(true)
+      clearQuote()
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again.',
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (submitted) {
+    // Auto-redirect to home after 3 seconds
+    setTimeout(() => router.push('/'), 3000)
+
     return (
       <div className='text-center py-12'>
+        <div className='text-5xl mb-4'>✅</div>
         <h2 className='text-2xl font-bold mb-4'>Request Sent!</h2>
         <p className='text-muted-foreground'>
           Thank you for your quote request. We will review it and get back to
           you shortly at {formData.email}.
         </p>
+        <p className='text-sm text-muted-foreground mt-2'>
+          Redirecting to home page...
+        </p>
         <Button
-          onClick={() => setSubmitted(false)}
+          onClick={() => router.push('/')}
           className='mt-6 bg-kerbl-green text-white'
         >
-          Back to Home
+          Go to Home
         </Button>
       </div>
     )
@@ -125,12 +161,19 @@ export function QuoteRequestForm() {
           />
         </div>
 
+        {error && (
+          <div className='bg-destructive/10 text-destructive text-sm p-3 rounded-md'>
+            {error}
+          </div>
+        )}
+
         <Button
           type='submit'
           size='lg'
-          className='w-full bg-kerbl-green hover:bg-kerbl-green-dark text-white'
+          disabled={isLoading}
+          className='w-full bg-kerbl-green hover:bg-kerbl-green-dark text-white disabled:opacity-60'
         >
-          Submit Request
+          {isLoading ? 'Sending...' : 'Submit Request'}
         </Button>
       </form>
     </div>
