@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -32,7 +32,7 @@ import Image from 'next/image'
 import { useQuoteStore } from '@/store/quote-store'
 import { useProductStore } from '@/store/product-store'
 import { ProductMegaMenu } from './ProductMegaMenu'
-import { categories } from '@/components/products/data'
+import { Category } from '@/components/products/types'
 
 export function Navbar() {
   const router = useRouter()
@@ -44,6 +44,36 @@ export function Navbar() {
   const [isProductsHovered, setIsProductsHovered] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false)
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch('/api/categories')
+        if (!res.ok) return
+        const json = await res.json()
+        const cats = (json.data || []).map(
+          (cat: {
+            id: number
+            name: string
+            sub_categories?: { id: number; name: string; slug: string }[]
+          }) => ({
+            id: cat.id,
+            name: cat.name,
+            subcategories: (cat.sub_categories || []).map((sub) => ({
+              id: sub.id,
+              name: sub.name,
+              slug: sub.slug,
+            })),
+          }),
+        )
+        setCategories(cats)
+      } catch {
+        // silently fail
+      }
+    }
+    fetchCategories()
+  }, [])
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -252,16 +282,31 @@ export function Navbar() {
             </div>
             {/* Products Submenu */}
             {isMobileProductsOpen && (
-              <div className='bg-gray-200 p-4 rounded-sm flex flex-col gap-2 shadow-inner'>
+              <div className='bg-gray-200 p-4 rounded-sm flex flex-col gap-3 shadow-inner'>
                 {categories.map((cat) => (
-                  <Link
-                    key={cat.id}
-                    href={`/products?category=${cat.id}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='text-base font-bold text-gray-600 hover:text-primary py-1'
-                  >
-                    {cat.name}
-                  </Link>
+                  <div key={cat.id}>
+                    <span className='text-base font-bold text-gray-700 uppercase tracking-tight'>
+                      {cat.name}
+                    </span>
+                    {cat.subcategories && cat.subcategories.length > 0 && (
+                      <div className='ml-3 mt-1 flex flex-col gap-1'>
+                        {cat.subcategories.map((sub) => (
+                          <button
+                            key={sub.id}
+                            className='text-left text-sm text-gray-500 hover:text-primary py-1'
+                            onClick={() => {
+                              setSearchQuery('')
+                              setSelectedCategoryId(sub.id)
+                              setIsMobileMenuOpen(false)
+                              router.push('/products')
+                            }}
+                          >
+                            {sub.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             )}

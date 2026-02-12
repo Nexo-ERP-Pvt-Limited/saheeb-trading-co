@@ -155,7 +155,7 @@ export function Hero() {
                 </div>
                 <div className='relative'>
                   <Image
-                    src='/images/hero-image-1.jpg'
+                    src='/images/hero-image-01.jpg'
                     alt='Veterinary instruments'
                     fill
                     className='object-cover'
@@ -166,7 +166,7 @@ export function Hero() {
               {/* Mobile */}
               <div className='md:hidden relative h-[200px] w-full'>
                 <Image
-                  src='/images/hero-image-1.jpg'
+                  src='/images/hero-image-01.jpg'
                   alt='Professional instruments'
                   fill
                   className='object-cover'

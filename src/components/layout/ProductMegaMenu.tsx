@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Category } from '@/components/products/types'
+import { useProductStore } from '@/store/product-store'
 import { cn } from '@/lib/utils'
 
 interface ProductMegaMenuProps {
@@ -16,13 +17,22 @@ export function ProductMegaMenu({
   visible,
   onClose,
 }: ProductMegaMenuProps) {
+  const router = useRouter()
+  const { setSelectedCategoryId, setSearchQuery } = useProductStore()
   const [activeCategoryId, setActiveCategoryId] = useState<string | number>(
     categories[0]?.id || '',
   )
 
-  if (!visible) return null
+  if (!visible || categories.length === 0) return null
 
   const activeCategory = categories.find((c) => c.id === activeCategoryId)
+
+  const handleSubcategoryClick = (subId: string | number) => {
+    setSearchQuery('')
+    setSelectedCategoryId(subId)
+    onClose()
+    router.push('/products')
+  }
 
   return (
     <div
@@ -54,50 +64,29 @@ export function ProductMegaMenu({
         {/* Content Area */}
         <div className='w-3/4 p-8 overflow-y-auto bg-white'>
           {activeCategory && (
-            <div className='grid grid-cols-3 gap-8'>
-              {/* NOTE: Since our current data structure only has flat subcategories,
-                  we will display them as a list. In the future, if we have grouped subcategories
-                  like "Calf Rearing" -> [items], we can map them here.
-                  For now, we just list the subcategories.
-              */}
-              <div className='col-span-3'>
-                <h3 className='text-xl font-black text-gray-900 mb-6 uppercase tracking-tight border-b border-gray-100 pb-2'>
-                  {activeCategory.name}
-                </h3>
-              </div>
+            <div>
+              <h3 className='text-xl font-black text-gray-900 mb-6 uppercase tracking-tight border-b border-gray-100 pb-2'>
+                {activeCategory.name}
+              </h3>
 
-              {activeCategory.subcategories?.map((sub) => (
-                <div key={sub.id} className='space-y-4'>
-                  <Link
-                    href={`/products?category=${activeCategory.id}&subcategory=${sub.id}`}
-                    className='block font-bold text-gray-900 hover:text-primary mb-2 text-base'
-                    onClick={onClose}
+              <div className='grid grid-cols-3 gap-x-8 gap-y-3'>
+                {activeCategory.subcategories?.map((sub) => (
+                  <button
+                    key={sub.id}
+                    onClick={() => handleSubcategoryClick(sub.id)}
+                    className='text-left text-sm font-medium text-gray-600 hover:text-primary py-2 px-3 rounded hover:bg-primary/5 transition-colors'
                   >
                     {sub.name}
-                  </Link>
-                  {/* Placeholder for deeper links if they existed */}
-                  <ul className='space-y-1 text-sm text-gray-500'>
-                    <li>
-                      <Link
-                        href={`/products?category=${activeCategory.id}&subcategory=${sub.id}`}
-                        onClick={onClose}
-                        className='hover:text-primary hover:underline'
-                      >
-                        Overview
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href={`/products?category=${activeCategory.id}&subcategory=${sub.id}`}
-                        onClick={onClose}
-                        className='hover:text-primary hover:underline'
-                      >
-                        Top Sellers
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              ))}
+                  </button>
+                ))}
+              </div>
+
+              {(!activeCategory.subcategories ||
+                activeCategory.subcategories.length === 0) && (
+                <p className='text-sm text-gray-400 italic'>
+                  No subcategories available
+                </p>
+              )}
             </div>
           )}
         </div>
