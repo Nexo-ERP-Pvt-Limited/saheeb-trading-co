@@ -52,11 +52,11 @@ export default function QuotePage() {
                             e.currentTarget.parentElement!.classList.add(
                               'flex',
                               'items-center',
-                              'justify-center'
+                              'justify-center',
                             )
                             e.currentTarget.parentElement!.innerHTML = `<span class="text-xl font-bold text-muted-foreground/30">${item.product.name.slice(
                               0,
-                              1
+                              1,
                             )}</span>`
                           }}
                         />
@@ -73,7 +73,7 @@ export default function QuotePage() {
                         {item.product.name}
                       </h3>
                       <p className='text-sm text-muted-foreground mb-1'>
-                        {item.product.id}
+                        SKU: {item.product.sku || '—'}
                       </p>
                       <p className='text-xs text-muted-foreground uppercase'>
                         {item.product.category}
@@ -89,7 +89,7 @@ export default function QuotePage() {
                           onClick={() =>
                             updateQuantity(
                               item.product.id,
-                              Math.max(1, item.quantity - 1)
+                              Math.max(1, item.quantity - 1),
                             )
                           }
                         >

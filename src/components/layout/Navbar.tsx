@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   Search,
@@ -29,16 +30,31 @@ import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 
 import { useQuoteStore } from '@/store/quote-store'
+import { useProductStore } from '@/store/product-store'
 import { ProductMegaMenu } from './ProductMegaMenu'
 import { categories } from '@/components/products/data'
 
 export function Navbar() {
+  const router = useRouter()
   const quoteItems = useQuoteStore((state) => state.items)
   const itemCount = quoteItems.reduce((acc, item) => acc + item.quantity, 0)
+  const { searchQuery, setSearchQuery, setSelectedCategoryId } =
+    useProductStore()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isProductsHovered, setIsProductsHovered] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false)
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      setSelectedCategoryId(undefined)
+      router.push('/products')
+    }
+  }
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') handleSearch()
+  }
 
   return (
     <header className='w-full bg-white font-sans sticky top-0 z-50 shadow-sm relative'>
@@ -177,11 +193,15 @@ export function Navbar() {
             <Input
               type='text'
               placeholder='Search'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
               className='w-full pr-12 h-10 border-0 border-b border-gray-300 focus:border-primary focus:ring-0 rounded-none px-0 text-gray-600 placeholder:text-gray-300 bg-transparent'
             />
             <Button
               size='icon'
               className='absolute right-0 bottom-1 h-8 w-8 rounded-[4px] bg-primary hover:bg-primary/90 text-white shadow-sm'
+              onClick={handleSearch}
             >
               <Search className='h-4 w-4 stroke-[3]' />
             </Button>
@@ -282,11 +302,23 @@ export function Navbar() {
               <Input
                 type='text'
                 placeholder='Search...'
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch()
+                    setIsMobileMenuOpen(false)
+                  }
+                }}
                 className='w-full pr-12 h-10 border-0 border-b border-gray-300 rounded-none px-0 text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0'
               />
               <Button
                 size='icon'
                 className='absolute right-0 bottom-1 h-8 w-8 rounded-[4px] bg-primary hover:bg-primary/90 text-white'
+                onClick={() => {
+                  handleSearch()
+                  setIsMobileMenuOpen(false)
+                }}
               >
                 <Search className='h-4 w-4 stroke-[3]' />
               </Button>
