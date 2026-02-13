@@ -39,7 +39,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href='/#'
+                  href='/exhibitions'
                   className='hover:text-primary transition-colors'
                 >
                   Events
@@ -55,16 +55,22 @@ export function Footer() {
               </li>
             </ul>
             <div className='flex space-x-4 pt-4'>
-              <Link href='#' className='text-gray-400 hover:text-primary'>
-                <Youtube className='h-5 w-5' />
-              </Link>
-              <Link href='#' className='text-gray-400 hover:text-primary'>
+              <Link
+                href='https://www.facebook.com/asaheeb'
+                className='text-gray-400 hover:text-primary'
+              >
                 <Facebook className='h-5 w-5' />
               </Link>
-              <Link href='#' className='text-gray-400 hover:text-primary'>
+              <Link
+                href='https://www.instagram.com/saheeb.co'
+                className='text-gray-400 hover:text-primary'
+              >
                 <Instagram className='h-5 w-5' />
               </Link>
-              <Link href='#' className='text-gray-400 hover:text-primary'>
+              <Link
+                href=' https://pk.linkedin.com/in/saheeb-trading-co-7b0009a3'
+                className='text-gray-400 hover:text-primary'
+              >
                 <Linkedin className='h-5 w-5' />
               </Link>
             </div>

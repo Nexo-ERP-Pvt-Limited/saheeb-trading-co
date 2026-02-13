@@ -204,6 +204,12 @@ export function Navbar() {
             >
               Service
             </Link>
+            <Link
+              href='/exhibitions'
+              className='text-gray-500 font-bold hover:text-primary text-[15px]'
+            >
+              Exhibitions
+            </Link>
             {/* <Link
               href='/guide'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
@@ -325,6 +331,13 @@ export function Navbar() {
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Service
+          </Link>
+          <Link
+            href='/exhibitions'
+            className='text-lg font-bold text-gray-600 hover:text-primary'
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Exhibitions
           </Link>
           <Link
             href='/guide'

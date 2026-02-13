@@ -1,5 +1,5 @@
 import { FadeIn } from '@/components/ui/motion-wrapper'
-import { User } from 'lucide-react'
+import Image from 'next/image'
 
 export function FounderMessageSection() {
   return (
@@ -11,13 +11,15 @@ export function FounderMessageSection() {
           </h2>
 
           <div className='flex flex-col md:flex-row gap-10 items-start'>
-            {/* CEO Image Placeholder */}
+            {/* CEO Image */}
             <div className='shrink-0 mx-auto md:mx-0'>
-              <div className='w-48 h-56 bg-gray-100 border-2 border-gray-200 flex flex-col items-center justify-center'>
-                <User className='h-16 w-16 text-gray-300 mb-2' />
-                <span className='text-xs text-gray-400 uppercase tracking-wider font-bold'>
-                  CEO Photo
-                </span>
+              <div className='w-48 h-56 relative overflow-hidden border-2 border-gray-200'>
+                <Image
+                  src='/images/founder.png'
+                  alt='Abdul Saheeb - Founder & CEO'
+                  fill
+                  className='object-cover'
+                />
               </div>
               <div className='mt-4 text-center'>
                 <h3 className='text-lg font-black text-gray-900 uppercase tracking-tight'>
@@ -33,18 +35,17 @@ export function FounderMessageSection() {
             {/* Mission Message */}
             <div className='flex-1'>
               <p className='text-gray-600 leading-relaxed text-base mb-6'>
-                Our mission at Saheeb Trading is to enrich the lives of our
-                customers by providing them with the highest quality Surgical
-                Instruments, Equipments and Services. We believe that when our
-                customers are satisfied, we have achieved true success.
+                At Saheeb Trading, our mission is to enrich the lives of
+                healthcare and veterinary professionals by delivering surgical
+                instruments, equipment, and services of the highest caliber. We
+                believe that our success is measured solely by the satisfaction
+                and confidence of our customers.
               </p>
               <p className='text-gray-600 leading-relaxed text-base mb-6'>
-                Every day, we strive to exceed expectations, uphold the highest
-                standards of quality, and foster lasting relationships.
-                It&apos;s not just about delivering products; it&apos;s about
-                enhancing the way people live.
-              </p>
-              <p className='text-gray-700 font-semibold italic text-base'>
+                Every day, we strive to exceed global standards and foster
+                lasting partnerships built on reliability. For us, it isn't just
+                about delivering a product; it’s about providing the precision
+                tools that enhance outcomes and empower the hands that use them.
                 Thank you for choosing Saheeb Trading as your trusted partner on
                 this journey.
               </p>
