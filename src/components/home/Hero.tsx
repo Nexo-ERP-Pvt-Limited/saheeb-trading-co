@@ -75,7 +75,7 @@ export function Hero() {
                 {/* Right: Image */}
                 <div className='relative'>
                   <Image
-                    src='/images/hero-image.jpg'
+                    src='/images/hero-image-01.jpg'
                     alt='Premium instruments'
                     fill
                     className='object-cover'
@@ -86,7 +86,7 @@ export function Hero() {
               {/* Mobile Layout: Compact Banner */}
               <div className='md:hidden relative h-[200px] w-full'>
                 <Image
-                  src='/images/hero-image.jpg'
+                  src='/images/hero-image-01.jpg'
                   alt='Premium instruments'
                   fill
                   className='object-cover'
@@ -155,7 +155,7 @@ export function Hero() {
                 </div>
                 <div className='relative'>
                   <Image
-                    src='/images/hero-image-01.jpg'
+                    src='/images/8_banner.jpg'
                     alt='Veterinary instruments'
                     fill
                     className='object-cover'
@@ -166,7 +166,7 @@ export function Hero() {
               {/* Mobile */}
               <div className='md:hidden relative h-[200px] w-full'>
                 <Image
-                  src='/images/hero-image-01.jpg'
+                  src='/images/8_banner.jpg'
                   alt='Professional instruments'
                   fill
                   className='object-cover'

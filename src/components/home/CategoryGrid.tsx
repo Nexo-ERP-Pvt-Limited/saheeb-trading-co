@@ -18,7 +18,7 @@ const categories = [
   {
     title: 'Dental Kits',
     href: '/products?category=dental-kits',
-    image: '/images/categories/dental-kits.webp',
+    image: '/images/categories/15_banner.jpg',
   },
   {
     title: 'Equestrian products',
