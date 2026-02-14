@@ -26,7 +26,7 @@ export function VideoSection() {
             <div className='relative w-full shadow-sm border border-gray-100 rounded-lg overflow-hidden'>
               <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
                 <iframe
-                  src='https://player.vimeo.com/video/1164937276?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&background=1'
+                  src='https://player.vimeo.com/video/1164945669?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1'
                   frameBorder='0'
                   allow='autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share'
                   style={{
@@ -36,7 +36,7 @@ export function VideoSection() {
                     width: '100%',
                     height: '100%',
                   }}
-                  title='Saheeb Trading Manufacturing'
+                  title='Untitled video - Made with Clipchamp'
                 />
               </div>
             </div>

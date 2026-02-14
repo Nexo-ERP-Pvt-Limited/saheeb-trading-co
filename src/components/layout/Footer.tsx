@@ -77,7 +77,7 @@ export function Footer() {
           </div>
 
           {/* Legal Information */}
-          <div>
+          {/* <div>
             <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
               Information
             </h3>

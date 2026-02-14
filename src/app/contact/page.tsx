@@ -66,10 +66,10 @@ export default function ContactPage() {
                   <p>
                     Mail:{' '}
                     <a
-                      href='mailto:info@saheebtrading.com'
+                      href='mailto:Saheebco@gmail.com'
                       className='text-primary font-bold hover:underline'
                     >
-                      info@saheebtrading.com
+                      Saheebco@gmail.com
                     </a>
                   </p>
                 </div>
