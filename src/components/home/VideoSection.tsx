@@ -1,9 +1,6 @@
 'use client'
 
-import { Play, Heart } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { FadeIn } from '@/components/ui/motion-wrapper'
-import { motion } from 'framer-motion'
 
 export function VideoSection() {
   return (
@@ -26,26 +23,21 @@ export function VideoSection() {
           </FadeIn>
 
           <FadeIn delay={0.3}>
-            <div className='relative aspect-video w-full bg-black overflow-hidden group cursor-pointer shadow-sm border border-gray-100'>
-              {/* Video Thumbnail */}
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
-              <div className='absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors' />
-
-              {/* Play Button - Clean Kerbl Style */}
-              <div className='absolute inset-0 flex items-center justify-center'>
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  className='w-20 h-20 md:w-24 md:h-24 bg-primary/90 rounded-full flex items-center justify-center shadow-lg border-4 border-white'
-                >
-                  <Play className='h-10 w-10 text-white fill-white ml-1.5' />
-                </motion.div>
-              </div>
-
-              {/* Overlays */}
-              <div className='absolute top-6 left-6'>
-                <div className='bg-primary text-white px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-sm'>
-                  Saheeb Trading Co
-                </div>
+            <div className='relative w-full shadow-sm border border-gray-100 rounded-lg overflow-hidden'>
+              <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+                <iframe
+                  src='https://player.vimeo.com/video/1164937276?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&background=1'
+                  frameBorder='0'
+                  allow='autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share'
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                  }}
+                  title='Saheeb Trading Manufacturing'
+                />
               </div>
             </div>
           </FadeIn>

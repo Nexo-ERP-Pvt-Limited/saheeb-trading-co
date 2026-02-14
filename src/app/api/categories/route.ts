@@ -9,7 +9,7 @@ export async function GET() {
     // Loop through all Strapi pages to fetch every category
     while (page <= pageCount) {
       const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), 30000)
+      const timeout = setTimeout(() => controller.abort(), 60000)
 
       try {
         const res = await fetch(

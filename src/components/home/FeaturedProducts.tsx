@@ -13,10 +13,10 @@ interface StrapiProduct {
 async function getFeaturedProducts(): Promise<StrapiProduct[]> {
   try {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 30000)
+    const timeout = setTimeout(() => controller.abort(), 60000)
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*&pagination[pageSize]=4&sort=createdAt:desc&filters[image][$notNull]=true`,
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*&filters[sku][$in][0]=J-237&filters[sku][$in][1]=E-023&filters[sku][$in][2]=B-061&filters[sku][$in][3]=A-293`,
       { cache: 'no-store', signal: controller.signal },
     )
     clearTimeout(timeout)
