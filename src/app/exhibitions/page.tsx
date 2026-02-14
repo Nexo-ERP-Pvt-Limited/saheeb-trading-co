@@ -29,7 +29,7 @@ function ExhibitionImage({ src, alt }: { src: string; alt: string }) {
         alt={alt}
         fill
         className='object-cover'
-        sizes='(max-width: 768px) 100vw, 50vw'
+        sizes='(max-width: 768px) 120vw, 100vw'
       />
     </div>
   )
@@ -244,16 +244,12 @@ function EuroTier2018() {
       {/* Gallery — 9 images from EuroTier 2018 */}
       <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mb-8'>
         <ExhibitionImage
-          src='/Exhibitions/2018 Eurotier/2018 Eurotier-03.jpeg'
-          alt='EuroTier 2018 booth showcase'
+          src='/Exhibitions/2018 Eurotier/2018 Eurotier-05.jpeg'
+          alt='EuroTier 2018 exhibition hall'
         />
         <ExhibitionImage
           src='/Exhibitions/2018 Eurotier/2018 Eurotier-04.jpeg'
           alt='EuroTier 2018 instruments'
-        />
-        <ExhibitionImage
-          src='/Exhibitions/2018 Eurotier/2018 Eurotier-05.jpeg'
-          alt='EuroTier 2018 exhibition hall'
         />
         <ExhibitionImage
           src='/Exhibitions/2018 Eurotier/2018 Eurotier-06.jpeg'
@@ -305,7 +301,7 @@ function EuroTier2022() {
           alt='EuroTier 2022 booth'
         />
         <ExhibitionImage
-          src='/Exhibitions/2022 Eurotier/2022 Eurotier-02.jpeg'
+          src='/Exhibitions/2022 Eurotier/2022 Eurotier-03.jpeg'
           alt='EuroTier 2022 display'
         />
       </div>
@@ -368,13 +364,6 @@ function EuroTier2022() {
         </li>
       </ul>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-8'>
-        <ExhibitionImage
-          src='/Exhibitions/2022 Eurotier/2022 Eurotier-03.jpeg'
-          alt='EuroTier 2022 showcase'
-        />
-      </div>
-
       <h3 className='text-xl font-bold text-gray-900 mb-4'>The Takeaway</h3>
       <p className='text-gray-600 leading-relaxed'>
         EuroTier 2022 wasn&apos;t just a trade fair; it was a roadmap for the
@@ -399,10 +388,10 @@ function Ferma2019() {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
-        <ExhibitionImage
+        {/* <ExhibitionImage
           src='/Exhibitions/Poland Ferma 2019/Poland Ferma 2019-01.jpeg'
           alt='Ferma Poland 2019 booth'
-        />
+        /> */}
         <ExhibitionImage
           src='/Exhibitions/Poland Ferma 2019/Poland Ferma 2019-02.jpeg'
           alt='Ferma Poland 2019 display'
@@ -604,12 +593,12 @@ function Ferma2024() {
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
         <ExhibitionImage
-          src='/Exhibitions/2024 Ferma poland/2024 Ferma poland-01.jpeg'
-          alt='Ferma Poland 2024 booth'
-        />
-        <ExhibitionImage
           src='/Exhibitions/2024 Ferma poland/2024 Ferma poland-02.jpeg'
           alt='Ferma Poland 2024 display'
+        />
+        <ExhibitionImage
+          src='/Exhibitions/2024 Ferma poland/2024 Ferma poland-01.jpeg'
+          alt='Ferma Poland 2024 booth'
         />
       </div>
 

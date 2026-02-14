@@ -8,20 +8,29 @@ export async function GET() {
 
     // Loop through all Strapi pages to fetch every category
     while (page <= pageCount) {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories&pagination[page]=${page}&pagination[pageSize]=25`,
-        { cache: 'no-store' },
-      )
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 30000)
 
-      if (!res.ok) {
-        throw new Error(`Strapi API error: ${res.status}`)
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories&pagination[page]=${page}&pagination[pageSize]=25`,
+          { cache: 'no-store', signal: controller.signal },
+        )
+        clearTimeout(timeout)
+
+        if (!res.ok) {
+          throw new Error(`Strapi API error: ${res.status}`)
+        }
+
+        const json = await res.json()
+        allCategories.push(...(json.data || []))
+
+        pageCount = json.meta?.pagination?.pageCount || 1
+        page++
+      } catch (innerError) {
+        clearTimeout(timeout)
+        throw innerError
       }
-
-      const json = await res.json()
-      allCategories.push(...(json.data || []))
-
-      pageCount = json.meta?.pagination?.pageCount || 1
-      page++
     }
 
     return NextResponse.json({ data: allCategories })

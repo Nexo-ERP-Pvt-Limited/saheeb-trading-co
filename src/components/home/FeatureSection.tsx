@@ -16,7 +16,7 @@ interface StrapiProduct {
 async function getFeaturedProducts(): Promise<StrapiProduct[]> {
   try {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 10000)
+    const timeout = setTimeout(() => controller.abort(), 30000)
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*&pagination[pageSize]=4&sort=createdAt:desc&filters[image][$notNull]=true`,
@@ -50,7 +50,7 @@ const latestEvents = [
     title: 'EuroTier 2022',
     summary:
       'Over 1,800 exhibitors from 55 countries showcasing next-gen livestock management.',
-    image: '/Exhibitions/2022 Eurotier/2022 Eurotier-02.jpeg',
+    image: '/Exhibitions/2022 Eurotier/2022 Eurotier-01.jpeg',
     href: '/exhibitions#eurotier-2022',
   },
   {
