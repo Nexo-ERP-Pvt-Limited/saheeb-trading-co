@@ -7,15 +7,20 @@ import { db } from '../../db/index'
 export const dynamic = 'force-dynamic'
 import { products } from '../../db/schema'
 
+const FEATURED_SKUS = ['J-237', 'E-023', 'A-293', 'B-061']
+
 async function getFeaturedProducts() {
   try {
     const allProducts = await db.select().from(products)
-    return allProducts.slice(0, 4).map((p) => ({
-      id: p.id,
-      title: p.title,
-      sku: p.sku,
-      image: p.image,
-    }))
+    // Return products in the exact order defined above
+    return FEATURED_SKUS.map((sku) => allProducts.find((p) => p.sku === sku))
+      .filter(Boolean)
+      .map((p) => ({
+        id: p!.id,
+        title: p!.title,
+        sku: p!.sku,
+        image: p!.image,
+      }))
   } catch {
     return []
   }

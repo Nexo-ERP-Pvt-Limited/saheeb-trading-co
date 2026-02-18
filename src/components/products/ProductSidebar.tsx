@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { Category } from './types'
 import { useState } from 'react'
 import { useProductStore } from '@/store/product-store'
+import Link from 'next/link'
 
 interface ProductSidebarProps {
   categories: Category[]
@@ -80,14 +81,16 @@ export function ProductSidebar({ categories, className }: ProductSidebarProps) {
       </div>
 
       {/* Download Catalog */}
-      <Button
-        variant='outline'
-        className='w-full justify-center gap-2 mt-8 py-6'
-        size='lg'
-      >
-        <Download className='h-4 w-4' />
-        Download Catalog
-      </Button>
+      <Link href='/Download-PDF.pdf' target='_blank'>
+        <Button
+          variant='outline'
+          className='w-full justify-center gap-2 mt-8 py-6'
+          size='lg'
+        >
+          <Download className='h-4 w-4' />
+          Download Catalog
+        </Button>
+      </Link>
     </div>
   )
 }
