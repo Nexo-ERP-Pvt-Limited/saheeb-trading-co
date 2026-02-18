@@ -6,8 +6,10 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { useTranslation } from '@/translations'
 
 export default function ContactPage() {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,7 +34,9 @@ export default function ContactPage() {
       <div className='bg-gray-50 py-16 border-b border-gray-100'>
         <div className='container mx-auto px-4'>
           <h1 className='text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tight'>
-            Contact <span className='text-primary'>Saheeb</span> Trading Co.
+            {t('contact.title1')}{' '}
+            <span className='text-primary'>{t('contact.title2')}</span>{' '}
+            {t('contact.title3')}
           </h1>
           <div className='w-20 h-1 bg-primary mt-4' />
         </div>
@@ -44,7 +48,7 @@ export default function ContactPage() {
           <div className='lg:col-span-1 space-y-12'>
             <div className='space-y-6'>
               <h2 className='text-xs font-black uppercase tracking-[0.2em] text-gray-400'>
-                Headquarters Pakistan
+                {t('contact.headquarters')}
               </h2>
               <address className='not-italic space-y-4 text-sm text-gray-800'>
                 <p className='font-bold text-lg'>Saheeb Trading Co.</p>
@@ -80,10 +84,10 @@ export default function ContactPage() {
                 </div>
                 <div className='text-xs text-gray-600'>
                   <p className='font-bold uppercase tracking-wider mb-1'>
-                    Working Hours
+                    {t('contact.workingHours')}
                   </p>
-                  <p>Mon - Sat: 9:00 AM - 6:00 PM</p>
-                  <p>Sunday: Closed</p>
+                  <p>{t('contact.monSat')}</p>
+                  <p>{t('contact.sunday')}</p>
                 </div>
               </div>
             </div>
@@ -91,7 +95,7 @@ export default function ContactPage() {
             {/* Warehouse & Registrations */}
             <div className='space-y-6 pt-12 border-t border-gray-100'>
               <h2 className='text-xs font-black uppercase tracking-[0.2em] text-gray-400'>
-                Warehouse & Registrations
+                {t('contact.warehouseRegistrations')}
               </h2>
               <div className='text-sm text-gray-800 space-y-4'>
                 <div className='flex gap-4'>
@@ -100,7 +104,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className='font-bold uppercase tracking-wider text-[10px] text-gray-500 mb-1'>
-                      Address Warehouse
+                      {t('contact.addressWarehouse')}
                     </p>
                     <p className='font-medium'>
                       9 km Cahbbil Pur Daska Road Sialkot-Pakistan
@@ -136,12 +140,12 @@ export default function ContactPage() {
             {/* Memberships */}
             <div className='space-y-6 pt-12 border-t border-gray-100'>
               <h2 className='text-xs font-black uppercase tracking-[0.2em] text-gray-400'>
-                Memberships
+                {t('contact.memberships')}
               </h2>
               <div className='space-y-5 text-sm text-gray-800'>
                 <div>
                   <p className='font-black uppercase text-[10px] text-gray-500 mb-1 tracking-wider'>
-                    Member of Surgical Association
+                    {t('contact.memberSurgical')}
                   </p>
                   <p className='font-medium'>
                     Member Id S023 /{' '}
@@ -157,7 +161,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className='font-black uppercase text-[10px] text-gray-500 mb-1 tracking-wider'>
-                    Member of Sialkot Chamber of Commerce
+                    {t('contact.memberChamber')}
                   </p>
                   <p className='font-medium'>
                     Member ID :A-03066 /{' '}
@@ -173,7 +177,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className='font-black uppercase text-[10px] text-gray-500 mb-1 tracking-wider'>
-                    Director for SIAL International
+                    {t('contact.directorSial')}
                   </p>
                   <p className='font-medium'>
                     Member ID 339 /{' '}
@@ -194,23 +198,25 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className='lg:col-span-2 bg-gray-50 p-8 md:p-12'>
             <h2 className='text-3xl font-black text-gray-900 mb-8 uppercase tracking-tight'>
-              Send us a <span className='text-primary'>Message</span>
+              {t('contact.sendMessage')}{' '}
+              <span className='text-primary'>
+                {t('contact.sendMessageHighlight')}
+              </span>
             </h2>
 
             {submitted ? (
               <div className='bg-white shadow-sm border border-primary/20 p-8 rounded-none text-center'>
                 <h3 className='font-black text-xl mb-4 text-primary uppercase'>
-                  Message Sent Successfully!
+                  {t('contact.messageSent')}
                 </h3>
                 <p className='text-gray-600 mb-6'>
-                  Thank you for your inquiry. Our team will get back to you
-                  shortly.
+                  {t('contact.messageSentDesc')}
                 </p>
                 <Button
                   className='bg-primary text-white hover:bg-primary/90 font-bold px-8 py-6 rounded-none uppercase'
                   onClick={() => setSubmitted(false)}
                 >
-                  Send Another Message
+                  {t('contact.sendAnother')}
                 </Button>
               </div>
             ) : (
@@ -223,7 +229,7 @@ export default function ContactPage() {
                     htmlFor='name'
                     className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
                   >
-                    Full Name *
+                    {t('contact.fullName')}
                   </Label>
                   <Input
                     id='name'
@@ -240,7 +246,7 @@ export default function ContactPage() {
                     htmlFor='email'
                     className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
                   >
-                    Email Address *
+                    {t('contact.emailAddress')}
                   </Label>
                   <Input
                     id='email'
@@ -258,7 +264,7 @@ export default function ContactPage() {
                     htmlFor='subject'
                     className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
                   >
-                    Subject
+                    {t('contact.subject')}
                   </Label>
                   <Input
                     id='subject'
@@ -274,7 +280,7 @@ export default function ContactPage() {
                     htmlFor='message'
                     className='font-bold uppercase text-[10px] tracking-widest text-gray-500'
                   >
-                    Message *
+                    {t('contact.message')}
                   </Label>
                   <Textarea
                     id='message'
@@ -294,7 +300,7 @@ export default function ContactPage() {
                     className='w-full md:w-auto bg-primary hover:bg-primary/95 text-white font-black px-12 py-7 rounded-none uppercase tracking-widest transition-all'
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Sending...' : 'Send Message!'}
+                    {isSubmitting ? t('contact.sending') : t('contact.sendBtn')}
                   </Button>
                 </div>
               </form>

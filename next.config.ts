@@ -8,13 +8,8 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '1337',
-      },
-      {
         protocol: 'https',
-        hostname: 'tidy-chicken-406baf619d.media.strapiapp.com',
+        hostname: 'res.cloudinary.com',
       },
     ],
   },

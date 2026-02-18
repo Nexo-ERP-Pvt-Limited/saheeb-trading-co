@@ -17,9 +17,11 @@ import {
   Globe,
   Send,
 } from 'lucide-react'
+import { useTranslation } from '@/translations'
 
 export default function OEMServicesPage() {
   const router = useRouter()
+  const { t } = useTranslation()
   const formRef = useRef<HTMLDivElement>(null)
   const [showForm, setShowForm] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -76,27 +78,23 @@ export default function OEMServicesPage() {
 
   const services = [
     {
-      title: 'Custom Design',
-      description:
-        'We can create entirely new products based on your technical drawings or samples using our in-house die making capabilities.',
+      title: t('services.customDesign'),
+      description: t('services.customDesignDesc'),
       icon: <PenTool className='h-10 w-10 text-primary' />,
     },
     {
-      title: 'Imprinting & Marking',
-      description:
-        'High-precision laser etching of your logo, brand name, and SKU numbers directly onto the steel.',
+      title: t('services.imprinting'),
+      description: t('services.imprintingDesc'),
       icon: <Printer className='h-10 w-10 text-primary' />,
     },
     {
-      title: 'Custom Packaging',
-      description:
-        'Blister packs, pouches, leather kits, or boxes designed with your branding and colors.',
+      title: t('services.packaging'),
+      description: t('services.packagingDesc'),
       icon: <Package className='h-10 w-10 text-primary' />,
     },
     {
-      title: 'Global Logistics',
-      description:
-        'From palletized shipments to direct warehouse deliveries, we ensure smooth and reliable fulfillment worldwide.',
+      title: t('services.logistics'),
+      description: t('services.logisticsDesc'),
       icon: <Truck className='h-10 w-10 text-primary' />,
     },
   ]
@@ -104,26 +102,26 @@ export default function OEMServicesPage() {
   const steps = [
     {
       number: '1',
-      title: 'Consultation',
-      description: 'Discuss requirements',
+      title: t('services.step1'),
+      description: t('services.step1Desc'),
       icon: <MessageSquare className='h-6 w-6' />,
     },
     {
       number: '2',
-      title: 'Sampling',
-      description: 'Approve prototype',
+      title: t('services.step2'),
+      description: t('services.step2Desc'),
       icon: <ClipboardCheck className='h-6 w-6' />,
     },
     {
       number: '3',
-      title: 'Production',
-      description: 'Manufacturing',
+      title: t('services.step3'),
+      description: t('services.step3Desc'),
       icon: <Factory className='h-6 w-6' />,
     },
     {
       number: '4',
-      title: 'Delivery',
-      description: 'Global shipping',
+      title: t('services.step4'),
+      description: t('services.step4Desc'),
       icon: <Globe className='h-6 w-6' />,
     },
   ]
@@ -134,7 +132,9 @@ export default function OEMServicesPage() {
       <div className='bg-gray-50 py-16 border-b border-gray-100'>
         <div className='container mx-auto px-4'>
           <h1 className='text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tight'>
-            Our <span className='text-primary'>Services</span> & Solutions
+            {t('services.title1')}{' '}
+            <span className='text-primary'>{t('services.title2')}</span>{' '}
+            {t('services.title3')}
           </h1>
           <div className='w-20 h-1 bg-primary mt-4' />
         </div>
@@ -143,9 +143,7 @@ export default function OEMServicesPage() {
       <section className='py-20'>
         <div className='container mx-auto px-4 max-w-5xl'>
           <p className='text-xl text-gray-600 leading-relaxed mb-12 text-center'>
-            We provide complete OEM/ODM support, offering imprinting and
-            specialized branding solutions for customers seeking to enhance
-            their market presence.
+            {t('services.intro')}
           </p>
 
           <div className='grid md:grid-cols-2 gap-12'>
@@ -176,7 +174,10 @@ export default function OEMServicesPage() {
         <div className='container mx-auto px-4'>
           <div className='text-center mb-16'>
             <h2 className='text-3xl md:text-4xl font-black text-gray-900 mb-4 uppercase tracking-tight'>
-              Manufacturing <span className='text-primary'>Process</span>
+              {t('services.processTitle1')}{' '}
+              <span className='text-primary'>
+                {t('services.processTitle2')}
+              </span>
             </h2>
             <div className='h-1 w-20 bg-primary mx-auto'></div>
           </div>
@@ -205,14 +206,14 @@ export default function OEMServicesPage() {
       {/* CTA Section */}
       <section className='py-20 text-center container mx-auto px-4'>
         <h2 className='text-3xl font-black text-gray-900 mb-6 uppercase tracking-tight'>
-          Ready to start your project?
+          {t('services.readyToStart')}
         </h2>
         <Button
           size='lg'
           className='bg-primary hover:bg-primary/95 text-white font-black px-12 py-8 text-lg rounded-none uppercase tracking-widest'
           onClick={handleContactClick}
         >
-          Contact Our Team
+          {t('services.contactTeam')}
         </Button>
       </section>
 
@@ -224,38 +225,43 @@ export default function OEMServicesPage() {
               {submitted ? (
                 <div className='text-center py-12'>
                   <div className='text-5xl mb-4'>✅</div>
-                  <h2 className='text-2xl font-bold mb-4'>Request Sent!</h2>
+                  <h2 className='text-2xl font-bold mb-4'>
+                    {t('services.requestSent')}
+                  </h2>
                   <p className='text-muted-foreground'>
-                    Thank you for your inquiry. We will review it and get back
-                    to you shortly at {formData.email}.
+                    {t('services.requestSentDesc')} {formData.email}.
                   </p>
                   <p className='text-sm text-muted-foreground mt-2'>
-                    Redirecting to home page...
+                    {t('services.redirecting')}
                   </p>
                   <Button
                     onClick={() => router.push('/')}
                     className='mt-6 bg-primary text-white'
                   >
-                    Go to Home
+                    {t('services.goHome')}
                   </Button>
                 </div>
               ) : (
                 <>
                   <div className='mb-8'>
                     <h2 className='text-2xl font-black text-gray-900 uppercase tracking-tight'>
-                      Get in <span className='text-primary'>Touch</span>
+                      {t('services.getInTouch1')}{' '}
+                      <span className='text-primary'>
+                        {t('services.getInTouch2')}
+                      </span>
                     </h2>
                     <div className='w-12 h-1 bg-primary mt-3' />
                     <p className='text-gray-500 mt-4 text-sm'>
-                      Fill in the form below and our team will get back to you
-                      within 24 hours.
+                      {t('services.formDescription')}
                     </p>
                   </div>
 
                   <form onSubmit={handleSubmit} className='space-y-5'>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                       <div className='space-y-2'>
-                        <Label htmlFor='service-name'>Full Name *</Label>
+                        <Label htmlFor='service-name'>
+                          {t('services.fullName')}
+                        </Label>
                         <Input
                           id='service-name'
                           required
@@ -266,7 +272,9 @@ export default function OEMServicesPage() {
                         />
                       </div>
                       <div className='space-y-2'>
-                        <Label htmlFor='service-email'>Email *</Label>
+                        <Label htmlFor='service-email'>
+                          {t('services.email')}
+                        </Label>
                         <Input
                           id='service-email'
                           type='email'
@@ -278,7 +286,9 @@ export default function OEMServicesPage() {
                         />
                       </div>
                       <div className='space-y-2'>
-                        <Label htmlFor='service-phone'>Phone *</Label>
+                        <Label htmlFor='service-phone'>
+                          {t('services.phone')}
+                        </Label>
                         <Input
                           id='service-phone'
                           type='tel'
@@ -290,7 +300,9 @@ export default function OEMServicesPage() {
                         />
                       </div>
                       <div className='space-y-2'>
-                        <Label htmlFor='service-company'>Company</Label>
+                        <Label htmlFor='service-company'>
+                          {t('services.company')}
+                        </Label>
                         <Input
                           id='service-company'
                           value={formData.company}
@@ -305,7 +317,9 @@ export default function OEMServicesPage() {
                     </div>
 
                     <div className='space-y-2'>
-                      <Label htmlFor='service-address'>Address *</Label>
+                      <Label htmlFor='service-address'>
+                        {t('services.address')}
+                      </Label>
                       <Input
                         id='service-address'
                         required
@@ -318,12 +332,12 @@ export default function OEMServicesPage() {
 
                     <div className='space-y-2'>
                       <Label htmlFor='service-message'>
-                        Tell us about your project (Optional)
+                        {t('services.projectMessage')}
                       </Label>
                       <Textarea
                         id='service-message'
                         rows={4}
-                        placeholder='Describe your requirements, quantities, branding needs...'
+                        placeholder={t('services.projectPlaceholder')}
                         value={formData.message}
                         onChange={(e) =>
                           setFormData({ ...formData, message: e.target.value })
@@ -344,7 +358,9 @@ export default function OEMServicesPage() {
                       className='w-full bg-primary hover:bg-primary/95 text-white font-bold disabled:opacity-60'
                     >
                       <Send className='h-4 w-4 mr-2' />
-                      {isLoading ? 'Sending...' : 'Submit Request'}
+                      {isLoading
+                        ? t('services.submitting')
+                        : t('services.submitRequest')}
                     </Button>
                   </form>
                 </>

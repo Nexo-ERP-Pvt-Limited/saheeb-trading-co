@@ -3,29 +3,32 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useTranslation } from '@/translations'
+import type { TranslationKey } from '@/translations'
 
-const categories = [
-  {
-    title: 'Surgical Instruments',
-    href: '/products?category=surgical-instruments',
-    image: '/images/categories/surgical-instruments.jpg',
-  },
-  {
-    title: 'Veterinary Tools',
-    href: '/products?category=veterinary-tools',
-    image: '/images/categories/veterinary-tools.webp',
-  },
-  {
-    title: 'Dental Kits',
-    href: '/products?category=dental-kits',
-    image: '/images/categories/15_banner.jpg',
-  },
-  {
-    title: 'Equestrian products',
-    href: '/products?category=equestrian-products',
-    image: '/images/categories/equestrian-products.webp',
-  },
-]
+const categories: { titleKey: TranslationKey; href: string; image: string }[] =
+  [
+    {
+      titleKey: 'category.surgical',
+      href: '/products?category=surgical-instruments',
+      image: '/images/categories/surgical-instruments.jpg',
+    },
+    {
+      titleKey: 'category.veterinary',
+      href: '/products?category=veterinary-tools',
+      image: '/images/categories/veterinary-tools.webp',
+    },
+    {
+      titleKey: 'category.dental',
+      href: '/products?category=dental-kits',
+      image: '/images/categories/15_banner.jpg',
+    },
+    {
+      titleKey: 'category.equestrian',
+      href: '/products?category=equestrian-products',
+      image: '/images/categories/equestrian-products.webp',
+    },
+  ]
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -49,6 +52,8 @@ const itemVariants = {
 }
 
 export function CategoryGrid() {
+  const { t } = useTranslation()
+
   return (
     <section className='container mx-auto px-3 mb-20'>
       {/* Desktop: 4 columns, Mobile: 2 columns */}
@@ -68,7 +73,7 @@ export function CategoryGrid() {
               {/* Green Header */}
               <div className='bg-primary py-3 px-3 mx-1'>
                 <h3 className='text-white text-sm font-bold leading-tight'>
-                  {category.title}
+                  {t(category.titleKey)}
                 </h3>
               </div>
 
@@ -76,7 +81,7 @@ export function CategoryGrid() {
               <div className='relative h-28 md:h-32 lg:h-36 bg-gray-100 overflow-hidden mx-1'>
                 <Image
                   src={category.image}
-                  alt={category.title}
+                  alt={t(category.titleKey)}
                   fill
                   className='object-cover group-hover:scale-105 transition-transform duration-500'
                 />

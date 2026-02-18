@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import {
   Facebook,
@@ -11,8 +13,11 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 import Image from 'next/image'
+import { useTranslation } from '@/translations'
 
 export function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className='bg-[#f8f9fa] pt-16 pb-12 border-t border-gray-200 mt-auto font-sans text-[#212529]'>
       <div className='container mx-auto px-4'>
@@ -34,7 +39,7 @@ export function Footer() {
                   href='/#'
                   className='hover:text-primary transition-colors'
                 >
-                  Flip-catalogue
+                  {t('footer.flipCatalogue')}
                 </Link>
               </li>
               <li>
@@ -42,7 +47,7 @@ export function Footer() {
                   href='/exhibitions'
                   className='hover:text-primary transition-colors'
                 >
-                  Events
+                  {t('footer.events')}
                 </Link>
               </li>
               <li>
@@ -50,7 +55,7 @@ export function Footer() {
                   href='/#'
                   className='hover:text-primary transition-colors'
                 >
-                  Newsletter
+                  {t('footer.newsletter')}
                 </Link>
               </li>
             </ul>
@@ -76,37 +81,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Legal Information */}
-          {/* <div>
-            <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
-              Information
-            </h3>
-            <ul className='space-y-3 text-sm'>
-              <li>
-                <Link href='#' className='hover:text-primary transition-colors'>
-                  Terms
-                </Link>
-              </li>
-              <li>
-                <Link href='#' className='hover:text-primary transition-colors'>
-                  Privacy policy
-                </Link>
-              </li>
-              <li>
-                <Link href='#' className='hover:text-primary transition-colors'>
-                  Cookie settings
-                </Link>
-              </li>
-              <li>
-                <Link href='#' className='hover:text-primary transition-colors'>
-                  Legal notice
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Contact 1 */}
-          <div>
+          {/* <div>
             <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
               Contact Pakistan
             </h3>
@@ -130,15 +106,15 @@ export function Footer() {
                 </a>
               </div>
             </address>
-          </div>
+          </div> */}
         </div>
 
         <Separator className='mb-8' />
 
         <div className='flex flex-col md:flex-row justify-between items-center text-xs text-gray-500'>
           <p>
-            &copy; {new Date().getFullYear()} Saheeb Trading Co. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} Saheeb Trading Co.{' '}
+            {t('footer.allRightsReserved')}
           </p>
           <div className='flex space-x-4 mt-4 md:mt-0'>
             <Link
@@ -147,7 +123,7 @@ export function Footer() {
               rel='noopener noreferrer'
               className='hover:text-kerbl-green transition-colors'
             >
-              Made with ❤️ by Nexo 4 ERP
+              {t('footer.madeWith')}
             </Link>
           </div>
         </div>

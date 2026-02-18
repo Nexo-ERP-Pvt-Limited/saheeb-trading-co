@@ -1,43 +1,59 @@
-import { NextResponse } from 'next/server'
+import { db } from '../../../../db/index'
+import { categories, subCategories } from '../../../../db/schema'
+import { eq } from 'drizzle-orm'
 
 export async function GET() {
   try {
-    const allCategories: unknown[] = []
-    let page = 1
-    let pageCount = 1
+    const allCategories = await db.select().from(categories)
+    const allSubCategories = await db.select().from(subCategories)
 
-    // Loop through all Strapi pages to fetch every category
-    while (page <= pageCount) {
-      const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), 60000)
+    const data = allCategories.map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      slug: cat.slug,
+      subcategories: allSubCategories
+        .filter((sub) => sub.categoryId === cat.id)
+        .map((sub) => ({
+          id: sub.id,
+          name: sub.name,
+          slug: sub.slug,
+        })),
+    }))
 
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories&pagination[page]=${page}&pagination[pageSize]=25`,
-          { cache: 'no-store', signal: controller.signal },
-        )
-        clearTimeout(timeout)
-
-        if (!res.ok) {
-          throw new Error(`Strapi API error: ${res.status}`)
-        }
-
-        const json = await res.json()
-        allCategories.push(...(json.data || []))
-
-        pageCount = json.meta?.pagination?.pageCount || 1
-        page++
-      } catch (innerError) {
-        clearTimeout(timeout)
-        throw innerError
-      }
-    }
-
-    return NextResponse.json({ data: allCategories })
+    return Response.json({ data })
   } catch (error) {
     console.error('Error fetching categories:', error)
-    return NextResponse.json(
+    return Response.json(
       { error: 'Failed to fetch categories' },
+      { status: 500 },
+    )
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json()
+    const { name } = body
+
+    if (!name) {
+      return Response.json({ error: 'name is required' }, { status: 400 })
+    }
+
+    const slug = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+
+    const [created] = await db
+      .insert(categories)
+      .values({ name, slug })
+      .returning()
+
+    return Response.json({ data: created })
+  } catch (error) {
+    console.error('Error creating category:', error)
+    return Response.json(
+      { error: 'Failed to create category' },
       { status: 500 },
     )
   }

@@ -14,8 +14,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import { useTranslation } from '@/translations'
 
 export function Hero() {
+  const { t } = useTranslation()
+
   const plugin = React.useRef(
     Autoplay({
       delay: 4000,
@@ -49,24 +52,22 @@ export function Hero() {
                   >
                     {/* Tagline */}
                     <p className='text-sm lg:text-base font-bold text-gray-700 mb-4'>
-                      Quality, precision, and strength
+                      {t('hero.slide1.tagline')}
                     </p>
                     {/* Main Heading */}
                     <h1 className='text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-6'>
-                      Premium
+                      {t('hero.slide1.heading1')}
                       <br />
-                      instruments
+                      {t('hero.slide1.heading2')}
                     </h1>
                     {/* Description */}
                     <p className='text-base lg:text-lg text-gray-600 mb-8 leading-relaxed'>
-                      Our premium-quality instruments are backed by a lifetime
-                      warranty, giving you peace of mind for the life of your
-                      instruments.
+                      {t('hero.slide1.description')}
                     </p>
                     {/* CTA Button */}
                     <Link href='/products'>
                       <button className='bg-kerbl-yellow text-gray-900 font-medium px-8 py-3 rounded-full shadow-sm hover:shadow-md transition-shadow'>
-                        Learn more
+                        {t('hero.slide1.cta')}
                       </button>
                     </Link>
                   </motion.div>
@@ -100,17 +101,17 @@ export function Hero() {
                     className='max-w-[200px]'
                   >
                     <h2 className='text-2xl font-black italic text-kerbl-yellow uppercase leading-tight'>
-                      Premium instruments
+                      {t('hero.slide1.mobileHeading')}
                     </h2>
                     <p className='text-sm text-white mt-1'>
-                      Lifetime warranty on all our premium instruments.
+                      {t('hero.slide1.mobileDescription')}
                     </p>
                     <Button
                       asChild
                       size='sm'
                       className='bg-kerbl-yellow hover:bg-kerbl-yellow/90 text-black font-bold text-xs px-4 py-2 mt-3 rounded-none'
                     >
-                      <Link href='/products'>Discover the full range now!</Link>
+                      <Link href='/products'>{t('hero.slide1.mobileCta')}</Link>
                     </Button>
                   </motion.div>
                 </div>
@@ -132,23 +133,22 @@ export function Hero() {
                   >
                     {/* Tagline */}
                     <p className='text-sm lg:text-base font-bold text-gray-700 mb-4'>
-                      Since 1976
+                      {t('hero.slide2.tagline')}
                     </p>
                     {/* Main Heading */}
                     <h1 className='text-4xl lg:text-5xl xl:text-6xl font-bold text-black leading-tight mb-6'>
-                      Veterinary
+                      {t('hero.slide2.heading1')}
                       <br />
-                      excellence
+                      {t('hero.slide2.heading2')}
                     </h1>
                     {/* Description */}
                     <p className='text-base lg:text-lg text-black/80 mb-8 leading-relaxed'>
-                      Professional instruments crafted with precision for
-                      veterinary care and animal welfare.
+                      {t('hero.slide2.description')}
                     </p>
                     {/* CTA Button */}
                     <Link href='/products'>
                       <button className='bg-kerbl-yellow text-gray-900 font-medium px-8 py-3 rounded-full shadow-sm hover:shadow-md transition-shadow'>
-                        Explore range
+                        {t('hero.slide2.cta')}
                       </button>
                     </Link>
                   </motion.div>
@@ -180,17 +180,17 @@ export function Hero() {
                     className='max-w-[200px]'
                   >
                     <h2 className='text-2xl font-black italic text-kerbl-yellow uppercase leading-tight'>
-                      Professional Tools
+                      {t('hero.slide2.mobileHeading')}
                     </h2>
                     <p className='text-sm text-white mt-1'>
-                      Precision instruments for veterinary care
+                      {t('hero.slide2.mobileDescription')}
                     </p>
                     <Button
                       asChild
                       size='sm'
                       className='bg-kerbl-yellow hover:bg-kerbl-yellow/90 text-black font-bold text-xs px-4 py-2 mt-3 rounded-none'
                     >
-                      <Link href='/products'>Explore now!</Link>
+                      <Link href='/products'>{t('hero.slide2.mobileCta')}</Link>
                     </Button>
                   </motion.div>
                 </div>

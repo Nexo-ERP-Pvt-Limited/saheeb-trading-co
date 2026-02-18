@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -31,8 +31,15 @@ import Image from 'next/image'
 
 import { useQuoteStore } from '@/store/quote-store'
 import { useProductStore } from '@/store/product-store'
+import { useLanguageStore, type Locale } from '@/store/language-store'
+import { useTranslation } from '@/translations'
 import { ProductMegaMenu } from './ProductMegaMenu'
 import { Category } from '@/components/products/types'
+
+const languageOptions: { code: Locale; label: string }[] = [
+  { code: 'en', label: 'English' },
+  { code: 'de', label: 'Deutsch' },
+]
 
 export function Navbar() {
   const router = useRouter()
@@ -40,11 +47,27 @@ export function Navbar() {
   const itemCount = quoteItems.reduce((acc, item) => acc + item.quantity, 0)
   const { searchQuery, setSearchQuery, setSelectedCategoryId } =
     useProductStore()
+  const { locale, setLocale } = useLanguageStore()
+  const { t } = useTranslation()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isProductsHovered, setIsProductsHovered] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
+  const [isLangOpen, setIsLangOpen] = useState(false)
+  const [isMobileLangOpen, setIsMobileLangOpen] = useState(false)
+  const langRef = useRef<HTMLDivElement>(null)
+
+  // Close language dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setIsLangOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   useEffect(() => {
     async function fetchCategories() {
@@ -52,22 +75,7 @@ export function Navbar() {
         const res = await fetch('/api/categories')
         if (!res.ok) return
         const json = await res.json()
-        const cats = (json.data || []).map(
-          (cat: {
-            id: number
-            name: string
-            sub_categories?: { id: number; name: string; slug: string }[]
-          }) => ({
-            id: cat.id,
-            name: cat.name,
-            subcategories: (cat.sub_categories || []).map((sub) => ({
-              id: sub.id,
-              name: sub.name,
-              slug: sub.slug,
-            })),
-          }),
-        )
-        setCategories(cats)
+        setCategories(json.data || [])
       } catch {
         // silently fail
       }
@@ -86,14 +94,38 @@ export function Navbar() {
     if (e.key === 'Enter') handleSearch()
   }
 
+  const currentLangLabel =
+    languageOptions.find((l) => l.code === locale)?.label ?? 'English'
+
   return (
     <header className='w-full bg-white font-sans sticky top-0 z-50 shadow-sm relative'>
       {/* Mobile Top Bar */}
       <div className='md:hidden flex justify-end items-center bg-gray-100 px-4 py-2 text-xs border-b border-gray-200 gap-4'>
-        {/* Language Selector (Mock) */}
-        <div className='flex items-center gap-1 text-gray-600'>
-          <span>English</span>
-          <span className='text-[10px]'>▼</span>
+        {/* Language Selector (Mobile) */}
+        <div className='relative'>
+          <div
+            className='flex items-center gap-1 text-gray-600 cursor-pointer'
+            onClick={() => setIsMobileLangOpen(!isMobileLangOpen)}
+          >
+            <span>{currentLangLabel}</span>
+            <span className='text-[10px]'>▼</span>
+          </div>
+          {isMobileLangOpen && (
+            <div className='absolute top-full right-0 mt-1 bg-white border border-gray-200 shadow-lg rounded-sm z-50 min-w-[100px]'>
+              {languageOptions.map((lang) => (
+                <button
+                  key={lang.code}
+                  className={`block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 transition-colors ${locale === lang.code ? 'text-primary font-bold' : 'text-gray-600'}`}
+                  onClick={() => {
+                    setLocale(lang.code)
+                    setIsMobileLangOpen(false)
+                  }}
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         {/* Retailer Shop Link */}
         <Link
@@ -101,7 +133,7 @@ export function Navbar() {
           className='flex items-center gap-2 text-kerbl-green font-bold'
         >
           <ShoppingCart className='h-3 w-3' />
-          <span>Retailer Shop</span>
+          <span>{t('nav.retailerShop')}</span>
         </Link>
       </div>
 
@@ -136,12 +168,35 @@ export function Navbar() {
 
           {/* Desktop Utilities */}
           <div className='hidden md:flex items-center gap-8'>
-            {/* Language Selector */}
-            <div className='bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-sm flex items-center gap-2 cursor-pointer transition-colors border border-gray-200'>
-              <span className='text-sm text-gray-700 font-medium'>English</span>
-              <div className='h-3 w-3 flex items-center justify-center text-gray-500 text-[10px]'>
-                ▼
+            {/* Language Selector (Desktop) */}
+            <div className='relative' ref={langRef}>
+              <div
+                className='bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-sm flex items-center gap-2 cursor-pointer transition-colors border border-gray-200'
+                onClick={() => setIsLangOpen(!isLangOpen)}
+              >
+                <span className='text-sm text-gray-700 font-medium'>
+                  {currentLangLabel}
+                </span>
+                <div className='h-3 w-3 flex items-center justify-center text-gray-500 text-[10px]'>
+                  ▼
+                </div>
               </div>
+              {isLangOpen && (
+                <div className='absolute top-full left-0 mt-1 bg-white border border-gray-200 shadow-lg rounded-sm z-50 min-w-[120px]'>
+                  {languageOptions.map((lang) => (
+                    <button
+                      key={lang.code}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${locale === lang.code ? 'text-primary font-bold' : 'text-gray-700'}`}
+                      onClick={() => {
+                        setLocale(lang.code)
+                        setIsLangOpen(false)
+                      }}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* OEM Services */}
@@ -149,7 +204,7 @@ export function Navbar() {
               href='/services'
               className='text-kerbl-green font-bold text-sm hover:opacity-80 transition-opacity'
             >
-              OEM Services
+              {t('nav.oemServices')}
             </Link>
 
             {/* Retailer Shop */}
@@ -158,7 +213,7 @@ export function Navbar() {
               className='flex items-center gap-2 text-kerbl-green font-bold text-sm hover:opacity-80 transition-opacity'
             >
               <ShoppingCart className='h-5 w-5' />
-              <span>Retailer Shop</span>
+              <span>{t('nav.retailerShop')}</span>
               {itemCount > 0 && (
                 <span className='bg-kerbl-yellow text-black text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold ml-[-4px] mb-4'>
                   {itemCount}
@@ -176,7 +231,7 @@ export function Navbar() {
               href='/'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
             >
-              Home
+              {t('nav.home')}
             </Link>
 
             {/* Mega Menu Trigger */}
@@ -185,7 +240,7 @@ export function Navbar() {
               onMouseEnter={() => setIsProductsHovered(true)}
               onMouseLeave={() => setIsProductsHovered(false)}
             >
-              <Link href='/products'>Products</Link>
+              <Link href='/products'>{t('nav.products')}</Link>
               <span className='text-[10px]'>▼</span>
 
               {/* Invisible bridge to prevent closing when moving mouse to menu */}
@@ -196,25 +251,25 @@ export function Navbar() {
               href='/about'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
             >
-              About us
+              {t('nav.about')}
             </Link>
             <Link
               href='/services'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
             >
-              Service
+              {t('nav.service')}
             </Link>
             <Link
               href='/exhibitions'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
             >
-              Exhibitions
+              {t('nav.exhibitions')}
             </Link>
             <Link
               href='/contact'
               className='text-gray-500 font-bold hover:text-primary text-[15px]'
             >
-              Contact
+              {t('nav.contact')}
             </Link>
           </nav>
 
@@ -222,7 +277,7 @@ export function Navbar() {
           <div className='relative w-72 group'>
             <Input
               type='text'
-              placeholder='Search'
+              placeholder={t('nav.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyDown}
@@ -263,7 +318,7 @@ export function Navbar() {
             className='text-lg font-bold text-gray-600 hover:text-primary'
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Home
+            {t('nav.home')}
           </Link>
 
           <div className='flex flex-col gap-2'>
@@ -271,7 +326,7 @@ export function Navbar() {
               className='flex items-center gap-1 text-lg font-bold text-gray-600 hover:text-primary cursor-pointer'
               onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
             >
-              <span>Products</span>
+              <span>{t('nav.products')}</span>
               <span
                 className={`text-[10px] transform transition-transform ${
                   isMobileProductsOpen ? 'rotate-180' : ''
@@ -317,36 +372,36 @@ export function Navbar() {
             className='text-lg font-bold text-gray-600 hover:text-primary'
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            About us
+            {t('nav.about')}
           </Link>
           <Link
             href='/services'
             className='text-lg font-bold text-gray-600 hover:text-primary'
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Service
+            {t('nav.service')}
           </Link>
           <Link
             href='/exhibitions'
             className='text-lg font-bold text-gray-600 hover:text-primary'
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Exhibitions
+            {t('nav.exhibitions')}
           </Link>
           <Link
             href='/contact'
             className='text-lg font-bold text-gray-600 hover:text-primary'
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Contact
+            {t('nav.contact')}
           </Link>
 
           <div className='mt-4 pb-8'>
-            <h4 className='text-sm text-gray-400 mb-2'>Search</h4>
+            <h4 className='text-sm text-gray-400 mb-2'>{t('nav.search')}</h4>
             <div className='relative w-full group'>
               <Input
                 type='text'
-                placeholder='Search...'
+                placeholder={t('nav.searchMobilePlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {

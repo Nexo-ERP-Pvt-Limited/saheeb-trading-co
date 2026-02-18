@@ -1,5 +1,6 @@
-import { ProductsClient } from './ProductsClient'
-import type { Category, Product } from '@/components/products/types'
+import { db } from '../../../db/index'
+import { products, categories, subCategories } from '../../../db/schema'
+import type { Product, Category } from '@/components/products/types'
 
 export const metadata = {
   title: 'All Products | Saheeb Trading Co.',
@@ -7,73 +8,33 @@ export const metadata = {
     'Browse our extensive catalog of high-quality surgical, veterinary, and dental instruments.',
 }
 
-// Helper to extract plain text from Strapi rich text
-function extractPlainText(richText: unknown): string | null {
-  if (!richText || !Array.isArray(richText)) return null
-
-  return (
-    richText
-      .map(
-        (block: { children?: { text?: string }[] }) =>
-          block.children?.map((child) => child.text || '').join('') || '',
-      )
-      .join(' ')
-      .trim() || null
-  )
-}
-
-interface StrapiSubCategory {
-  id: number
-  name: string
-  slug: string
-  category?: { id: number; name: string }
-}
-
-interface StrapiProductResponse {
-  id: number
-  name: string
-  slug: string
-  sku: string
-  description: unknown
-  image?: { url: string } | null
-  sub_category?: StrapiSubCategory | null
-}
+import { ProductsClient } from './ProductsClient'
 
 async function getProducts(): Promise<Product[]> {
   try {
-    const allProducts: StrapiProductResponse[] = []
-    let page = 1
-    let pageCount = 1
+    const allProducts = await db.select().from(products)
+    const allSubCategories = await db.select().from(subCategories)
+    const allCategories = await db.select().from(categories)
 
-    // Loop through all Strapi pages to fetch every product
-    while (page <= pageCount) {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*&pagination[page]=${page}&pagination[pageSize]=25`,
-        { cache: 'no-store' },
-      )
+    // Build lookup maps
+    const subCatMap = new Map(allSubCategories.map((sc) => [sc.id, sc]))
+    const catMap = new Map(allCategories.map((c) => [c.id, c]))
 
-      if (!res.ok) return []
+    return allProducts.map((p) => {
+      const subCat = p.subCategoryId ? subCatMap.get(p.subCategoryId) : null
+      const cat = subCat?.categoryId ? catMap.get(subCat.categoryId) : null
 
-      const json = await res.json()
-      const products: StrapiProductResponse[] = json.data || []
-      allProducts.push(...products)
-
-      // Update pageCount from Strapi's pagination meta
-      pageCount = json.meta?.pagination?.pageCount || 1
-      page++
-    }
-
-    return allProducts.map((p) => ({
-      id: p.id,
-      name: p.name,
-      slug: p.slug,
-      sku: p.sku || '',
-      description: extractPlainText(p.description),
-      image: p.image?.url || null,
-      categoryName: p.sub_category?.category?.name || '',
-      subCategoryName: p.sub_category?.name || '',
-      subCategorySlug: p.sub_category?.slug || '',
-    }))
+      return {
+        id: p.id,
+        name: p.title,
+        sku: p.sku || '',
+        description: p.description,
+        image: p.image || null,
+        categoryName: cat?.name || '',
+        subCategoryName: subCat?.name || '',
+        subCategorySlug: subCat?.slug || '',
+      }
+    })
   } catch {
     return []
   }
@@ -81,38 +42,19 @@ async function getProducts(): Promise<Product[]> {
 
 async function getCategories(): Promise<Category[]> {
   try {
-    const allCategories: {
-      id: number
-      name: string
-      sub_categories?: { id: number; name: string; slug: string }[]
-    }[] = []
-    let page = 1
-    let pageCount = 1
-
-    // Fetch categories directly with their sub-categories populated
-    while (page <= pageCount) {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?populate=sub_categories&pagination[page]=${page}&pagination[pageSize]=25`,
-        { cache: 'no-store' },
-      )
-
-      if (!res.ok) return []
-
-      const json = await res.json()
-      allCategories.push(...(json.data || []))
-
-      pageCount = json.meta?.pagination?.pageCount || 1
-      page++
-    }
+    const allCategories = await db.select().from(categories)
+    const allSubCategories = await db.select().from(subCategories)
 
     return allCategories.map((cat) => ({
       id: cat.id,
       name: cat.name,
-      subcategories: (cat.sub_categories || []).map((sub) => ({
-        id: sub.id,
-        name: sub.name,
-        slug: sub.slug,
-      })),
+      subcategories: allSubCategories
+        .filter((sub) => sub.categoryId === cat.id)
+        .map((sub) => ({
+          id: sub.id,
+          name: sub.name,
+          slug: sub.slug,
+        })),
     }))
   } catch {
     return []
