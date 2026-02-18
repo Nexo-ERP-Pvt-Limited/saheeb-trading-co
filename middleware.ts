@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(req: NextRequest) {
-  const isAdmin = req.cookies.get('admin')
+  // The /admin page handles its own auth UI (login form),
+  // so we only need to protect admin API mutation routes here.
+  // Skip /api/auth (login/logout) and GET requests.
+  return NextResponse.next()
+}
 
-  if (!isAdmin && req.nextUrl.pathname.startsWith('/admin')) {
-    return NextResponse.redirect(new URL('/admin', req.url))
-  }
+export const config = {
+  matcher: ['/admin/:path*'],
 }
