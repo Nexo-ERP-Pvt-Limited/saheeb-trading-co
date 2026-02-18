@@ -54,25 +54,35 @@ export function ProductSidebar({ categories, className }: ProductSidebarProps) {
             </button>
 
             {/* Subcategories */}
-            {openCategories.includes(category.id) && (
-              <div className='flex flex-col space-y-1 pl-0'>
-                {category.subcategories?.map((sub) => (
-                  <button
-                    key={sub.id}
-                    className={cn(
-                      'flex items-center justify-between w-full py-2 text-base text-left hover:text-kerbl-green transition-colors border-b border-transparent hover:border-kerbl-green/20',
-                      selectedCategoryId === sub.id
-                        ? 'text-kerbl-green font-medium'
-                        : 'text-muted-foreground',
-                    )}
-                    onClick={() => setSelectedCategoryId(sub.id)}
-                  >
-                    <span>{sub.name}</span>
-                    <ChevronRight className='h-4 w-4 opacity-50' />
-                  </button>
-                ))}
-              </div>
-            )}
+            {openCategories.includes(category.id) &&
+              (category.subcategories && category.subcategories.length > 0 ? (
+                <div className='flex flex-col space-y-1 pl-0'>
+                  {category.subcategories.map((sub) => (
+                    <button
+                      key={sub.id}
+                      className={cn(
+                        'flex items-center justify-between w-full py-2 text-base text-left hover:text-kerbl-green transition-colors border-b border-transparent hover:border-kerbl-green/20',
+                        selectedCategoryId === sub.id
+                          ? 'text-kerbl-green font-medium'
+                          : 'text-muted-foreground',
+                      )}
+                      onClick={() => {
+                        setSelectedCategoryId(sub.id)
+                        setOpenCategories((prev) =>
+                          prev.filter((id) => id !== category.id),
+                        )
+                      }}
+                    >
+                      <span>{sub.name}</span>
+                      <ChevronRight className='h-4 w-4 opacity-50' />
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className='py-2 pl-2 text-sm text-muted-foreground/60 italic'>
+                  ✨ Coming soon
+                </p>
+              ))}
             <div className='h-px bg-border/50 w-full mt-4' />
           </div>
         ))}

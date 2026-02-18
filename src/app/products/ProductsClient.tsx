@@ -54,7 +54,7 @@ export function ProductsClient({ categories, products }: ProductsClientProps) {
   const displayedProducts = getFilteredProducts()
 
   return (
-    <div className='flex flex-col md:flex-row gap-12 pt-8'>
+    <div className='flex flex-col md:flex-row gap-12 pt-2 md:pt-8'>
       {/* Sidebar */}
       <aside className='hidden md:block'>
         <ProductSidebar categories={categories} className='w-full' />

@@ -84,9 +84,15 @@ export function ProductMegaMenu({
 
               {(!activeCategory.subcategories ||
                 activeCategory.subcategories.length === 0) && (
-                <p className='text-sm text-gray-400 italic'>
-                  No subcategories available
-                </p>
+                <div className='flex flex-col items-center justify-center py-16 text-center'>
+                  <span className='text-3xl mb-3'>✨</span>
+                  <p className='text-lg font-semibold text-gray-400'>
+                    Coming Soon
+                  </p>
+                  <p className='text-sm text-gray-300 mt-1'>
+                    Products in this category are on the way!
+                  </p>
+                </div>
               )}
             </div>
           )}

@@ -56,6 +56,9 @@ export function Navbar() {
   const [categories, setCategories] = useState<Category[]>([])
   const [isLangOpen, setIsLangOpen] = useState(false)
   const [isMobileLangOpen, setIsMobileLangOpen] = useState(false)
+  const [mobileOpenCatId, setMobileOpenCatId] = useState<
+    string | number | null
+  >(null)
   const langRef = useRef<HTMLDivElement>(null)
   const megaMenuRef = useRef<HTMLDivElement>(null)
   const megaMenuDropdownRef = useRef<HTMLDivElement>(null)
@@ -355,30 +358,48 @@ export function Navbar() {
             </div>
             {/* Products Submenu */}
             {isMobileProductsOpen && (
-              <div className='bg-gray-200 p-4 rounded-sm flex flex-col gap-3 shadow-inner'>
+              <div className='bg-gray-200 p-4 rounded-sm flex flex-col gap-1 shadow-inner'>
                 {categories.map((cat) => (
                   <div key={cat.id}>
-                    <span className='text-base font-bold text-gray-700 uppercase tracking-tight'>
-                      {cat.name}
-                    </span>
-                    {cat.subcategories && cat.subcategories.length > 0 && (
-                      <div className='ml-3 mt-1 flex flex-col gap-1'>
-                        {cat.subcategories.map((sub) => (
-                          <button
-                            key={sub.id}
-                            className='text-left text-sm text-gray-500 hover:text-primary py-1'
-                            onClick={() => {
-                              setSearchQuery('')
-                              setSelectedCategoryId(sub.id)
-                              setIsMobileMenuOpen(false)
-                              router.push('/products')
-                            }}
-                          >
-                            {sub.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    <button
+                      className='flex items-center justify-between w-full text-base font-bold text-gray-700 uppercase tracking-tight py-2 hover:text-primary'
+                      onClick={() =>
+                        setMobileOpenCatId(
+                          mobileOpenCatId === cat.id ? null : cat.id,
+                        )
+                      }
+                    >
+                      <span>{cat.name}</span>
+                      <span
+                        className={`text-[10px] transition-transform ${mobileOpenCatId === cat.id ? 'rotate-90' : ''}`}
+                      >
+                        ▶
+                      </span>
+                    </button>
+                    {mobileOpenCatId === cat.id &&
+                      (cat.subcategories && cat.subcategories.length > 0 ? (
+                        <div className='ml-3 mt-1 flex flex-col gap-1'>
+                          {cat.subcategories.map((sub) => (
+                            <button
+                              key={sub.id}
+                              className='text-left text-sm text-gray-500 hover:text-primary py-1'
+                              onClick={() => {
+                                setSearchQuery('')
+                                setSelectedCategoryId(sub.id)
+                                setIsMobileMenuOpen(false)
+                                setMobileOpenCatId(null)
+                                router.push('/products')
+                              }}
+                            >
+                              {sub.name}
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className='ml-3 mt-2 mb-1 text-sm text-gray-400 italic'>
+                          ✨ Coming soon
+                        </p>
+                      ))}
                   </div>
                 ))}
               </div>
