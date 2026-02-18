@@ -15,9 +15,7 @@ interface ProductSidebarProps {
 
 export function ProductSidebar({ categories, className }: ProductSidebarProps) {
   const { selectedCategoryId, setSelectedCategoryId } = useProductStore()
-  const [openCategories, setOpenCategories] = useState<(string | number)[]>(
-    categories.map((c) => c.id),
-  )
+  const [openCategories, setOpenCategories] = useState<(string | number)[]>([])
 
   const toggleCategory = (categoryId: string | number) => {
     setOpenCategories((prev) =>

@@ -57,12 +57,27 @@ export function Navbar() {
   const [isLangOpen, setIsLangOpen] = useState(false)
   const [isMobileLangOpen, setIsMobileLangOpen] = useState(false)
   const langRef = useRef<HTMLDivElement>(null)
+  const megaMenuRef = useRef<HTMLDivElement>(null)
+  const megaMenuDropdownRef = useRef<HTMLDivElement>(null)
 
   // Close language dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (langRef.current && !langRef.current.contains(e.target as Node)) {
         setIsLangOpen(false)
+      }
+      if (
+        megaMenuRef.current &&
+        !megaMenuRef.current.contains(e.target as Node) &&
+        megaMenuDropdownRef.current &&
+        !megaMenuDropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsProductsHovered(false)
+      } else if (
+        !megaMenuRef.current?.contains(e.target as Node) &&
+        !megaMenuDropdownRef.current
+      ) {
+        setIsProductsHovered(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -235,16 +250,18 @@ export function Navbar() {
             </Link>
 
             {/* Mega Menu Trigger */}
-            <div
-              className='flex items-center gap-1 text-gray-500 font-bold hover:text-primary text-[15px] cursor-pointer relative py-2'
-              onMouseEnter={() => setIsProductsHovered(true)}
-              onMouseLeave={() => setIsProductsHovered(false)}
-            >
-              <Link href='/products'>{t('nav.products')}</Link>
-              <span className='text-[10px]'>▼</span>
-
-              {/* Invisible bridge to prevent closing when moving mouse to menu */}
-              <div className='absolute top-full left-0 w-full h-4 bg-transparent' />
+            <div ref={megaMenuRef}>
+              <div
+                className='flex items-center gap-1 text-gray-500 font-bold hover:text-primary text-[15px] cursor-pointer relative py-2'
+                onClick={() => setIsProductsHovered(!isProductsHovered)}
+              >
+                <span>{t('nav.products')}</span>
+                <span
+                  className={`text-[10px] transition-transform ${isProductsHovered ? 'rotate-180' : ''}`}
+                >
+                  ▼
+                </span>
+              </div>
             </div>
 
             <Link
@@ -298,17 +315,18 @@ export function Navbar() {
       <div className='h-1 w-full bg-gradient-to-r from-primary/80 to-kerbl-yellow/80 md:hidden' />
 
       {/* Mega Menu Overlay (Desktop) */}
-      <div
-        className='absolute top-full left-0 w-full z-40'
-        onMouseEnter={() => setIsProductsHovered(true)}
-        onMouseLeave={() => setIsProductsHovered(false)}
-      >
-        <ProductMegaMenu
-          categories={categories}
-          visible={isProductsHovered}
-          onClose={() => setIsProductsHovered(false)}
-        />
-      </div>
+      {isProductsHovered && (
+        <div
+          ref={megaMenuDropdownRef}
+          className='absolute top-full left-0 w-full z-40'
+        >
+          <ProductMegaMenu
+            categories={categories}
+            visible={isProductsHovered}
+            onClose={() => setIsProductsHovered(false)}
+          />
+        </div>
+      )}
 
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (

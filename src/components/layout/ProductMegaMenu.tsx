@@ -19,9 +19,9 @@ export function ProductMegaMenu({
 }: ProductMegaMenuProps) {
   const router = useRouter()
   const { setSelectedCategoryId, setSearchQuery } = useProductStore()
-  const [activeCategoryId, setActiveCategoryId] = useState<string | number>(
-    categories[0]?.id || '',
-  )
+  const [activeCategoryId, setActiveCategoryId] = useState<
+    string | number | null
+  >(null)
 
   if (!visible || categories.length === 0) return null
 
@@ -35,10 +35,7 @@ export function ProductMegaMenu({
   }
 
   return (
-    <div
-      className='absolute top-full left-0 w-full bg-white shadow-xl z-50 border-t border-gray-100 font-sans'
-      onMouseLeave={onClose}
-    >
+    <div className='absolute top-full left-0 w-full bg-white shadow-xl z-50 border-t border-gray-100 font-sans'>
       <div className='container mx-auto flex h-[500px]'>
         {/* Sidebar */}
         <div className='w-1/4 bg-gray-100 py-6 overflow-y-auto'>
@@ -52,7 +49,11 @@ export function ProductMegaMenu({
                       ? 'bg-white text-primary border-primary'
                       : 'text-gray-600 border-transparent hover:bg-gray-200 hover:text-gray-900',
                   )}
-                  onMouseEnter={() => setActiveCategoryId(category.id)}
+                  onClick={() =>
+                    setActiveCategoryId(
+                      activeCategoryId === category.id ? null : category.id,
+                    )
+                  }
                 >
                   {category.name}
                 </button>
