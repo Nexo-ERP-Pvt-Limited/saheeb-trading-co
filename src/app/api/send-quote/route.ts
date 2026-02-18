@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     `
 
     const { error } = await resend.emails.send({
-      from: 'Saheeb Trading Co <onboarding@resend.dev>',
+      from: 'Saheeb Trading Co <sales@sales.saheebco.com>',
       to: recipientEmail,
       replyTo: email,
       subject: `New Quote Request from ${name}${company ? ` — ${company}` : ''}`,
