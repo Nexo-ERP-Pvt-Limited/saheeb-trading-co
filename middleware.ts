@@ -4,6 +4,6 @@ export function middleware(req: NextRequest) {
   const isAdmin = req.cookies.get('admin')
 
   if (!isAdmin && req.nextUrl.pathname.startsWith('/admin')) {
-    return NextResponse.redirect(new URL('/login', req.url))
+    return NextResponse.redirect(new URL('/admin', req.url))
   }
 }
