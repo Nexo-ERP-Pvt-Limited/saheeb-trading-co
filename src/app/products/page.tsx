@@ -8,6 +8,8 @@ export const metadata = {
     'Browse our extensive catalog of high-quality surgical, veterinary, and dental instruments.',
 }
 
+export const dynamic = 'force-dynamic'
+
 import { ProductsClient } from './ProductsClient'
 
 async function getProducts(): Promise<Product[]> {

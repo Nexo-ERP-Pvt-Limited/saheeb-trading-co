@@ -3,6 +3,8 @@ import { CategoryGrid } from '@/components/home/CategoryGrid'
 import { FeatureSection } from '@/components/home/FeatureSection'
 import { VideoSection } from '@/components/home/VideoSection'
 import { db } from '../../db/index'
+
+export const dynamic = 'force-dynamic'
 import { products } from '../../db/schema'
 
 async function getFeaturedProducts() {
