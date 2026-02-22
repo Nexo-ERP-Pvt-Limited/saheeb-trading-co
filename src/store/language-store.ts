@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type Locale = 'en' | 'de'
+export type Locale = 'en' | 'de' | 'pl'
 
 interface LanguageState {
   locale: Locale

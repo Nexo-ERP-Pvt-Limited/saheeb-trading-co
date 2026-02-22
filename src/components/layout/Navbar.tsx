@@ -39,6 +39,7 @@ import { Category } from '@/components/products/types'
 const languageOptions: { code: Locale; label: string }[] = [
   { code: 'en', label: 'English' },
   { code: 'de', label: 'Deutsch' },
+  { code: 'pl', label: 'Polski' },
 ]
 
 export function Navbar() {
