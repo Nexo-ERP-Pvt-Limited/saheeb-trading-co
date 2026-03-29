@@ -1,5 +1,6 @@
 import { db } from '../../../../db/index'
-import { subCategories } from '../../../../db/schema'
+import { products, subCategories } from '../../../../db/schema'
+import { eq } from 'drizzle-orm'
 
 export async function GET(req: Request) {
   try {
@@ -48,6 +49,49 @@ export async function POST(req: Request) {
     console.error('Error creating sub-category:', error)
     return Response.json(
       { error: 'Failed to create sub-category' },
+      { status: 500 },
+    )
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return Response.json({ error: 'id is required' }, { status: 400 })
+    }
+
+    const linkedProducts = await db
+      .select({ id: products.id })
+      .from(products)
+      .where(eq(products.subCategoryId, id))
+
+    if (linkedProducts.length > 0) {
+      return Response.json(
+        {
+          error:
+            'Cannot delete sub-category with assigned products. Reassign products first.',
+        },
+        { status: 400 },
+      )
+    }
+
+    const deleted = await db
+      .delete(subCategories)
+      .where(eq(subCategories.id, id))
+      .returning({ id: subCategories.id })
+
+    if (deleted.length === 0) {
+      return Response.json({ error: 'Sub-category not found' }, { status: 404 })
+    }
+
+    return Response.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting sub-category:', error)
+    return Response.json(
+      { error: 'Failed to delete sub-category' },
       { status: 500 },
     )
   }

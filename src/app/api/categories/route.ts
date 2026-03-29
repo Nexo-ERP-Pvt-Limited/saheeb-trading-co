@@ -58,3 +58,46 @@ export async function POST(req: Request) {
     )
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return Response.json({ error: 'id is required' }, { status: 400 })
+    }
+
+    const linkedSubCategories = await db
+      .select({ id: subCategories.id })
+      .from(subCategories)
+      .where(eq(subCategories.categoryId, id))
+
+    if (linkedSubCategories.length > 0) {
+      return Response.json(
+        {
+          error:
+            'Cannot delete category with existing sub-categories. Remove sub-categories first.',
+        },
+        { status: 400 },
+      )
+    }
+
+    const deleted = await db
+      .delete(categories)
+      .where(eq(categories.id, id))
+      .returning({ id: categories.id })
+
+    if (deleted.length === 0) {
+      return Response.json({ error: 'Category not found' }, { status: 404 })
+    }
+
+    return Response.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting category:', error)
+    return Response.json(
+      { error: 'Failed to delete category' },
+      { status: 500 },
+    )
+  }
+}

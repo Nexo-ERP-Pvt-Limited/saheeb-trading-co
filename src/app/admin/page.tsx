@@ -171,10 +171,6 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [editingProduct, setEditingProduct] = useState<ProductData | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
-  useEffect(() => {
-    fetchAll()
-  }, [])
-
   async function fetchAll() {
     setLoading(true)
     try {
@@ -191,6 +187,35 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    let active = true
+
+    async function loadInitialData() {
+      try {
+        const [catRes, prodRes] = await Promise.all([
+          fetch('/api/categories'),
+          fetch('/api/products'),
+        ])
+        const catJson = await catRes.json()
+        const prodJson = await prodRes.json()
+
+        if (!active) return
+        setCategories(catJson.data || [])
+        setProducts(Array.isArray(prodJson) ? prodJson : [])
+      } catch {
+        // silent
+      } finally {
+        if (active) setLoading(false)
+      }
+    }
+
+    void loadInitialData()
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   async function handleLogout() {
     await fetch('/api/auth', { method: 'DELETE' })
@@ -445,32 +470,20 @@ function ProductForm({
   })
   const [newCategoryName, setNewCategoryName] = useState('')
   const [creatingCategory, setCreatingCategory] = useState(false)
+  const [deletingCategory, setDeletingCategory] = useState(false)
 
-  const [subCategories, setSubCategories] = useState<SubCategoryData[]>(() => {
-    if (!selectedCategoryId) return []
-    const cat = categories.find((c) => c.id === selectedCategoryId)
-    return cat?.subcategories || []
-  })
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(
     editingProduct?.subCategoryId || '',
   )
   const [newSubCategoryName, setNewSubCategoryName] = useState('')
   const [creatingSubCategory, setCreatingSubCategory] = useState(false)
+  const [deletingSubCategory, setDeletingSubCategory] = useState(false)
+
+  const subCategories = selectedCategoryId
+    ? categories.find((c) => c.id === selectedCategoryId)?.subcategories || []
+    : []
 
   const fileInputRef = useRef<HTMLInputElement>(null)
-
-  // Update sub-categories when category changes
-  useEffect(() => {
-    if (selectedCategoryId) {
-      const cat = categories.find((c) => c.id === selectedCategoryId)
-      setSubCategories(cat?.subcategories || [])
-      // Only reset sub-category if not editing or category changed
-      if (!isEdit) setSelectedSubCategoryId('')
-    } else {
-      setSubCategories([])
-      setSelectedSubCategoryId('')
-    }
-  }, [selectedCategoryId, categories, isEdit])
 
   async function handleCreateCategory() {
     if (!newCategoryName.trim()) return
@@ -493,6 +506,37 @@ function ProductForm({
     setCreatingCategory(false)
   }
 
+  async function handleDeleteCategory() {
+    if (!selectedCategoryId) return
+    if (
+      !confirm(
+        'Are you sure you want to delete this category? This works only if it has no sub-categories.',
+      )
+    )
+      return
+
+    setDeletingCategory(true)
+    setError(null)
+    try {
+      const res = await fetch(`/api/categories?id=${selectedCategoryId}`, {
+        method: 'DELETE',
+      })
+      const json = await res.json()
+
+      if (res.ok) {
+        onCategoriesChange()
+        setSelectedCategoryId('')
+        setSelectedSubCategoryId('')
+      } else {
+        setError(json.error || 'Failed to delete category')
+      }
+    } catch {
+      setError('Failed to delete category')
+    }
+
+    setDeletingCategory(false)
+  }
+
   async function handleCreateSubCategory() {
     if (!newSubCategoryName.trim() || !selectedCategoryId) return
     setCreatingSubCategory(true)
@@ -508,11 +552,6 @@ function ProductForm({
       const json = await res.json()
       if (res.ok) {
         onCategoriesChange()
-        const subRes = await fetch(
-          `/api/subcategories?categoryId=${selectedCategoryId}`,
-        )
-        const subJson = await subRes.json()
-        setSubCategories(subJson.data || [])
         setSelectedSubCategoryId(json.data.id)
         setNewSubCategoryName('')
       }
@@ -520,6 +559,39 @@ function ProductForm({
       // silent
     }
     setCreatingSubCategory(false)
+  }
+
+  async function handleDeleteSubCategory() {
+    if (!selectedSubCategoryId) return
+    if (
+      !confirm(
+        'Are you sure you want to delete this sub-category? This works only if no products are assigned to it.',
+      )
+    )
+      return
+
+    setDeletingSubCategory(true)
+    setError(null)
+    try {
+      const res = await fetch(
+        `/api/subcategories?id=${selectedSubCategoryId}`,
+        {
+          method: 'DELETE',
+        },
+      )
+      const json = await res.json()
+
+      if (res.ok) {
+        onCategoriesChange()
+        setSelectedSubCategoryId('')
+      } else {
+        setError(json.error || 'Failed to delete sub-category')
+      }
+    } catch {
+      setError('Failed to delete sub-category')
+    }
+
+    setDeletingSubCategory(false)
   }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -619,12 +691,31 @@ function ProductForm({
       {/* Category Section */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <div>
-          <label className='block text-sm font-medium text-gray-700 mb-1.5'>
-            Category
-          </label>
+          <div className='flex items-center justify-between mb-1.5'>
+            <label className='block text-sm font-medium text-gray-700'>
+              Category
+            </label>
+            <button
+              type='button'
+              onClick={handleDeleteCategory}
+              disabled={!selectedCategoryId || deletingCategory}
+              className='inline-flex items-center gap-1 text-xs font-medium text-red-600 hover:text-red-700 disabled:opacity-40 disabled:cursor-not-allowed'
+            >
+              {deletingCategory ? (
+                <Loader2 size={12} className='animate-spin' />
+              ) : (
+                <Trash2 size={12} />
+              )}
+              Remove
+            </button>
+          </div>
           <select
             value={selectedCategoryId}
-            onChange={(e) => setSelectedCategoryId(e.target.value)}
+            onChange={(e) => {
+              const nextCategoryId = e.target.value
+              setSelectedCategoryId(nextCategoryId)
+              setSelectedSubCategoryId('')
+            }}
             className='w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none'
           >
             <option value=''>Select category...</option>
@@ -657,9 +748,24 @@ function ProductForm({
         </div>
 
         <div>
-          <label className='block text-sm font-medium text-gray-700 mb-1.5'>
-            Sub-Category
-          </label>
+          <div className='flex items-center justify-between mb-1.5'>
+            <label className='block text-sm font-medium text-gray-700'>
+              Sub-Category
+            </label>
+            <button
+              type='button'
+              onClick={handleDeleteSubCategory}
+              disabled={!selectedSubCategoryId || deletingSubCategory}
+              className='inline-flex items-center gap-1 text-xs font-medium text-red-600 hover:text-red-700 disabled:opacity-40 disabled:cursor-not-allowed'
+            >
+              {deletingSubCategory ? (
+                <Loader2 size={12} className='animate-spin' />
+              ) : (
+                <Trash2 size={12} />
+              )}
+              Remove
+            </button>
+          </div>
           <select
             value={selectedSubCategoryId}
             onChange={(e) => setSelectedSubCategoryId(e.target.value)}
