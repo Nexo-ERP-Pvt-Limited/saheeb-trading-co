@@ -15,6 +15,20 @@
       "when": 1771404565212,
       "tag": "0001_smiling_sleeper",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774800000000,
+      "tag": "0002_exhibition_events",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774801000000,
+      "tag": "0003_event_images",
+      "breakpoints": true
     }
   ]
 }

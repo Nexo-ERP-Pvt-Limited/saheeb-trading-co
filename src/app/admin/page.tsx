@@ -41,6 +41,30 @@ interface ProductData {
   createdAt: string
 }
 
+interface EventData {
+  id: string
+  title: string
+  location: string
+  description: string | null
+  image: string | null
+  images?: string[]
+  eventDate: string
+  active: boolean
+  createdAt: string
+}
+
+function richTextToPlainText(value: string) {
+  return value
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function isRichTextEmpty(value: string) {
+  return richTextToPlainText(value).length === 0
+}
+
 /* ─── Main Page ───────────────────────────────────────── */
 
 export default function AdminPage() {
@@ -166,6 +190,7 @@ function LoginPage({ onSuccess }: { onSuccess: () => void }) {
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [categories, setCategories] = useState<CategoryData[]>([])
   const [products, setProducts] = useState<ProductData[]>([])
+  const [events, setEvents] = useState<EventData[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState<ProductData | null>(null)
@@ -174,14 +199,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   async function fetchAll() {
     setLoading(true)
     try {
-      const [catRes, prodRes] = await Promise.all([
+      const [catRes, prodRes, eventRes] = await Promise.all([
         fetch('/api/categories'),
         fetch('/api/products'),
+        fetch('/api/events'),
       ])
       const catJson = await catRes.json()
       const prodJson = await prodRes.json()
+      const eventJson = await eventRes.json()
       setCategories(catJson.data || [])
       setProducts(Array.isArray(prodJson) ? prodJson : [])
+      setEvents(eventJson.data || [])
     } catch {
       // silent
     }
@@ -193,16 +221,19 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
     async function loadInitialData() {
       try {
-        const [catRes, prodRes] = await Promise.all([
+        const [catRes, prodRes, eventRes] = await Promise.all([
           fetch('/api/categories'),
           fetch('/api/products'),
+          fetch('/api/events'),
         ])
         const catJson = await catRes.json()
         const prodJson = await prodRes.json()
+        const eventJson = await eventRes.json()
 
         if (!active) return
         setCategories(catJson.data || [])
         setProducts(Array.isArray(prodJson) ? prodJson : [])
+        setEvents(eventJson.data || [])
       } catch {
         // silent
       } finally {
@@ -423,6 +454,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             </div>
           )}
         </div>
+
+        <EventManager events={events} onRefresh={fetchAll} />
       </div>
     </main>
   )
@@ -954,5 +987,616 @@ function ProductForm({
         </button>
       </div>
     </form>
+  )
+}
+
+/* ─── Events Manager ─────────────────────────────────── */
+
+function EventManager({
+  events,
+  onRefresh,
+}: {
+  events: EventData[]
+  onRefresh: () => Promise<void>
+}) {
+  const [showForm, setShowForm] = useState(false)
+  const [editingEvent, setEditingEvent] = useState<EventData | null>(null)
+  const [deletingEventId, setDeletingEventId] = useState<string | null>(null)
+
+  const [title, setTitle] = useState('')
+  const [location, setLocation] = useState('')
+  const [eventDate, setEventDate] = useState('')
+  const [description, setDescription] = useState('')
+  const [images, setImages] = useState<string[]>([])
+  const [newImageUrl, setNewImageUrl] = useState('')
+  const [active, setActive] = useState(true)
+
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
+  const eventImageInputRef = useRef<HTMLInputElement>(null)
+
+  function resetForm() {
+    setTitle('')
+    setLocation('')
+    setEventDate('')
+    setDescription('')
+    setImages([])
+    setNewImageUrl('')
+    setActive(true)
+    setEditingEvent(null)
+    setError(null)
+    setSuccess(null)
+  }
+
+  function openCreateForm() {
+    resetForm()
+    setShowForm(true)
+  }
+
+  function openEditForm(event: EventData) {
+    setEditingEvent(event)
+    setTitle(event.title)
+    setLocation(event.location)
+    setDescription(event.description || '')
+    setImages(
+      event.images && event.images.length > 0
+        ? event.images
+        : event.image
+          ? [event.image]
+          : [],
+    )
+    setNewImageUrl('')
+    setActive(event.active)
+    setEventDate(new Date(event.eventDate).toISOString().slice(0, 10))
+    setError(null)
+    setSuccess(null)
+    setShowForm(true)
+  }
+
+  function closeForm() {
+    setShowForm(false)
+    resetForm()
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSubmitting(true)
+    setError(null)
+    setSuccess(null)
+
+    const payload = {
+      title,
+      location,
+      eventDate,
+      description: description || null,
+      images,
+      image: images[0] || null,
+      active,
+    }
+
+    try {
+      const url = editingEvent
+        ? `/api/events/${editingEvent.id}`
+        : '/api/events'
+      const method = editingEvent ? 'PUT' : 'POST'
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      const json = await res.json()
+      if (!res.ok) {
+        setError(json.error || 'Failed to save event')
+      } else {
+        setSuccess(
+          editingEvent
+            ? 'Event updated successfully'
+            : 'Event created successfully',
+        )
+        await onRefresh()
+        setTimeout(() => {
+          closeForm()
+        }, 700)
+      }
+    } catch {
+      setError('Something went wrong')
+    }
+
+    setSubmitting(false)
+  }
+
+  async function handleEventImageUpload(
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    setUploadingImage(true)
+    setError(null)
+    try {
+      const files = Array.from(e.target.files || [])
+      if (files.length === 0) {
+        setUploadingImage(false)
+        return
+      }
+
+      const uploadedUrls: string[] = []
+
+      for (const file of files) {
+        const formData = new FormData()
+        formData.append('file', file)
+
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
+        const json = await res.json()
+
+        if (!res.ok) {
+          setError(json.error || 'Image upload failed')
+          break
+        }
+
+        uploadedUrls.push(json.url)
+      }
+
+      if (uploadedUrls.length > 0) {
+        setImages((prev) => [...prev, ...uploadedUrls])
+      }
+    } catch {
+      setError('Image upload failed')
+    }
+
+    setUploadingImage(false)
+  }
+
+  function handleAddImageUrl() {
+    const value = newImageUrl.trim()
+    if (!value) return
+    setImages((prev) => [...prev, value])
+    setNewImageUrl('')
+  }
+
+  function removeImageAt(index: number) {
+    setImages((prev) =>
+      prev.filter((_, currentIndex) => currentIndex !== index),
+    )
+  }
+
+  async function handleDeleteEvent(id: string) {
+    if (!confirm('Are you sure you want to delete this event?')) return
+
+    setDeletingEventId(id)
+    setError(null)
+    setSuccess(null)
+    try {
+      const res = await fetch(`/api/events/${id}`, { method: 'DELETE' })
+      const json = await res.json()
+
+      if (!res.ok) {
+        setError(json.error || 'Failed to delete event')
+      } else {
+        await onRefresh()
+      }
+    } catch {
+      setError('Failed to delete event')
+    }
+
+    setDeletingEventId(null)
+  }
+
+  return (
+    <div className='bg-white rounded-xl border border-gray-200 overflow-hidden mt-8'>
+      <div className='px-6 py-4 border-b border-gray-100 flex items-center justify-between'>
+        <h2 className='text-lg font-semibold text-gray-900'>
+          Events ({events.length})
+        </h2>
+        <button
+          type='button'
+          onClick={showForm ? closeForm : openCreateForm}
+          className='inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors'
+        >
+          {showForm ? <X size={14} /> : <Plus size={14} />}
+          {showForm ? 'Cancel' : 'Add Event'}
+        </button>
+      </div>
+
+      {showForm && (
+        <form
+          onSubmit={handleSubmit}
+          className='p-6 border-b border-gray-100 space-y-5'
+        >
+          {error && (
+            <div className='bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm'>
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className='bg-green-50 text-green-700 px-4 py-3 rounded-lg text-sm'>
+              {success}
+            </div>
+          )}
+
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+            <div className='md:col-span-2'>
+              <label className='block text-sm font-medium text-gray-700 mb-1.5'>
+                Title *
+              </label>
+              <input
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder='Event title'
+                className='w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none'
+              />
+            </div>
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-1.5'>
+                Date *
+              </label>
+              <input
+                type='date'
+                required
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className='w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none'
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className='block text-sm font-medium text-gray-700 mb-1.5'>
+              Location *
+            </label>
+            <input
+              required
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder='City, Country'
+              className='w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none'
+            />
+          </div>
+
+          <div>
+            <label className='block text-sm font-medium text-gray-700 mb-1.5'>
+              Description
+            </label>
+            <RichTextEditor
+              value={description}
+              onChange={setDescription}
+              placeholder='Add event details with formatting...'
+            />
+          </div>
+
+          <div>
+            <label className='block text-sm font-medium text-gray-700 mb-1.5'>
+              Event Images
+            </label>
+            <div className='space-y-3'>
+              <div className='flex items-start gap-4'>
+                <button
+                  type='button'
+                  onClick={() => eventImageInputRef.current?.click()}
+                  disabled={uploadingImage}
+                  className='w-24 h-24 shrink-0 flex flex-col items-center justify-center gap-1 border-2 border-dashed border-gray-200 rounded-lg text-gray-400 hover:border-gray-400 hover:text-gray-500 transition-colors disabled:opacity-50'
+                >
+                  {uploadingImage ? (
+                    <Loader2 size={20} className='animate-spin' />
+                  ) : (
+                    <>
+                      <Upload size={20} />
+                      <span className='text-[10px]'>Upload</span>
+                    </>
+                  )}
+                </button>
+                <input
+                  ref={eventImageInputRef}
+                  type='file'
+                  accept='image/*'
+                  multiple
+                  onChange={handleEventImageUpload}
+                  className='hidden'
+                />
+                <div className='flex-1 space-y-2'>
+                  <div className='flex gap-2'>
+                    <input
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      placeholder='Or paste image URL...'
+                      className='w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none'
+                    />
+                    <button
+                      type='button'
+                      onClick={handleAddImageUrl}
+                      disabled={!newImageUrl.trim()}
+                      className='px-3 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </div>
+                  <input
+                    value={images.join('\n')}
+                    onChange={(e) =>
+                      setImages(
+                        e.target.value
+                          .split('\n')
+                          .map((value) => value.trim())
+                          .filter(Boolean),
+                      )
+                    }
+                    placeholder='One image URL per line...'
+                    className='w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none'
+                  />
+                </div>
+              </div>
+              {images.length > 0 && (
+                <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
+                  {images.map((image, index) => (
+                    <div
+                      key={`${image}-${index}`}
+                      className='relative w-full aspect-square rounded-lg border border-gray-200 overflow-hidden bg-gray-50'
+                    >
+                      <Image
+                        src={image}
+                        alt={`Event image ${index + 1}`}
+                        fill
+                        className='object-cover'
+                        sizes='160px'
+                      />
+                      <button
+                        type='button'
+                        onClick={() => removeImageAt(index)}
+                        className='absolute top-1 right-1 p-0.5 bg-white rounded-full border border-gray-200 hover:bg-gray-50'
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className='flex items-center gap-3'>
+            <button
+              type='button'
+              onClick={() => setActive((prev) => !prev)}
+              className={`relative w-11 h-6 rounded-full transition-colors ${
+                active ? 'bg-green-500' : 'bg-gray-300'
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                  active ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+            <span className='text-sm text-gray-700'>
+              {active ? 'Active' : 'Inactive'}
+            </span>
+          </div>
+
+          <div className='flex justify-end gap-3'>
+            <button
+              type='button'
+              onClick={closeForm}
+              className='px-5 py-2.5 border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors'
+            >
+              Cancel
+            </button>
+            <button
+              type='submit'
+              disabled={submitting || !title || !location || !eventDate}
+              className='inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'
+            >
+              {submitting ? (
+                <>
+                  <Loader2 size={16} className='animate-spin' /> Saving...
+                </>
+              ) : editingEvent ? (
+                'Update Event'
+              ) : (
+                'Create Event'
+              )}
+            </button>
+          </div>
+        </form>
+      )}
+
+      {events.length === 0 ? (
+        <div className='text-center py-12 text-gray-400 text-sm'>
+          No events found. Add your first event.
+        </div>
+      ) : (
+        <div className='overflow-x-auto'>
+          <table className='w-full text-sm'>
+            <thead>
+              <tr className='bg-gray-50 text-left text-gray-500 font-medium'>
+                <th className='px-6 py-3'>Date</th>
+                <th className='px-6 py-3'>Title</th>
+                <th className='px-6 py-3'>Location</th>
+                <th className='px-6 py-3'>Status</th>
+                <th className='px-6 py-3 text-right'>Actions</th>
+              </tr>
+            </thead>
+            <tbody className='divide-y divide-gray-100'>
+              {events.map((event) => (
+                <tr key={event.id} className='hover:bg-gray-50/50'>
+                  <td className='px-6 py-3 text-gray-500'>
+                    {new Date(event.eventDate).toLocaleDateString()}
+                  </td>
+                  <td className='px-6 py-3'>
+                    <p className='font-medium text-gray-900'>{event.title}</p>
+                    {event.description && (
+                      <p className='text-gray-400 text-xs mt-0.5 line-clamp-1'>
+                        {richTextToPlainText(event.description)}
+                      </p>
+                    )}
+                  </td>
+                  <td className='px-6 py-3 text-gray-500'>{event.location}</td>
+                  <td className='px-6 py-3'>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                        event.active
+                          ? 'bg-green-50 text-green-700'
+                          : 'bg-gray-100 text-gray-500'
+                      }`}
+                    >
+                      {event.active ? 'Active' : 'Inactive'}
+                    </span>
+                  </td>
+                  <td className='px-6 py-3'>
+                    <div className='flex items-center justify-end gap-1'>
+                      <button
+                        type='button'
+                        onClick={() => openEditForm(event)}
+                        className='p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors'
+                        title='Edit'
+                      >
+                        <Pencil size={15} />
+                      </button>
+                      <button
+                        type='button'
+                        onClick={() => handleDeleteEvent(event.id)}
+                        disabled={deletingEventId === event.id}
+                        className='p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40'
+                        title='Delete'
+                      >
+                        {deletingEventId === event.id ? (
+                          <Loader2 size={15} className='animate-spin' />
+                        ) : (
+                          <Trash2 size={15} />
+                        )}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function RichTextEditor({
+  value,
+  onChange,
+  placeholder,
+}: {
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
+}) {
+  const editorRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const editor = editorRef.current
+    if (!editor) return
+    if (editor.innerHTML !== value) {
+      editor.innerHTML = value
+    }
+  }, [value])
+
+  function execCommand(command: string, commandValue?: string) {
+    editorRef.current?.focus()
+    document.execCommand(command, false, commandValue)
+    onChange(editorRef.current?.innerHTML || '')
+  }
+
+  function handleAddLink() {
+    const link = window.prompt('Enter URL')
+    if (!link) return
+    execCommand('createLink', link)
+  }
+
+  return (
+    <div className='border border-gray-200 rounded-lg overflow-hidden'>
+      <div className='flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50'>
+        <button
+          type='button'
+          onClick={() => execCommand('bold')}
+          className='px-2 py-1 text-xs font-semibold border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Bold'
+        >
+          B
+        </button>
+        <button
+          type='button'
+          onClick={() => execCommand('italic')}
+          className='px-2 py-1 text-xs italic border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Italic'
+        >
+          I
+        </button>
+        <button
+          type='button'
+          onClick={() => execCommand('underline')}
+          className='px-2 py-1 text-xs underline border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Underline'
+        >
+          U
+        </button>
+        <button
+          type='button'
+          onClick={() => execCommand('insertUnorderedList')}
+          className='px-2 py-1 text-xs border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Bulleted list'
+        >
+          • List
+        </button>
+        <button
+          type='button'
+          onClick={() => execCommand('insertOrderedList')}
+          className='px-2 py-1 text-xs border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Numbered list'
+        >
+          1. List
+        </button>
+        <button
+          type='button'
+          onClick={() => execCommand('formatBlock', 'h3')}
+          className='px-2 py-1 text-xs border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Heading'
+        >
+          H3
+        </button>
+        <button
+          type='button'
+          onClick={() => execCommand('formatBlock', 'p')}
+          className='px-2 py-1 text-xs border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Paragraph'
+        >
+          P
+        </button>
+        <button
+          type='button'
+          onClick={handleAddLink}
+          className='px-2 py-1 text-xs border border-gray-200 rounded bg-white hover:bg-gray-100'
+          title='Link'
+        >
+          Link
+        </button>
+      </div>
+
+      <div className='relative'>
+        {isRichTextEmpty(value) && (
+          <span className='absolute top-2 left-3 text-sm text-gray-400 pointer-events-none'>
+            {placeholder || 'Write description...'}
+          </span>
+        )}
+        <div
+          ref={editorRef}
+          contentEditable
+          onInput={(e) =>
+            onChange((e.currentTarget as HTMLDivElement).innerHTML)
+          }
+          className='min-h-32.5 px-3 py-2.5 text-sm focus:outline-none [&_h3]:text-lg [&_h3]:font-bold [&_h3]:mt-2 [&_h3]:mb-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-2'
+          suppressContentEditableWarning
+        />
+      </div>
+    </div>
   )
 }

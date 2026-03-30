@@ -1,7 +1,8 @@
-import { loadEnvConfig } from '@next/env'
+import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
 
-loadEnvConfig(process.cwd())
+config({ path: '.env.local' })
+config()
 
 export default defineConfig({
   schema: './db/schema.ts',
