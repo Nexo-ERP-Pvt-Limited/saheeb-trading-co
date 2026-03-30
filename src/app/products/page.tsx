@@ -1,6 +1,7 @@
 import { db } from '../../../db/index'
 import { products, categories, subCategories } from '../../../db/schema'
 import type { Product, Category } from '@/components/products/types'
+import { unstable_cache } from 'next/cache'
 
 export const metadata = {
   title: 'All Products | Saheeb Trading Co.',
@@ -8,7 +9,7 @@ export const metadata = {
     'Browse our extensive catalog of high-quality surgical, veterinary, and dental instruments.',
 }
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 import { ProductsClient } from './ProductsClient'
 
@@ -63,16 +64,34 @@ async function getCategories(): Promise<Category[]> {
   }
 }
 
+const getProductsCached = unstable_cache(
+  getProducts,
+  ['products-page-products'],
+  {
+    revalidate,
+    tags: ['products', 'subcategories', 'categories'],
+  },
+)
+
+const getCategoriesCached = unstable_cache(
+  getCategories,
+  ['products-page-categories'],
+  {
+    revalidate,
+    tags: ['categories', 'subcategories'],
+  },
+)
+
 export default async function ProductsPage() {
-  const [categories, products] = await Promise.all([
-    getCategories(),
-    getProducts(),
+  const [categories, productsList] = await Promise.all([
+    getCategoriesCached(),
+    getProductsCached(),
   ])
 
   return (
     <main className='min-h-screen pt-4 md:pt-20 pb-20 bg-background'>
       <div className='container mx-auto px-4 md:px-6'>
-        <ProductsClient categories={categories} products={products} />
+        <ProductsClient categories={categories} products={productsList} />
       </div>
     </main>
   )
