@@ -12,7 +12,9 @@ interface ProductsClientProps {
 }
 
 export function ProductsClient({ categories, products }: ProductsClientProps) {
-  const selectedCategoryId = useProductStore((state) => state.selectedCategoryId)
+  const selectedCategoryId = useProductStore(
+    (state) => state.selectedCategoryId,
+  )
   const searchQuery = useProductStore((state) => state.searchQuery)
   const setSelectedCategoryId = useProductStore(
     (state) => state.setSelectedCategoryId,
