@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { ProductSidebar } from '@/components/products/ProductSidebar'
 import { ProductGrid } from '@/components/products/ProductGrid'
 import { Category, Product } from '@/components/products/types'
@@ -11,7 +12,19 @@ interface ProductsClientProps {
 }
 
 export function ProductsClient({ categories, products }: ProductsClientProps) {
-  const { selectedCategoryId, searchQuery } = useProductStore()
+  const selectedCategoryId = useProductStore((state) => state.selectedCategoryId)
+  const searchQuery = useProductStore((state) => state.searchQuery)
+  const setSelectedCategoryId = useProductStore(
+    (state) => state.setSelectedCategoryId,
+  )
+  const setSearchQuery = useProductStore((state) => state.setSearchQuery)
+
+  useEffect(() => {
+    return () => {
+      setSelectedCategoryId(undefined)
+      setSearchQuery('')
+    }
+  }, [setSearchQuery, setSelectedCategoryId])
 
   const getFilteredProducts = () => {
     let filtered = products
