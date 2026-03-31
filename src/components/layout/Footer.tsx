@@ -36,7 +36,7 @@ export function Footer() {
             <ul className='space-y-2 text-sm'>
               <li>
                 <Link
-                  href='/#'
+                  href='/Download-PDF.pdf'
                   className='hover:text-primary transition-colors'
                 >
                   {t('footer.flipCatalogue')}
@@ -48,14 +48,6 @@ export function Footer() {
                   className='hover:text-primary transition-colors'
                 >
                   {t('footer.events')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/#'
-                  className='hover:text-primary transition-colors'
-                >
-                  {t('footer.newsletter')}
                 </Link>
               </li>
             </ul>
@@ -82,7 +74,7 @@ export function Footer() {
           </div>
 
           {/* Contact 1 */}
-          {/* <div>
+          <div>
             <h3 className='font-bold uppercase text-xs tracking-wider mb-6'>
               Contact Pakistan
             </h3>
@@ -106,7 +98,7 @@ export function Footer() {
                 </a>
               </div>
             </address>
-          </div> */}
+          </div>
         </div>
 
         <Separator className='mb-8' />
