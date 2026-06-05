@@ -2,11 +2,10 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ImageIcon } from 'lucide-react'
 
 import { FeaturedProducts } from './FeaturedProducts'
 import { useTranslation } from '@/translations'
-import type { TranslationKey } from '@/translations'
 
 interface FeaturedProduct {
   id: string
@@ -15,40 +14,28 @@ interface FeaturedProduct {
   image: string | null
 }
 
+interface LatestEvent {
+  id: string
+  title: string
+  description: string
+  image: string | null
+  href: string
+}
+
+function stripHtml(html: string) {
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 /* ── Component ────────────────────────────────────────── */
 
 export function FeatureSection({
   featuredProducts,
+  latestEvents,
 }: {
   featuredProducts: FeaturedProduct[]
+  latestEvents: LatestEvent[]
 }) {
   const { t } = useTranslation()
-
-  const latestEvents: {
-    titleKey: TranslationKey
-    summaryKey: TranslationKey
-    image: string
-    href: string
-  }[] = [
-    {
-      titleKey: 'feature.event1.title',
-      summaryKey: 'feature.event1.summary',
-      image: '/Exhibitions/2024 Ferma poland/2024 Ferma poland-01.jpeg',
-      href: '/exhibitions#ferma-2024',
-    },
-    {
-      titleKey: 'feature.event2.title',
-      summaryKey: 'feature.event2.summary',
-      image: '/Exhibitions/2022 Eurotier/2022 Eurotier-01.jpeg',
-      href: '/exhibitions#eurotier-2022',
-    },
-    {
-      titleKey: 'feature.event3.title',
-      summaryKey: 'feature.event3.summary',
-      image: '/Exhibitions/2020 ferma poland/2020 ferma poland-01.jpeg',
-      href: '/exhibitions#ferma-2020',
-    },
-  ]
 
   return (
     <section className='container mx-auto px-4 py-16'>
@@ -106,26 +93,37 @@ export function FeatureSection({
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-          {latestEvents.map((event, i) => (
-            <Link key={i} href={event.href} className='group block'>
+          {latestEvents.map((event) => (
+            <Link key={event.id} href={event.href} className='group block'>
               {/* Image */}
-              <div className='relative h-52 rounded-lg overflow-hidden mb-4'>
-                <Image
-                  src={event.image}
-                  alt={t(event.titleKey)}
-                  fill
-                  className='object-cover group-hover:scale-105 transition-transform duration-500'
-                  sizes='(max-width: 768px) 100vw, 33vw'
-                />
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent' />
-                <h3 className='absolute bottom-4 left-4 text-white font-black text-lg uppercase tracking-tight'>
-                  {t(event.titleKey)}
-                </h3>
+              <div className='relative h-52 rounded-lg overflow-hidden mb-4 bg-gray-100'>
+                {event.image ? (
+                  <>
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      fill
+                      className='object-cover group-hover:scale-105 transition-transform duration-500'
+                      sizes='(max-width: 768px) 100vw, 33vw'
+                    />
+                    <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent' />
+                    <h3 className='absolute bottom-4 left-4 text-white font-black text-lg uppercase tracking-tight'>
+                      {event.title}
+                    </h3>
+                  </>
+                ) : (
+                  <div className='w-full h-full flex flex-col items-center justify-center gap-2'>
+                    <ImageIcon className='h-10 w-10 text-gray-300' />
+                    <span className='text-xs text-gray-400 font-bold uppercase tracking-wider px-4 text-center'>
+                      {event.title}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Summary */}
               <p className='text-gray-600 text-sm leading-relaxed line-clamp-2'>
-                {t(event.summaryKey)}
+                {stripHtml(event.description) || 'Event details coming soon.'}
               </p>
               <span className='inline-flex items-center gap-1 text-primary font-bold text-sm mt-2 group-hover:gap-2 transition-all'>
                 {t('feature.readMore')} <ArrowRight className='h-3.5 w-3.5' />
