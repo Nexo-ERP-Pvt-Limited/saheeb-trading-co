@@ -5,6 +5,8 @@ import { db } from '../../../db/index'
 import { exhibitionEvents } from '../../../db/schema'
 import { desc } from 'drizzle-orm'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Exhibitions & Events | Saheeb Trading Co.',
   description:
@@ -26,13 +28,13 @@ function ImagePlaceholder({ label }: { label: string }) {
 /* ── Exhibition Image ─────────────────────────────────── */
 function ExhibitionImage({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className='relative w-full aspect-video rounded-lg overflow-hidden'>
+    <div className='relative w-full aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden'>
       <Image
         src={src}
         alt={alt}
         fill
-        className='object-cover'
-        sizes='(max-width: 768px) 120vw, 100vw'
+        className='object-contain'
+        sizes='(max-width: 768px) 100vw, 50vw'
       />
     </div>
   )
